@@ -1,0 +1,27 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 11.06.2016 22:14:49
+
+mtllib counter.mtl
+
+#
+# object counter
+#
+
+v  82.4363 134.0754 60.0899
+v  132.0628 87.0915 59.2258
+v  96.9500 87.0915 107.5544
+# 3 vertices
+
+vn -0.6183 -0.6449 -0.4492
+# 1 vertex normals
+
+vt 0.5023 0.9949 0.0000
+vt 0.0100 0.0077 0.0000
+vt 0.9962 0.0094 0.0000
+# 3 texture coords
+
+g counter
+usemtl 16___Default
+f 1/1/1 2/2/1 3/3/1 
+# 1 faces
+

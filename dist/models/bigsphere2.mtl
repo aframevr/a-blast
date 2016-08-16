@@ -1,0 +1,12 @@
+# Blender MTL File: 'sphere.blend'
+# Material Count: 1
+
+newmtl mat_dome
+Ns 39.215686
+Ka 1.000000 1.000000 1.000000
+Kd 0.023931 0.023931 0.023931
+Ks 0.572917 0.572917 0.572917
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
