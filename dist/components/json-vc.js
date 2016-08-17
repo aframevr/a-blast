@@ -17,8 +17,8 @@ AFRAME.registerComponent('json-vc', {
         if (obj.name=='red' || obj.name=="sky" ){
           obj.material= new THREE.MeshBasicMaterial( { vertexColors: true } );
         }
-        else if (obj.name=='platform' ){
-          obj.material= new THREE.MeshLambertMaterial( { vertexColors: true } );;
+        else{
+          //obj.material= new THREE.MeshLambertMaterial( { vertexColors: true } );;
         }
 
       });

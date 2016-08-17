@@ -20,24 +20,21 @@
         <a-asset-item id="droid-mtl" src="models/mydroid2.mtl"></a-asset-item>
       </a-assets>
       <!--<a-entity id="background-music" music="src: sounds/music0.ogg; autoplay: true; loop: true"></a-entity>-->
-      <!--<a-entity position="0 10 0" light="color: #fff; intensity: 1.0; type: point"></a-entity>
-      <a-entity light="color: #47c9ff; intensity: 0.3; type: hemisphere"></a-entity>-->
       
+      <a-sphere scale="0.2 0.2 0.2" position="2 0 0">
+        <a-animation attribute="position" from="2 -10 0" to="2 10 0" repeat="indefinite" direction="alternate" dur="8000"></a-animation>
+      </a-sphere>
 
-      <!--<a-entity position="0 100 0" light="color: #5991A1; intensity: .6; type: directional"></a-entity>
-      <a-entity light="color: #5991A1; groundColor: #a00; intensity: 0.3; type: hemisphere"></a-entity>
-      -->
-      <a-sphere scale="0.2 0.2 0.2"></a-sphere>
-      <a-entity position="0 -20 0" light="color: #a00; intensity: .7; type: point"></a-entity>
-      <!--<a-entity position="-18 -20 18" light="color: #a00; intensity: .3; type: point"></a-entity>
-      <a-entity position="-18 -20 -18" light="color: #a00; intensity: .3; type: point"></a-entity>-->
+      <!--<a-entity light="color: #5991A1; groundColor: #a00; intensity: 0.4; type: hemisphere"></a-entity>
+      <a-entity position="20 -20 0" light="color: #a00; intensity: .3; type: point"></a-entity>
+      <a-entity position="-18 -20 18" light="color: #a00; intensity: .3; type: point"></a-entity>
+      <a-entity position="-18 -20 -18" light="color: #a00; intensity: .3; type: point"></a-entity>
+  -->
+      <a-entity light="color: #5991A1; groundColor: #a00; intensity: 0.2; type: hemisphere"></a-entity>
+      <a-entity position="0 20 0" light="color: #5991A1; intensity: 2; distance:25; type: point"></a-entity>
+      <a-entity position="0 -20 0" light="color: #f00; intensity: 2; distance:25; type: point"></a-entity>
 
-  
-
-      <a-sphere position="0 -20 0" scale="0.1 0.1 0.1"></a-sphere>
-      <a-sphere position="-18 -20 18" scale="0.1 0.1 0.1"></a-sphere>
-      <a-sphere position="-18 -20 -18" scale="0.1 0.1 0.1"></a-sphere>
-
+      <a-sphere  position="0 20 0"></a-sphere>
 
       <a-entity
         id="camera"
@@ -69,18 +66,12 @@ material="shader:flat; src:url(gameover.png); side: back; color: #f00; transpare
 <!--      <a-entity sound-set="src: mysound1.ogg; on: enemy-shoot; volume: 1, src: mysound2.ogg; on: enemy-shoot; volume: 1">
       <a-entity sound--dead="" sound--hit="" >          -->
 
-      <!--<a-entity id="left-hand" gun="" hand-controls="hand: left"
-        obj-model="obj: url(models/gun2.obj); mtl: url(models/gun2.mtl)">
-      </a-entity>
-      <a-entity id="right-hand" gun="" hand-controls="hand: right"
-                obj-model="obj: url(models/gun2.obj); mtl: url(models/gun2.mtl)">
-      </a-entity>-->
       <a-entity id="left-hand" gun="" hand-controls="hand: left"
         json-vc="src: url(models/gun.json)">
       </a-entity>
-      <a-entity id="right-hand" gun="" hand-controls="hand: right"
+<!--      <a-entity id="right-hand" gun="" hand-controls="hand: right"
         json-vc="src: url(models/gun.json)">
-      </a-entity>
+      </a-entity>-->
 
 
       <!--<a-entity id="sky"
@@ -96,7 +87,6 @@ material="shader:flat; src:url(gameover.png); side: back; color: #f00; transpare
       <a-entity id="ground"
                 scale="0.2 0.2 0.2"
                 json-vc="src: url(models/platform.json)"
-                visible="false"
                 ></a-entity>
       <!--<a-entity id="bigsphere"
                 scale="0.1 0.1 0.1"
@@ -108,7 +98,7 @@ material="shader:flat; src:url(gameover.png); side: back; color: #f00; transpare
                 json-vc="src: url(models/sky.json)""></a-entity>
 
       <a-entity id="bigsphere"
-                scale="1 1 1"
+                scale="0.1 0.1 0.1"
                 json-vc="src: url(models/sphere.json)""></a-entity>
 
       <a-entity id="countermesh"
