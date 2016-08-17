@@ -16,19 +16,33 @@
   <body>
     <a-scene debug="true" game="lifes: 5; state: start; points: 0">
       <a-assets>
-        <!--<img id="arena" src="../../assets/img/aframeArena.png">-->
         <a-asset-item id="droid-obj" src="models/mydroid2.obj"></a-asset-item>
         <a-asset-item id="droid-mtl" src="models/mydroid2.mtl"></a-asset-item>
       </a-assets>
-      <a-entity id="background-music" music="src: sounds/music0.ogg; autoplay: true; loop: true"></a-entity>
+      <!--<a-entity id="background-music" music="src: sounds/music0.ogg; autoplay: true; loop: true"></a-entity>-->
       <!--<a-entity position="0 10 0" light="color: #fff; intensity: 1.0; type: point"></a-entity>
       <a-entity light="color: #47c9ff; intensity: 0.3; type: hemisphere"></a-entity>-->
-      <a-entity position="0 10 0" light="color: #fff; intensity: 0.8; type: point"></a-entity>
-      <a-entity light="color: #47c9ff; intensity: 0.3; type: hemisphere"></a-entity>
+      
+
+      <!--<a-entity position="0 100 0" light="color: #5991A1; intensity: .6; type: directional"></a-entity>
+      <a-entity light="color: #5991A1; groundColor: #a00; intensity: 0.3; type: hemisphere"></a-entity>
+      -->
+      <a-sphere scale="0.2 0.2 0.2"></a-sphere>
+      <a-entity position="0 -20 0" light="color: #a00; intensity: .7; type: point"></a-entity>
+      <!--<a-entity position="-18 -20 18" light="color: #a00; intensity: .3; type: point"></a-entity>
+      <a-entity position="-18 -20 -18" light="color: #a00; intensity: .3; type: point"></a-entity>-->
+
+  
+
+      <a-sphere position="0 -20 0" scale="0.1 0.1 0.1"></a-sphere>
+      <a-sphere position="-18 -20 18" scale="0.1 0.1 0.1"></a-sphere>
+      <a-sphere position="-18 -20 -18" scale="0.1 0.1 0.1"></a-sphere>
+
 
       <a-entity
         id="camera"
         camera=""
+        position="0 0 1"
         wasd-controls=""
         look-controls=""
         proxy_event="event: player-hit; dst:#camera"
@@ -39,13 +53,14 @@
 <!--
 material="shader:flat; src:url(gameover.png); side: back; color: #f00; transparent: false; opacity: 0.8"
 -->
-        <a-entity id="gameover"
+        <a-entity id="gameover"></a-entity>
+        <!--<a-entity id="gameover"
           visible="false"
           rotation="0 120 0"
           geometry="primitive: cylinder; radius: 0.8; theta-start:0; theta-length: 120; open-ended: true"
           material="shader:flat; src:url(images/gameover.png); side: back; color: #f00; transparent: false; opacity: 0.8"
           >
-        </a-entity>
+        </a-entity>-->
 
         <a-entity id="hurt" proxy_event="event: player-hit; dst:#hurt" geometry="primitive: sphere; radius: 1" material="shader:flat; side: back; color: #f00; transparent: true; opacity: 0.0">
           <a-animation id="player-hit-anim" attribute="material.opacity" to="0.8" from="0" begin="player-hit" direction="alternate" dur="300" repeat="1"></a-animation>
@@ -81,11 +96,16 @@ material="shader:flat; src:url(gameover.png); side: back; color: #f00; transpare
       <a-entity id="ground"
                 scale="0.2 0.2 0.2"
                 json-vc="src: url(models/platform.json)"
+                visible="false"
                 ></a-entity>
       <!--<a-entity id="bigsphere"
                 scale="0.1 0.1 0.1"
                 obj-model="obj: url(models/bigsphere2.obj)"
                 material="color: #333;"></a-entity>-->
+
+      <a-entity id="sky"
+                scale="0.1 0.1 0.1"
+                json-vc="src: url(models/sky.json)""></a-entity>
 
       <a-entity id="bigsphere"
                 scale="0.1 0.1 0.1"
