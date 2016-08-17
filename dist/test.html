@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <script src="aframe.js"></script>
+
+    <script>
+    AFRAME.registerComponent('json-vc', {
+      init: function () {
+        var objectLoader;
+        var object3D = this.el.object3D;
+        if (this.objectLoader) { return; }
+        objectLoader = this.objectLoader = new THREE.ObjectLoader();
+        objectLoader.load('models/sphere.json', function(group) {
+          object3D.add(group);
+        });
+      }
+    });
+    </script>
+</head>
+  <body>
+    <a-scene>
+      <a-entity camera look-controls wasd-controls></a-entity>
+      <a-light type="point" position="0 -10 0"></a-light>
+      <a-entity json-vc>
+      <!--  <a-animation attribute="rotation" from="0 0 0" to="0 360 0" repeat="indefinite" easing="linear" dur="8000"></a-animation>-->
+      </a-entity>
+      <a-sky color="#999999"></a-sky>
+    </a-scene>
+  </body>
+</html>
