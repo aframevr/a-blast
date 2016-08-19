@@ -14,7 +14,7 @@ AFRAME.registerComponent('json-vc', {
         //material to MeshBasicMaterial, but it doesn't work for me, so I have to set it manually :/
         //https://github.com/mrdoob/three.js/pull/7635
 
-        if (obj.name=='red' || obj.name=="sky" ){
+        if (obj.name=='red' || obj.name=="sky" || obj.name=='glow'){
           obj.material= new THREE.MeshBasicMaterial( { vertexColors: true } );
         }
         else{
