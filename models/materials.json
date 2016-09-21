@@ -238,28 +238,17 @@
         "sourceFile":"materials.blend"
     },
     "materials":[{
-        "depthWrite":true,
-        "shininess":50,
-        "specular":8355711,
-        "depthTest":true,
-        "type":"MeshPhongMaterial",
-        "emissive":0,
+        "type":"MeshBasicMaterial",
         "uuid":"67411BEF-18C8-3208-BDDB-36861947B5DE",
         "color":16711680,
         "name":"mat_additive",
-        "vertexColors":0,
-        "blending":"AdditiveBlending"
+        "blending": 2,
+        "transparent": true
     },{
-        "depthWrite":true,
-        "shininess":50,
-        "specular":8355711,
-        "depthTest":true,
-        "type":"MeshPhongMaterial",
-        "emissive":0,
+        "type":"MeshBasicMaterial",
         "uuid":"ED430170-131F-3669-8007-7498C6CA1C88",
         "color":13369344,
         "name":"mat_flat",
-        "vertexColors":0,
         "blending":"NormalBlending"
     },{
         "depthWrite":true,
@@ -284,10 +273,7 @@
         "vertexColors":0,
         "blending":"NormalBlending"
     },{
-        "depthWrite":true,
-        "depthTest":true,
-        "type":"MeshLambertMaterial",
-        "emissive":0,
+        "type":"MeshBasicMaterial",
         "uuid":"D815DC06-2BEE-3B75-A355-0F47AC466F4D",
         "color":13421772,
         "name":"mat_vflat",
