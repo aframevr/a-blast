@@ -2,8 +2,7 @@
 AFRAME.registerComponent('bullet', {
   schema: {
     direction: { type: 'vec3' },
-    // speed: {default: 40.0}
-    speed: { default: 10.0 },
+    speed: { default: 5.0 },
     position: { type: 'vec3' },
     acceleration: { default: 5.0 }
   },
@@ -88,10 +87,5 @@ AFRAME.registerComponent('bullet', {
         return;
       }
     }
-  },
-
-  remove: function () {
-/*    if (!this.model) { return; }
-    this.el.removeObject3D('mesh');*/
   }
 });

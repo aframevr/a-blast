@@ -16,6 +16,7 @@
       <a-entity light="color: #5991A1; groundColor: #a00; intensity: 0.2; type: hemisphere"></a-entity>
       <a-entity position="0 20 0" light="color: #5991A1; intensity: 2; distance:25; type: point"></a-entity>
       <a-entity position="0 -20 0" light="color: #f00; intensity: 2; distance:25; type: point"></a-entity>
+
       <a-entity
         id="camera"
         camera=""
@@ -29,13 +30,12 @@
         </a-entity>
       </a-entity>
 
-      <a-entity id="left-hand" gun="hand: left"></a-entity>
-      <a-entity id="right-hand" gun="hand: right"></a-entity>
+      <a-entity id="left-hand" shoot-controls="hand: left" gun=""></a-entity>
+      <a-entity id="right-hand" shoot-controls="hand: right" gun=""></a-entity>
 
       <a-entity id="ground"
                 scale="0.2 0.2 0.2"
-                json-model="src: url(models/platform.json);"
-                ></a-entity>
+                json-model="src: url(models/platform.json);"></a-entity>
 
       <a-entity id="sky"
                 scale="0.3 0.3 0.3"

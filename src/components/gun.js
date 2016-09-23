@@ -1,20 +1,25 @@
+var GUNS = {
+  'default': {
+    modelUrl: 'models/gun.json',
+    shootingDelay: 250, // In ms
+  }
+};
+
 /* global AFRAME THREE */
 AFRAME.registerComponent('gun', {
-  dependencies: ['tracked-controls'],
+  dependencies: ['shoot-controls'],
   schema: {
-    hand: { default: 'left' }
+    enabled: { default: true },
+    type: { default: 'default' }
   },
 
   init: function () {
     var el = this.el;
     var self = this;
 
-    this.onButtonChanged = this.onButtonChanged.bind(this);
-    this.onButtonDown = function (evt) { self.onButtonEvent(evt.detail.id, 'down'); };
-    this.onButtonUp = function (evt) { self.onButtonEvent(evt.detail.id, 'up'); };
-    this.onModelLoaded = this.onModelLoaded.bind(this);
+    this.gun = GUNS[ this.data.type ];
 
-    el.setAttribute('json-model', {src: 'url(models/gun.json)'});
+    el.setAttribute('json-model', {src: 'url(' + this.gun.modelUrl + ')'});
 
     /*
     this.el.setAttribute('sound', {
@@ -22,6 +27,7 @@ AFRAME.registerComponent('gun', {
       on: 'shoot'
     });
 */
+
     this.fire = null;
     this.el.addEventListener('model-loaded', function (evt) {
       this.model = this.el.getObject3D('mesh');
@@ -33,6 +39,11 @@ AFRAME.registerComponent('gun', {
         }
       }
     }.bind(this));
+
+    this.el.addEventListener('triggerdown', function (evt) {
+      if (!self.data.enabled) { return; }
+      self.tryToShoot();
+    });
 
     this.lightIntensity = 0.5;
     this.model = this.el.getObject3D('mesh');
@@ -49,59 +60,22 @@ AFRAME.registerComponent('gun', {
 
   play: function () {
     var el = this.el;
-    el.addEventListener('buttonchanged', this.onButtonChanged);
-    el.addEventListener('buttondown', this.onButtonDown);
-    el.addEventListener('buttonup', this.onButtonUp);
-    el.addEventListener('model-loaded', this.onModelLoaded);
   },
 
   pause: function () {
     var el = this.el;
-    el.removeEventListener('buttonchanged', this.onButtonChanged);
-    el.removeEventListener('buttondown', this.onButtonDown);
-    el.removeEventListener('buttonup', this.onButtonUp);
-    el.removeEventListener('model-loaded', this.onModelLoaded);
-  },
-
-  // buttonId
-  // 0 - trackpad
-  // 1 - trigger ( intensity value from 0.5 to 1 )
-  // 2 - grip
-  // 3 - menu ( dispatch but better for menu options )
-  // 4 - system ( never dispatched on this layer )
-  mapping: {
-    axis0: 'trackpad',
-    axis1: 'trackpad',
-    button0: 'trackpad',
-    button1: 'trigger',
-    button2: 'grip',
-    button3: 'menu',
-    button4: 'system'
-  },
-
-  onButtonChanged: function (evt) {
-    // var button = this.mapping['button' + evt.detail.id];
-    // value = evt.detail.state.value;
   },
 
   onModelLoaded: function (evt) {
     //var controllerObject3D = evt.detail.model;
   },
 
-  onButtonEvent: function (id, evtName) {
-    var buttonName = this.mapping['button' + id];
-    if (buttonName === 'trigger' && evtName === 'down') {
-      this.tryToShoot();
-    }
-    // this.el.emit(buttonName + evtName);
-    // this.updateModel(buttonName, evtName);
-  },
-
   tryToShoot: function () {
+    console.log("try to shoot");
     if (this.canShoot) {
       this.shoot();
       this.canShoot = false;
-      setTimeout(function () { this.canShoot = true; }.bind(this), 250);
+      setTimeout(function () { this.canShoot = true; }.bind(this), this.gun.shootingDelay);
       return true;
     }
     return false;
@@ -190,6 +164,8 @@ AFRAME.registerComponent('gun', {
     // handId: 0 - right, 1 - left
     var controller = data.hand === 'right' ? 0 : 1;
     el.setAttribute('tracked-controls', 'controller', controller);
+
+    this.gun = GUNS[ data.type ];
   },
 
 });
