@@ -4,7 +4,7 @@
   "description": "A-Shooter",
   "scripts": {
     "build": "NODE_ENV=production webpack",
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --progress --colors --hot -d --open",
     "lint": "semistandard -v | snazzy"
   },
   "repository": "aframevr/a-shooter",

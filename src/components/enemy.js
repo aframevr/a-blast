@@ -14,7 +14,6 @@ AFRAME.registerComponent('music', {
   },
 
   update: function (oldData) {
-    console.log(oldData);
     var data = this.data;
     var el = this.el;
     var sound = this.sound;
@@ -111,7 +110,7 @@ AFRAME.registerSystem('enemy', {
   init: function () {
     this.enemies = [];
     document.querySelector('a-scene').addEventListener('game-over', function () {
-      console.log('Enemyessss gameover');
+      // console.log('Enemyessss gameover');
     });
 
     this.createNewEnemy();
@@ -150,7 +149,7 @@ AFRAME.registerSystem('enemy', {
     if (chargingDuration < 4000) {
       chargingDuration = 4000;
     }
-    console.log(bulletSpeed, waitingTime, chargingDuration);
+    // console.log(bulletSpeed, waitingTime, chargingDuration);
 
     entity.setAttribute('enemy', {
       lifespan: 6 * (Math.random()) + 1,
@@ -170,8 +169,8 @@ AFRAME.registerSystem('enemy', {
     // entity.setAttribute('obj-model', {obj: 'url(mydroid2.obj)', mtl: 'url(mydroid2.mtl)'});
     entity.setAttribute('obj-model', {obj: '#droid-obj', mtl: '#droid-mtl'});
 
-    // entity.setAttribute('material', {shader: 'standard', color: '#ff9', transparent: 'true', opacity: 0.5, flatshading: true});
-    entity.setAttribute('material', {shader: 'standard', color: '#ff9', transparent: 'true', opacity: 1.0, flatshading: true});
+    // entity.setAttribute('material', {shader: 'standard', color: '#ff9', transparent: 'true', opacity: 0.5, flatShading: true});
+    entity.setAttribute('material', {shader: 'standard', color: '#ff9', transparent: 'true', opacity: 1.0, flatShading: true});
 
     // console.log(document.getElementById('droid').object3D.children[0]);
     // entity.el.object3D = document.getElementById('droid').getObject3D('mesh');
@@ -180,7 +179,13 @@ AFRAME.registerSystem('enemy', {
 
 AFRAME.registerComponent('enemy', {
   schema: {
-    active: { default: true }
+    active: { default: true },
+    lifespan: {default: ''},
+    waitingTime: {default: ''},
+    startPosition: {default: ''},
+    endPosition: {default: ''},
+    bulletSpeed: {default: ''},
+    chargingDuration: {default: ''}
   },
 
   deactivate: function () {
@@ -203,7 +208,7 @@ AFRAME.registerComponent('enemy', {
     this.el.addEventListener('hit', this.collided.bind(this));
     // @todo Maybe we could send the time in init?
     this.statusChangeTime = this.time = this.el.sceneEl.time;
-
+/*
     this.soundExplosion = document.createElement('a-entity');
     this.soundExplosion.setAttribute('sound', {
       src: 'sounds/explosion0.ogg',
@@ -240,6 +245,7 @@ AFRAME.registerComponent('enemy', {
     this.soundAppearing.addEventListener('loaded', function () {
       this.el.emit('appearing');
     }.bind(this));
+*/
   },
   collided: function () {
     if (this.exploding) {
@@ -247,7 +253,7 @@ AFRAME.registerComponent('enemy', {
     }
 
     this.el.emit('enemy-hit');
-    this.soundExplosion.emit('enemy-hit');
+    // this.soundExplosion.emit('enemy-hit');
 
     this.shoot();
     // var mesh = this.el.getObject3D('mesh');
@@ -272,9 +278,9 @@ AFRAME.registerComponent('enemy', {
   },
 
   shoot: function (time) {
-    this.soundCharging.emit('shooting');
-    this.soundShooting.emit('shooting');
-    console.info('shooting');
+    // this.soundCharging.emit('shooting');
+    // this.soundShooting.emit('shooting');
+    // console.info('shooting');
     this.statusChangeTime = time;
 
     var entity = document.createElement('a-entity');
@@ -294,10 +300,10 @@ AFRAME.registerComponent('enemy', {
     this.el.parentElement.removeChild(this.el);
   },
   charge: function (time) {
-    console.log('charging');
+    // console.log('charging');
     this.statusChangeTime = time;
     this.state = 'charging';
-    this.soundCharging.emit('charging');
+    // this.soundCharging.emit('charging');
   },
   tick: function (time, delta) {
     var game = document.querySelector('a-scene').getAttribute('game');

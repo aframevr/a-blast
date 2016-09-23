@@ -13,85 +13,37 @@
         <a-asset-item id="droid-mtl" src="models/mydroid2.mtl"></a-asset-item>
       </a-assets>
       <!--<a-entity id="background-music" music="src: sounds/music0.ogg; autoplay: true; loop: true"></a-entity>-->
-
-      <a-sphere scale="0.2 0.2 0.2" position="2 0 0">
-        <a-animation attribute="position" from="2 -10 0" to="2 10 0" repeat="indefinite" direction="alternate" dur="8000"></a-animation>
-      </a-sphere>
-
-      <!--<a-entity light="color: #5991A1; groundColor: #a00; intensity: 0.4; type: hemisphere"></a-entity>
-      <a-entity position="20 -20 0" light="color: #a00; intensity: .3; type: point"></a-entity>
-      <a-entity position="-18 -20 18" light="color: #a00; intensity: .3; type: point"></a-entity>
-      <a-entity position="-18 -20 -18" light="color: #a00; intensity: .3; type: point"></a-entity>
-  -->
       <a-entity light="color: #5991A1; groundColor: #a00; intensity: 0.2; type: hemisphere"></a-entity>
       <a-entity position="0 20 0" light="color: #5991A1; intensity: 2; distance:25; type: point"></a-entity>
       <a-entity position="0 -20 0" light="color: #f00; intensity: 2; distance:25; type: point"></a-entity>
-
-
       <a-entity
         id="camera"
         camera=""
-        position="0 0 1"
         wasd-controls=""
         look-controls=""
-        proxy_event="event: player-hit; dst:#camera"
-        sound="src: sounds/hit0.ogg; on: player-hit"
-      >
-        <!--<a-entity light="type: directional; color: #AAA; intensity: 0.7" position="0 0 -1"></a-entity>-->
-        <!--<a-entity id="hurt2" geometry="primitive: sphere; radius: 1" material="shader:flat; src:url(blood_PNG6108.png); side: back; color: #f00; transparent: true; opacity: 0.8">-->
-<!--
-material="shader:flat; src:url(gameover.png); side: back; color: #f00; transparent: false; opacity: 0.8"
--->
+        proxy_event="event: player-hit; dst:#camera">
+        <!--sound="src: sounds/hit0.ogg; on: player-hit"> -->
         <a-entity id="gameover"></a-entity>
-        <!--<a-entity id="gameover"
-          visible="false"
-          rotation="0 120 0"
-          geometry="primitive: cylinder; radius: 0.8; theta-start:0; theta-length: 120; open-ended: true"
-          material="shader:flat; src:url(images/gameover.png); side: back; color: #f00; transparent: false; opacity: 0.8"
-          >
-        </a-entity>-->
-
         <a-entity id="hurt" proxy_event="event: player-hit; dst:#hurt" geometry="primitive: sphere; radius: 1" material="shader:flat; side: back; color: #f00; transparent: true; opacity: 0.0">
           <a-animation id="player-hit-anim" attribute="material.opacity" to="0.8" from="0" begin="player-hit" direction="alternate" dur="300" repeat="1"></a-animation>
         </a-entity>
       </a-entity>
-<!--      <a-entity sound-set="src: mysound1.ogg; on: enemy-shoot; volume: 1, src: mysound2.ogg; on: enemy-shoot; volume: 1">
-      <a-entity sound--dead="" sound--hit="" >          -->
 
-      <a-entity id="left-hand" gun="" hand-controls="hand: left"
-        json-vc="src: url(models/gun.json)">
-      </a-entity>
-      <a-entity id="right-hand" gun="" hand-controls="hand: right"
-        json-vc="src: url(models/gun.json)">
-      </a-entity>
+      <a-entity id="left-hand" gun="hand: left"></a-entity>
+      <a-entity id="right-hand" gun="hand: right"></a-entity>
 
-
-      <!--<a-entity id="sky"
-                geometry="primitive: sphere; radius: 30;"
-                rotation="70 0 0"
-                material="shader: flat; color: #47c9ff; side: double; src: url(images/sky.jpg)">
-      </a-entity>
-      <a-entity id="ground"
-                position="0 0.0 0"
-                scale="0.2 0.2 0.2"
-                obj-model="obj: url(models/platform2.obj);mtl: url(models/platform2.mtl)"
-                ></a-entity>-->
       <a-entity id="ground"
                 scale="0.2 0.2 0.2"
-                json-vc="src: url(models/platform.json)"
+                json-model="src: url(models/platform.json);"
                 ></a-entity>
-      <!--<a-entity id="bigsphere"
-                scale="0.1 0.1 0.1"
-                obj-model="obj: url(models/bigsphere2.obj)"
-                material="color: #333;"></a-entity>-->
 
       <a-entity id="sky"
                 scale="0.3 0.3 0.3"
-                json-vc="src: url(models/sky.json)""></a-entity>
+                json-model="src: url(models/sky.json); vertexcolors: true"></a-entity>
 
       <a-entity id="bigsphere"
                 scale="0.3 0.3 0.3"
-                json-vc="src: url(models/sphere.json)""></a-entity>
+                json-model="src: url(models/sphere.json);"></a-entity>
 
       <a-entity id="countermesh"
           counter=""

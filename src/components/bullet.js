@@ -1,10 +1,11 @@
 /* global AFRAME THREE*/
 AFRAME.registerComponent('bullet', {
   schema: {
-    direction: {type: 'vec3'},
+    direction: { type: 'vec3' },
     // speed: {default: 40.0}
-    speed: {default: 10.0},
-    acceleration: {default: 5.0}
+    speed: { default: 10.0 },
+    position: { type: 'vec3' },
+    acceleration: { default: 5.0 }
   },
 
   init: function () {

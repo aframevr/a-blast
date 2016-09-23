@@ -2,6 +2,7 @@
 AFRAME.registerComponent('enemybullet', {
   schema: {
     direction: {type: 'vec3'},
+    position: {type: 'vec3'},
     speed: {default: 15}
   },
 
