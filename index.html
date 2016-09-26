@@ -2,13 +2,15 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Shooter</title>
-    <meta name="description" content="Room Scale A-Frame demo">
+    <title>Room Scale</title>
+    <meta name="description" content="Room Scale – A-Frame">
+    <script src="aframe.js"></script>
     <script src="build/build.js"></script>
   </head>
   <body>
     <a-scene debug="true" game="lifes: 5; state: start; points: 0">
       <a-assets>
+        <img id="arena" src="../../assets/img/aframeArena.png">
         <a-asset-item id="droid-obj" src="models/mydroid2.obj"></a-asset-item>
         <a-asset-item id="droid-mtl" src="models/mydroid2.mtl"></a-asset-item>
       </a-assets>
@@ -25,6 +27,7 @@
         proxy_event="event: player-hit; dst:#camera">
         <!--sound="src: sounds/hit0.ogg; on: player-hit"> -->
         <a-entity id="gameover"></a-entity>
+
         <a-entity id="hurt" proxy_event="event: player-hit; dst:#hurt" geometry="primitive: sphere; radius: 1" material="shader:flat; side: back; color: #f00; transparent: true; opacity: 0.0">
           <a-animation id="player-hit-anim" attribute="material.opacity" to="0.8" from="0" begin="player-hit" direction="alternate" dur="300" repeat="1"></a-animation>
         </a-entity>
