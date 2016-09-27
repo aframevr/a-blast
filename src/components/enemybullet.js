@@ -34,8 +34,7 @@ AFRAME.registerComponent('enemybullet', {
   },
 
   remove: function () {
-
-/*    if (!this.model) { return; }
-    this.el.removeObject3D('mesh');*/
+    // if (!this.model) { return; }
+    // this.el.removeObject3D('mesh');
   }
 });

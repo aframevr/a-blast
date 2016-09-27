@@ -2,7 +2,7 @@ var webpack = require('webpack');
 
 var PLUGINS = [];
 if (process.env.NODE_ENV === 'production') {
-  new webpack.optimize.UglifyJsPlugin()
+  PLUGINS.push(new webpack.optimize.UglifyJsPlugin());
 }
 
 module.exports = {
