@@ -22,13 +22,11 @@
       <a-entity position="0 -20 0" light="intensity: 1; distance: 25; type: point"></a-entity>
       <a-entity position="0 5 -2" light="intensity: 0.6; type: point"></a-entity>
 
-      <a-entity
-        id="camera"
-        camera=""
-        wasd-controls=""
-        look-controls=""
-        proxy_event="event: player-hit; dst:#camera"
-        sound="src: sounds/hit0.ogg; on: player-hit">
+      <a-entity id="camera"
+        camera="userHeight: 1.6"
+        look-controls
+        proxy_event="event: player-hit; dst: #camera"
+        sound="src: url(sounds/hit0.ogg); on: player-hit">
         <a-entity id="gameover"></a-entity>
 
         <a-entity id="hurt" proxy_event="event: player-hit; dst:#hurt" geometry="primitive: sphere; radius: 1" material="shader:flat; side: back; color: #f00; transparent: true; opacity: 0.0">
