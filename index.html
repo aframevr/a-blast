@@ -13,9 +13,9 @@
         <audio id="backgroundMusic" src="sounds/music0.ogg" loop></audio>
         <!--
         <img id="arena" src="../../assets/img/aframeArena.png">
+      -->
         <a-asset-item id="droid-obj" src="models/mydroid2.obj"></a-asset-item>
         <a-asset-item id="droid-mtl" src="models/mydroid2.mtl"></a-asset-item>
-        -->
       </a-assets>
 
       <a-entity light="color: #79a8bb; groundColor: #fff; intensity: 0.2; type: hemisphere"></a-entity>
@@ -25,6 +25,7 @@
 
       <a-entity id="camera"
         camera="userHeight: 1.6"
+        wasd-controls
         look-controls>
         <!-- proxy_event="event: player-hit; dst: #camera"
         sound="src: url(sounds/hit0.ogg); on: player-hit" -->

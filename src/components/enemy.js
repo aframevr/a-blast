@@ -6,7 +6,7 @@ AFRAME.registerSystem('enemy', {
     document.querySelector('a-scene').addEventListener('game-over', function () {
       // console.log('Enemyessss gameover');
     });
-
+    console.log(this);
     this.createNewEnemy();
     this.createNewEnemy();
     this.createNewEnemy();
@@ -25,7 +25,7 @@ AFRAME.registerSystem('enemy', {
       // point[1] = -point[1];
     }
 
-    var game = document.querySelector('a-scene').getAttribute('game');
+    var game = this.sceneEl.getAttribute('game');
     var points = game.points || 0;
     var level = parseInt(points / 10, 10);
     var waitingTime = 5000 - (Math.random() * 2 + level) * 500;
@@ -43,7 +43,6 @@ AFRAME.registerSystem('enemy', {
     if (chargingDuration < 4000) {
       chargingDuration = 4000;
     }
-    // console.log(bulletSpeed, waitingTime, chargingDuration);
 
     entity.setAttribute('enemy', {
       lifespan: 6 * (Math.random()) + 1,

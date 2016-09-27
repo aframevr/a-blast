@@ -46,6 +46,7 @@ AFRAME.registerComponent('bullet', {
 
     var position = new THREE.Vector3(pos.x, pos.y, pos.z);
     if (position.length() >= 15) {
+      // To detect out of space
       /*
       var ray = new THREE.Raycaster(this.startPosition, this.direction.clone().normalize());
       var collisionResults = ray.intersectObjects(document.getElementById('bigsphere').object3D.children, true);
