@@ -2,25 +2,38 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Room Scale</title>
-    <meta name="description" content="Room Scale – A-Frame">
-    <script src="aframe.js"></script>
+    <title>A-Shooter</title>
+    <meta name="description" content="Room Scale A-Frame Demo">
     <script src="build/build.js"></script>
   </head>
   <body>
     <a-scene debug="true" game="lifes: 5; state: start; points: 0">
       <a-assets>
+        <!--
         <img id="arena" src="../../assets/img/aframeArena.png">
         <a-asset-item id="droid-obj" src="models/mydroid2.obj"></a-asset-item>
         <a-asset-item id="droid-mtl" src="models/mydroid2.mtl"></a-asset-item>
+        -->
       </a-assets>
+<<<<<<< HEAD
       <!--<a-entity id="background-music" music="src: sounds/music0.ogg; autoplay: true; loop: true"></a-entity>-->
       <a-entity light="color: #5991A1; groundColor: #a00; intensity: 0.2; type: hemisphere"></a-entity>
       <a-entity position="0 20 0" light="color: #5991A1; intensity: 2; distance:25; type: point"></a-entity>
       <a-entity position="0 -20 0" light="color: #f00; intensity: 2; distance:25; type: point"></a-entity>
+=======
+>>>>>>> placeholder set models
 
+      <!-- <a-entity id="background-music" music="src: psycho1.ogg; autoplay: true; loop: true"></a-entity> -->
+
+      <a-entity position="0 5 -2" light="color: #fff; intensity: 0.6; type: point"></a-entity>
+     <!-- <a-entity position="-5 -10 5" light="color: #fff; intensity: 0.7; type: point"></a-entity>
+      <a-entity position="5 -10 5" light="color: #fff; intensity: 0.7; type: point"></a-entity> -->
+      <!-- <a-entity light="color: #fff; intensity: 0.3; type: hemisphere"></a-entity>  -->
+
+<!--
       <a-entity
         id="camera"
+<<<<<<< HEAD
         camera=""
         wasd-controls=""
         look-controls=""
@@ -28,10 +41,26 @@
         <!--sound="src: sounds/hit0.ogg; on: player-hit"> -->
         <a-entity id="gameover"></a-entity>
 
+=======
+        wasd-controls
+        proxy_event="event: player-hit; dst:#camera"
+        sound="src:sounds/hit0.ogg; on: player-hit"
+      >
+-->
+<!--
+        <a-entity id="gameover"
+          visible="false"
+          rotation="0 120 0"
+          geometry="primitive: cylinder; radius: 0.8; theta-start:0; theta-length: 120; open-ended: true"
+          material="shader:flat; src:url(images/gameover.png); side: back; color: #f00; transparent: false; opacity: 0.8"
+          >
+        </a-entity>
+>>>>>>> placeholder set models
         <a-entity id="hurt" proxy_event="event: player-hit; dst:#hurt" geometry="primitive: sphere; radius: 1" material="shader:flat; side: back; color: #f00; transparent: true; opacity: 0.0">
           <a-animation id="player-hit-anim" attribute="material.opacity" to="0.8" from="0" begin="player-hit" direction="alternate" dur="300" repeat="1"></a-animation>
         </a-entity>
       </a-entity>
+<<<<<<< HEAD
 
       <a-entity id="left-hand" shoot-controls="hand: left" gun=""></a-entity>
       <a-entity id="right-hand" shoot-controls="hand: right" gun=""></a-entity>
@@ -44,6 +73,30 @@
                 scale="0.3 0.3 0.3"
                 json-model="src: url(models/sky.json); vertexcolors: true"></a-entity>
 
+=======
+-->
+
+
+<!--      <a-entity sound-set="src: mysound1.ogg; on: enemy-shoot; volume: 1, src: mysound2.ogg; on: enemy-shoot; volume: 1">
+      <a-entity sound--dead="" sound--hit="" >          -->
+
+<!--
+      <a-entity id="left-hand" gun="" hand-controls="hand: left"
+        obj-model="obj: url(models/gun.obj); mtl: url(models/gun.mtl)">
+      </a-entity>
+      <a-entity id="right-hand" gun="" hand-controls="hand: right"
+                obj-model="obj: url(models/gun.obj); mtl: url(models/gun.mtl)">
+      </a-entity>
+-->
+
+      <a-entity id="sky"
+                scale="10 10 10"
+                json-vc="src: url(models/sky.json)""></a-entity>
+
+      <a-entity id="ground" json-model="src:url(models/platform.json);"></a-entity>
+
+<!--
+>>>>>>> placeholder set models
       <a-entity id="bigsphere"
                 scale="0.3 0.3 0.3"
                 json-model="src: url(models/sphere.json);"></a-entity>
@@ -53,6 +106,8 @@
           scale="0.1 0.1 0.1"
           obj-model="obj: url(models/counter.obj); mtl: url(models/counter.mtl)"
           material="color: #fff;"></a-entity>
+
+-->
     </a-scene>
   </body>
 </html>
