@@ -8,7 +8,7 @@
     <script src="build/build.js"></script>
   </head>
   <body>
-    <a-scene debug="true" game="lifes: 5; state: start; points: 0">
+    <a-scene debug="true" gamestate="health: 5; level: 1">
       <a-assets>
         <audio id="backgroundMusic" src="sounds/music0.ogg" loop></audio>
         <!--
@@ -27,11 +27,13 @@
         camera="userHeight: 1.6"
         wasd-controls
         look-controls>
-        <!-- proxy_event="event: player-hit; dst: #camera"
-        sound="src: url(sounds/hit0.ogg); on: player-hit" -->
-        <a-entity id="gameover"></a-entity>
+        <!-- sound="src: url(sounds/hit0.ogg); on: player-hit" -->
 
-        <a-entity id="hurt" proxy_event="event: player-hit; dst:#hurt" geometry="primitive: sphere; radius: 1" material="shader:flat; side: back; color: #f00; transparent: true; opacity: 0.0">
+        <a-entity id="gameover"
+          gamestate-bind="isGameOver: visible"
+        ></a-entity>
+
+        <a-entity id="hurt" geometry="primitive: sphere; radius: 1" material="shader:flat; side: back; color: #f00; transparent: true; opacity: 0.0">
           <a-animation id="player-hit-anim" attribute="material.opacity" to="0.8" from="0" begin="player-hit" direction="alternate" dur="300" repeat="1"></a-animation>
         </a-entity>
       </a-entity>
@@ -48,12 +50,13 @@
                 material="shader: flat; color: #1a4d5f; side: double; src: url(images/sky.jpg)"></a-entity>
                 <!-- rotation="70 0 0" -->
 
-      <a-entity id="countermesh"
-          counter=""
-          scale="0.1 0.1 0.1"
-          obj-model="obj: url(models/counter.obj); mtl: url(models/counter.mtl)"
-          material="color: #fff;"></a-entity>
-
+      <a-entity id="scoreboard"
+        counter
+        gamestate-bind="health: counter.health; points: counter.points"
+        scale="0.1 0.1 0.1"
+        obj-model="obj: url(models/counter.obj)"
+        material="color: #fff"
+      ></a-entity>
     </a-scene>
   </body>
 </html>

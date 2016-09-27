@@ -1,3 +1,4 @@
+require('./components/gamestate.js');
 require('./components/shoot-controls.js');
 require('./components/bullet.js');
 require('./components/counter.js');

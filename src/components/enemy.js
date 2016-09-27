@@ -1,19 +1,18 @@
 /* global AFRAME THREE TWEEN warn */
 
 AFRAME.registerSystem('enemy', {
+  schema: {
+    level: {default: 1}
+  },
+
   init: function () {
     this.enemies = [];
-    document.querySelector('a-scene').addEventListener('game-over', function () {
-      // console.log('Enemyessss gameover');
-    });
-    console.log(this);
     this.createNewEnemy();
     this.createNewEnemy();
     this.createNewEnemy();
-  },
-  tick: function (time, delta) {
   },
   createNewEnemy: function () {
+    var data = this.data;
     var entity = document.createElement('a-entity');
     var maxRadius = 30;
     var minRadius = 15;
@@ -27,9 +26,7 @@ AFRAME.registerSystem('enemy', {
       point[1] = -point[1];
     }
 
-    var game = this.sceneEl.getAttribute('game');
-    var points = game.points || 0;
-    var level = parseInt(points / 10, 10);
+    var level = data.level;
     var waitingTime = 5000 - (Math.random() * 2 + level) * 500;
     if (waitingTime < 2000) {
       waitingTime = 2000;
