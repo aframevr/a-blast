@@ -35,7 +35,7 @@ AFRAME.registerComponent('gun', {
       src: this.gun.shootSound,
       on: 'shoot',
       volume: 0.2,
-      pool: 10
+      poolSize: 10
     });
 
     this.fire = null;
