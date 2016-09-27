@@ -1,4 +1,4 @@
-/* global AFRAME THREE */
+/* global AFRAME */
 AFRAME.registerComponent('shoot-controls', {
   dependencies: ['tracked-controls'],
   schema: {
@@ -6,7 +6,6 @@ AFRAME.registerComponent('shoot-controls', {
   },
 
   init: function () {
-    var el = this.el;
     var self = this;
 
     this.onButtonChanged = this.onButtonChanged.bind(this);
@@ -53,11 +52,11 @@ AFRAME.registerComponent('shoot-controls', {
   },
 
   onModelLoaded: function (evt) {
-    //var controllerObject3D = evt.detail.model;
+    // var controllerObject3D = evt.detail.model;
   },
 
   onButtonEvent: function (id, evtName) {
     var buttonName = this.mapping['button' + id];
     this.el.emit(buttonName + evtName);
-  },
+  }
 });

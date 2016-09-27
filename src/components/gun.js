@@ -1,7 +1,7 @@
 var GUNS = {
-  'default': {
+  default: {
     modelUrl: 'models/gun.json',
-    shootingDelay: 250, // In ms
+    shootingDelay: 250  // In ms
   }
 };
 
@@ -59,19 +59,17 @@ AFRAME.registerComponent('gun', {
   },
 
   play: function () {
-    var el = this.el;
   },
 
   pause: function () {
-    var el = this.el;
   },
 
   onModelLoaded: function (evt) {
-    //var controllerObject3D = evt.detail.model;
+    // var controllerObject3D = evt.detail.model;
   },
 
   tryToShoot: function () {
-    console.log("try to shoot");
+    console.log('try to shoot');
     if (this.canShoot) {
       this.shoot();
       this.canShoot = false;
@@ -166,6 +164,6 @@ AFRAME.registerComponent('gun', {
     el.setAttribute('tracked-controls', 'controller', controller);
 
     this.gun = GUNS[ data.type ];
-  },
+  }
 
 });
