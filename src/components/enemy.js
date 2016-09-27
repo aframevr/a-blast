@@ -225,7 +225,7 @@ AFRAME.registerComponent('enemy', {
       src: 'sounds/whoosh0.ogg',
       on: 'charging',
       off: 'shooting',
-      volume: 0.5
+      volume: 0.1
     });
     this.el.appendChild(this.soundCharging);
 
