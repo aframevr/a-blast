@@ -3,16 +3,13 @@ var GUNS = {
     model: {
       url: 'url(models/gun.json)',
       positionOffset: [0, 0, 0],
-      rotationOffset: [-1.2, 0, 0],
+      rotationOffset: [0, 0, 0],
     },
     shootSound: 'url(sounds/gun0.ogg)',
     shootingDelay: 20, // In ms
     bullet: {
-      type: 'small_1',
       speed: 5,
-      acceleration: 5,
-      size: 2,
-      explosion_type: 'explosion1'
+      acceleration: 5
     }
   }
 };
@@ -90,6 +87,7 @@ AFRAME.registerComponent('gun', {
 
   shoot: function () {
     if (this.canShoot) {
+      var el = this.el;
       var matrixWorld = el.object3D.matrixWorld;
       var position = new THREE.Vector3();
       var direction = new THREE.Vector3();
@@ -104,11 +102,12 @@ AFRAME.registerComponent('gun', {
       var scale = new THREE.Vector3();
       matrixWorld.decompose(translation, quaternion, scale);
 
-      direction.set(0, -1.0, -1);
+      direction.set(0, -2.0, -1);
       direction.applyQuaternion(quaternion);
       direction.normalize();
 
-      var inc = new THREE.Vector3(0.0, -0.03, -0.1);
+      //var inc = new THREE.Vector3(0.0, -0.03, -0.1);
+      var inc = new THREE.Vector3(0.0, -0.3, -0.1);
       inc.applyQuaternion(quaternion);
       position.add(inc);
 
@@ -125,7 +124,7 @@ AFRAME.registerComponent('gun', {
       bulletEntity.setAttribute('geometry', {primitive: 'octahedron', radius: 0.1});
       bulletEntity.setAttribute('material', {shader: 'standard', color: '#ff0'});
       bulletEntity.id = 'bullet';
-      el.sceneEl.appendChild(entity);
+      el.sceneEl.appendChild(bulletEntity);
 
       this.el.emit('shoot', bulletEntity);
 
