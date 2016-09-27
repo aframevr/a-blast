@@ -1,5 +1,3 @@
-require('../vendor/aframe.js');
-
 require('./components/shoot-controls.js');
 require('./components/bullet.js');
 require('./components/counter.js');
