@@ -9,24 +9,18 @@
   <body>
     <a-scene debug="true" game="lifes: 5; state: start; points: 0">
       <a-assets>
+        <audio id="backgroundMusic" src="sounds/music0.ogg" loop></audio>
         <!--
         <img id="arena" src="../../assets/img/aframeArena.png">
         <a-asset-item id="droid-obj" src="models/mydroid2.obj"></a-asset-item>
         <a-asset-item id="droid-mtl" src="models/mydroid2.mtl"></a-asset-item>
         -->
       </a-assets>
-      <!--<a-entity id="background-music" music="src: sounds/music0.ogg; autoplay: true; loop: true"></a-entity>-->
+
       <a-entity light="color: #79a8bb; groundColor: #fff; intensity: 0.2; type: hemisphere"></a-entity>
-      <a-entity position="0 20 0" light="color: #79a8bb; intensity: 1; distance:25; type: point"></a-entity>
-      <a-entity position="0 -20 0" light="color: #fff; intensity: 1; distance:25; type: point"></a-entity>
-
-
-      <!-- <a-entity id="background-music" music="src: psycho1.ogg; autoplay: true; loop: true"></a-entity> -->
-
-      <a-entity position="0 5 -2" light="color: #fff; intensity: 0.6; type: point"></a-entity>
-     <!-- <a-entity position="-5 -10 5" light="color: #fff; intensity: 0.7; type: point"></a-entity>
-      <a-entity position="5 -10 5" light="color: #fff; intensity: 0.7; type: point"></a-entity> -->
-      <!-- <a-entity light="color: #fff; intensity: 0.3; type: hemisphere"></a-entity>  -->
+      <a-entity position="0 20 0" light="intensity: 1; distance: 25; type: point"></a-entity>
+      <a-entity position="0 -20 0" light="intensity: 1; distance: 25; type: point"></a-entity>
+      <a-entity position="0 5 -2" light="intensity: 0.6; type: point"></a-entity>
 
       <a-entity
         id="camera"
