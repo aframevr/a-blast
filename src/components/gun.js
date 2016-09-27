@@ -8,7 +8,7 @@ var GUNS = {
     shootSound: 'url(sounds/gun0.ogg)',
     shootingDelay: 20, // In ms
     bullet: {
-      speed: 5,
+      speed: 10,
       acceleration: 5
     }
   }

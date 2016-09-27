@@ -15,14 +15,16 @@ AFRAME.registerSystem('enemy', {
   },
   createNewEnemy: function () {
     var entity = document.createElement('a-entity');
-    var radius = 13;
+    var maxRadius = 30;
+    var minRadius = 15;
+    var radius = Math.floor(Math.random() * maxRadius) + minRadius;
     var angle = Math.random() * Math.PI * 2;
     var dist = radius * Math.sqrt(Math.random());
     var point = [ dist * Math.cos(angle),
                   dist * Math.sin(angle),
                   Math.sqrt(radius * radius - dist * dist)];
     if (point[1] < 0) {
-      // point[1] = -point[1];
+      point[1] = -point[1];
     }
 
     var game = this.sceneEl.getAttribute('game');
@@ -56,17 +58,9 @@ AFRAME.registerSystem('enemy', {
     this.sceneEl.appendChild(entity);
 
     // this.enemies.push(entity);
-
     entity.setAttribute('position', {x: point[0], y: -10, z: point[2]});
-    // entity.setAttribute('geometry', {primitive: 'icosahedron', radius: 1, detail: 1});
-    // entity.setAttribute('obj-model', {obj: 'url(mydroid2.obj)', mtl: 'url(mydroid2.mtl)'});
     entity.setAttribute('obj-model', {obj: '#droid-obj', mtl: '#droid-mtl'});
-
-    // entity.setAttribute('material', {shader: 'standard', color: '#ff9', transparent: 'true', opacity: 0.5, flatShading: true});
     entity.setAttribute('material', {shader: 'standard', color: '#ff9', transparent: 'true', opacity: 1.0, flatShading: true});
-
-    // console.log(document.getElementById('droid').object3D.children[0]);
-    // entity.el.object3D = document.getElementById('droid').getObject3D('mesh');
   }
 });
 
