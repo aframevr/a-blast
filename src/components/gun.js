@@ -1,7 +1,19 @@
 var GUNS = {
   default: {
-    modelUrl: 'models/gun.json',
-    shootingDelay: 250  // In ms
+    model: {
+      url: 'url(models/gun.json)',
+      positionOffset: [0, 0, 0],
+      rotationOffset: [-1.2, 0, 0],
+    },
+    shootSound: 'url(sounds/gun0.ogg)',
+    shootingDelay: 20, // In ms
+    bullet: {
+      type: 'small_1',
+      speed: 5,
+      acceleration: 5,
+      size: 2,
+      explosion_type: 'explosion1'
+    }
   }
 };
 
@@ -17,20 +29,29 @@ AFRAME.registerComponent('gun', {
     var el = this.el;
     var self = this;
 
+    this.model = null;
     this.gun = GUNS[ this.data.type ];
 
-    el.setAttribute('json-model', {src: 'url(' + this.gun.modelUrl + ')'});
+    el.setAttribute('json-model', {src: this.gun.model.url});
 
-    /*
-    this.el.setAttribute('sound', {
-      src: 'sounds/gun0.ogg',
-      on: 'shoot'
+    this.el.setAttribute('sound__shoot', {
+      src: this.gun.shootSound,
+      on: 'shoot',
+      volume: 0.2,
+      pool: 10
     });
-*/
 
     this.fire = null;
     this.el.addEventListener('model-loaded', function (evt) {
-      this.model = this.el.getObject3D('mesh');
+      this.model = evt.detail.model;
+      var modelWithPivot = new THREE.Group();
+      modelWithPivot.add(this.model);
+      el.setObject3D('mesh', modelWithPivot);
+
+      evt.detail.model.position.set(0,-0.1,0);
+      modelWithPivot.rotation.x = -1.2;
+      var pivot = new THREE.Group();
+
       for (var i = 0; i < this.model.children.length; i++) {
         if (this.model.children[i].name === 'fire') {
           this.model.children[i].visible = false;
@@ -42,11 +63,10 @@ AFRAME.registerComponent('gun', {
 
     this.el.addEventListener('triggerdown', function (evt) {
       if (!self.data.enabled) { return; }
-      self.tryToShoot();
+      self.shoot();
     });
 
-    this.lightIntensity = 0.5;
-    this.model = this.el.getObject3D('mesh');
+    this.lightIntensity = 0.1;
     this.life = this.data.lifespan;
     this.canShoot = true;
 
@@ -54,7 +74,7 @@ AFRAME.registerComponent('gun', {
     this.el.appendChild(this.light);
 
     this.light.setAttribute('light', {color: '#ff0', intensity: 0.0, type: 'point'});
-    // this.light.setAttribute('geometry', {primitive: 'icosahedron', detail: 0, radius:0.05});
+    //this.light.setAttribute('geometry', {primitive: 'icosahedron', detail: 0, radius:0.05});
     this.light.setAttribute('position', {x: 0, y: -0.1, z: -0.2});
   },
 
@@ -68,62 +88,50 @@ AFRAME.registerComponent('gun', {
     // var controllerObject3D = evt.detail.model;
   },
 
-  tryToShoot: function () {
-    console.log('try to shoot');
-    if (this.canShoot) {
-      this.shoot();
-      this.canShoot = false;
-      setTimeout(function () { this.canShoot = true; }.bind(this), this.gun.shootingDelay);
-      return true;
-    }
-    return false;
-  },
-
   shoot: function () {
-    var el = this.el;
-    this.el.emit('shoot');
-    var matrixWorld = el.object3D.matrixWorld;
-    var position = new THREE.Vector3();
-    var direction = new THREE.Vector3();
-    position.setFromMatrixPosition(matrixWorld);
-    var entity = document.createElement('a-entity');
+    if (this.canShoot) {
+      var matrixWorld = el.object3D.matrixWorld;
+      var position = new THREE.Vector3();
+      var direction = new THREE.Vector3();
+      position.setFromMatrixPosition(matrixWorld);
 
-    var light = this.light.getAttribute('light');
-    light.intensity = this.lightIntensity;
-    this.light.setAttribute('light', light);
-    // this.fire.visible = true;
+      var light = this.light.getAttribute('light');
+      light.intensity = this.lightIntensity;
+      this.light.setAttribute('light', light);
 
-    var quaternion = new THREE.Quaternion();
-    var translation = new THREE.Vector3();
-    var scale = new THREE.Vector3();
-    matrixWorld.decompose(translation, quaternion, scale);
+      var quaternion = new THREE.Quaternion();
+      var translation = new THREE.Vector3();
+      var scale = new THREE.Vector3();
+      matrixWorld.decompose(translation, quaternion, scale);
 
-    direction.set(0, -1.0, -1);
-    direction.applyQuaternion(quaternion);
-    direction.normalize();
+      direction.set(0, -1.0, -1);
+      direction.applyQuaternion(quaternion);
+      direction.normalize();
 
-    // direction.multiply(position);
-    // position.z+=0.01;
-    var inc = new THREE.Vector3(0.0, -0.03, -0.1);
-    inc.applyQuaternion(quaternion);
-    position.add(inc);
-    entity.setAttribute('position', position);
-    entity.setAttribute('bullet', {direction: direction, position: position});
+      var inc = new THREE.Vector3(0.0, -0.03, -0.1);
+      inc.applyQuaternion(quaternion);
+      position.add(inc);
 
-/*
-    console.log({
-      x: THREE.Math.radToDeg(rotation.x),
-      y: THREE.Math.radToDeg(rotation.y),
-      z: THREE.Math.radToDeg(rotation.z)
-    });
-*/
-    // entity.setAttribute('geometry', {primitive: 'box', width: 0.03, height: 0.03, depth: 0.1});
-    // OctahedronGeometry
-    entity.setAttribute('geometry', {primitive: 'octahedron', radius: 0.1});
+      var bullet = this.gun.bullet;
 
-    entity.setAttribute('material', {shader: 'standard', color: '#ff0'});
-    entity.id = 'bullet';
-    el.sceneEl.appendChild(entity);
+      var bulletEntity = document.createElement('a-entity');
+      bulletEntity.setAttribute('position', position);
+      bulletEntity.setAttribute('bullet', {
+        direction: direction,
+        position: position,
+        speed: bullet.speed,
+        acceleration: bullet.acceleration
+      });
+      bulletEntity.setAttribute('geometry', {primitive: 'octahedron', radius: 0.1});
+      bulletEntity.setAttribute('material', {shader: 'standard', color: '#ff0'});
+      bulletEntity.id = 'bullet';
+      el.sceneEl.appendChild(entity);
+
+      this.el.emit('shoot', bulletEntity);
+
+      this.canShoot = false;
+      setTimeout(function () {this.canShoot = true;}.bind(this), this.gun.shootingDelay);
+    }
   },
 
   tick: function (time, delta) {
@@ -143,7 +151,6 @@ AFRAME.registerComponent('gun', {
         this.fire.material.opacity = Math.sin(t * t);
         this.fire.material.transparent = true;
         // this.fire.position.copy(this.fire.parent.parent.position);
-
         // this.fire.applyMatrix( new THREE.Matrix4().setTranslation( 0, 10, 0 ) );
         // this.fire.applyMatrix( new THREE.Matrix4().makeScale( t,t,t ) );
         // console.log(this.fire.position, this.fire.parent.parent.position);
@@ -159,10 +166,6 @@ AFRAME.registerComponent('gun', {
   update: function () {
     var data = this.data;
     var el = this.el;
-    // handId: 0 - right, 1 - left
-    var controller = data.hand === 'right' ? 0 : 1;
-    el.setAttribute('tracked-controls', 'controller', controller);
-
     this.gun = GUNS[ data.type ];
   }
 

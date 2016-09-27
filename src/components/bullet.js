@@ -1,4 +1,9 @@
-/* global AFRAME THREE */
+/* global AFRAME THREE*/
+AFRAME.registerSystem('bullet', {
+  init: function () {
+  }
+});
+
 AFRAME.registerComponent('bullet', {
   schema: {
     direction: { type: 'vec3' },

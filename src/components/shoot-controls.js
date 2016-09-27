@@ -58,5 +58,14 @@ AFRAME.registerComponent('shoot-controls', {
   onButtonEvent: function (id, evtName) {
     var buttonName = this.mapping['button' + id];
     this.el.emit(buttonName + evtName);
+  },
+
+  update: function () {
+    var data = this.data;
+    var el = this.el;
+    // handId: 0 - right, 1 - left
+    var controller = data.hand === 'right' ? 0 : 1;
+    console.log(controller);
+    el.setAttribute('tracked-controls', 'controller', controller);
   }
 });
