@@ -1,3 +1,6 @@
+require('../vendor/aframe-bmfont-text-component.min.js');
+require('./components/gamestate.js');
+require('./components/gamestate-debug.js');
 require('./components/shoot-controls.js');
 require('./components/bullet.js');
 require('./components/counter.js');

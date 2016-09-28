@@ -1,5 +1,4 @@
 /* global THREE AFRAME */
-'use strict';
 
 function TextAnimatedCanvas (text, fontSize, w, h, color, bg, bold, textAlign) {
   this.myFontSize = fontSize;
@@ -105,30 +104,31 @@ TextAnimatedCanvas.prototype.wrapTextCanvas = function (context, text, x, y, max
 };
 
 AFRAME.registerComponent('counter', {
+  dependencies: ['material'],
+
+  schema: {
+    points: {type: 'number'},
+    health: {type: 'number'}
+  },
+
   init: function () {
-    this.scoreCanvas = new TextAnimatedCanvas('', 64, 512, 512, '#AAAAAA', false, false, 'center');
-    this.updateScore();
-
-    this.el.sceneEl.addEventListener('game-changed', this.updateScore.bind(this));
-    // this.el.sceneEl.addEventListener('player-hit', this.updateScore.bind(this));
-    // this.el.sceneEl.addEventListener('enemy-hit', this.updateScore.bind(this));
+    this.canvas = new TextAnimatedCanvas('', 64, 512, 512, '#AAAAAA', false, false, 'center');
   },
 
-  updateScore: function () {
-    var mesh = this.el.getObject3D('mesh');
-    if (mesh) {
-      var game = this.el.sceneEl.getAttribute('game');
-      var scoreText = '<br><br><br><br>lifes: ' + game.lifes + '<br> score: ' + game.points;
-      var texture = this.scoreCanvas.drawText(scoreText);
-      mesh.children[0].material.map = texture;
+  update: function () {
+    var data = this.data;
+    var el = this.el;
+    var mesh;
+    var text;
+
+    mesh = el.getObject3D('mesh');
+    if (!mesh.children.length) {
+      el.addEventListener('model-loaded', this.update.bind(this));
+      return;
     }
-  },
 
-  tick: function (time, delta) {
-  },
-
-  remove: function () {
-    // if (!this.model) { return; }
-    // this.el.removeObject3D('mesh');
+    text = '<br><br><br><br>health: ' + data.health +'<br> points: ' + data.points;
+    mesh.children[0].material.map = this.canvas.drawText(text);
+    mesh.children[0].material.needsUpdate = true;
   }
 });
