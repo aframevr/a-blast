@@ -5,7 +5,7 @@ AFRAME.registerBullet(
   {
     maxSpeed: 10,
     acceleration: 0.5,
-    poolSize: 1
+    poolSize: 10
   },
   // implementation
   {

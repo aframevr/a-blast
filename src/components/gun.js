@@ -61,11 +61,6 @@ AFRAME.registerComponent('weapon', {
       }
     }.bind(this));
 
-    el.addEventListener('triggerdown', function (evt) {
-      if (!self.data.enabled) { return; }
-      self.shoot();
-    });
-
     this.lightIntensity = 0.1;
     this.life = this.data.lifespan;
     this.canShoot = true;
@@ -74,7 +69,6 @@ AFRAME.registerComponent('weapon', {
     el.appendChild(this.light);
 
     this.light.setAttribute('light', {color: '#ff0', intensity: 0.0, type: 'point'});
-    //this.light.setAttribute('geometry', {primitive: 'icosahedron', detail: 0, radius:0.05});
     this.light.setAttribute('position', {x: 0, y: -0.1, z: -0.2});
   },
 
@@ -113,7 +107,7 @@ AFRAME.registerComponent('weapon', {
  */
 AFRAME.registerComponent('shoot', {
   schema: {
-    direction: {type: 'vec3', default: {x: 0, y: -2, z: 1}},  // Event to fire bullet.
+    direction: {type: 'vec3', default: {x: 0, y: -2, z: -1}},  // Event to fire bullet.
     on: {default: 'triggerdown'},  // Event to fire bullet.
     spaceKeyEnabled: {default: false},  // Keyboard support.
     weapon: {default: 'default'}  // Weapon definition.
