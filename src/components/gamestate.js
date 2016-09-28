@@ -3,10 +3,10 @@
 AFRAME.registerComponent('gamestate', {
   schema: {
     health: {default: 5},
-    level: {default: 1},
     points: {default: 0},
     isGameOver: {default: false},
-    state: {default: 'STATE_START'}
+    state: {default: 'STATE_START'},
+    wave: {default: 1}
   },
 
   init: function () {
@@ -22,7 +22,7 @@ AFRAME.registerComponent('gamestate', {
     el.addEventListener('enemy-hit', function () {
       var newState = AFRAME.utils.extend({}, state);
       newState.points += 1;
-      newState.level = parseInt(newState.points / 10, 10);
+      newState.wave = parseInt(newState.points / 10, 10);
       publishState(newState);
     });
 

@@ -2,14 +2,23 @@
 
 AFRAME.registerSystem('enemy', {
   schema: {
-    level: {default: 1}
+    wave: {default: 1}
   },
 
   init: function () {
+    var self = this;
+    var sceneEl = this.sceneEl;
+
     this.enemies = [];
     this.createNewEnemy();
     this.createNewEnemy();
     this.createNewEnemy();
+
+    // TODO: Enable A-Frame `System.update()` to decouple from gamestate.
+    sceneEl.addEventListener('gamestate-changed', function (evt) {
+      if (!('wave' in evt.detail.diff)) { return; }
+      self.data.wave = evt.detail.state.wave;
+    });
   },
   createNewEnemy: function () {
     var data = this.data;
@@ -26,19 +35,19 @@ AFRAME.registerSystem('enemy', {
       point[1] = -point[1];
     }
 
-    var level = data.level;
-    var waitingTime = 5000 - (Math.random() * 2 + level) * 500;
+    var wave = data.wave;
+    var waitingTime = 5000 - (Math.random() * 2 + wave) * 500;
     if (waitingTime < 2000) {
       waitingTime = 2000;
     }
 
     // Easy
-    var bulletSpeed = 6 + Math.random() * level * 0.5;
+    var bulletSpeed = 6 + Math.random() * wave * 0.5;
     if (bulletSpeed > 8) {
       bulletSpeed = 8;
     }
 
-    var chargingDuration = 6000 - level * 500;
+    var chargingDuration = 6000 - wave * 500;
     if (chargingDuration < 4000) {
       chargingDuration = 4000;
     }
