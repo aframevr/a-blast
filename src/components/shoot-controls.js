@@ -47,8 +47,12 @@ AFRAME.registerComponent('shoot-controls', {
   },
 
   onButtonChanged: function (evt) {
-    // var button = this.mapping['button' + evt.detail.id];
-    // value = evt.detail.state.value;
+      var buttonName = this.mapping['button' + evt.detail.id];
+      var value;
+      if (buttonName !== 'trigger') { return; }
+      value = evt.detail.state.value;
+//      if (value > 0.5)
+//        this.el.emit('triggerdown');
   },
 
   onModelLoaded: function (evt) {

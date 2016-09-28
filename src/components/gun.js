@@ -6,7 +6,7 @@ var GUNS = {
       rotationOffset: [0, 0, 0],
     },
     shootSound: 'url(sounds/gun0.ogg)',
-    shootingDelay: 20, // In ms
+    shootingDelay: 100, // In ms
     bullet: {
       speed: 10,
       acceleration: 5
@@ -34,7 +34,7 @@ AFRAME.registerComponent('gun', {
     this.el.setAttribute('sound__shoot', {
       src: this.gun.shootSound,
       on: 'shoot',
-      volume: 0.2,
+      volume: 0.0,
       poolSize: 10
     });
 
@@ -107,34 +107,25 @@ AFRAME.registerComponent('gun', {
       direction.normalize();
 
       //var inc = new THREE.Vector3(0.0, -0.03, -0.1);
-      var inc = new THREE.Vector3(0.0, -0.3, -0.1);
+      var inc = new THREE.Vector3(0.0, -0.4, -0.1);
       inc.applyQuaternion(quaternion);
       position.add(inc);
 
       var bullet = this.gun.bullet;
 
-      var bulletEntity = document.createElement('a-entity');
-      bulletEntity.setAttribute('position', position);
-      bulletEntity.setAttribute('bullet', {
+      var bulletEntity = el.sceneEl.systems.bullet.getBullet('default', {
         direction: direction,
-        position: position,
-        speed: bullet.speed,
-        acceleration: bullet.acceleration
+        position: position
       });
-      bulletEntity.setAttribute('geometry', {primitive: 'octahedron', radius: 0.1});
-      bulletEntity.setAttribute('material', {shader: 'standard', color: '#ff0'});
-      bulletEntity.id = 'bullet';
-      el.sceneEl.appendChild(bulletEntity);
+      bulletEntity.setAttribute('position', position);
 
       this.el.emit('shoot', bulletEntity);
-
       this.canShoot = false;
       setTimeout(function () {this.canShoot = true;}.bind(this), this.gun.shootingDelay);
     }
   },
 
   tick: function (time, delta) {
-    // console.log(this.el.getObject3D('mesh'));
 
     var light = this.light.getAttribute('light');
     if (light.intensity > 0.0) {
@@ -149,11 +140,6 @@ AFRAME.registerComponent('gun', {
       if (this.fire) {
         this.fire.material.opacity = Math.sin(t * t);
         this.fire.material.transparent = true;
-        // this.fire.position.copy(this.fire.parent.parent.position);
-        // this.fire.applyMatrix( new THREE.Matrix4().setTranslation( 0, 10, 0 ) );
-        // this.fire.applyMatrix( new THREE.Matrix4().makeScale( t,t,t ) );
-        // console.log(this.fire.position, this.fire.parent.parent.position);
-        // this.fire.scale.set(t,t,t);
       }
     } else {
       if (this.fire) {
