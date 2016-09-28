@@ -17,6 +17,8 @@ AFRAME.registerComponent('gamestate', {
     // Initial state.
     if (!initialState) { initialState = state; }
 
+    el.emit('gamestate-initialized', {state: initialState});
+
     el.addEventListener('enemy-hit', function () {
       var newState = AFRAME.utils.extend({}, state);
       newState.points += 1;
@@ -46,7 +48,10 @@ AFRAME.registerComponent('gamestate', {
 
     function publishState (newState) {
       el.setAttribute('gamestate', newState);
-      el.emit('gamestate-changed', AFRAME.utils.diff(state, newState));
+      el.emit('gamestate-changed', {
+        diff: AFRAME.utils.diff(state, newState),
+        state: newState
+      });
       state = newState;
     }
   }
@@ -75,7 +80,7 @@ AFRAME.registerComponent('gamestate-bind', {
     var subscribed = Object.keys(this.data);
 
     el.sceneEl.addEventListener('gamestate-changed', function (evt) {
-      syncState(evt.detail);
+      syncState(evt.detail.diff);
     });
     syncState(el.sceneEl.getComputedAttribute('gamestate'));
 
