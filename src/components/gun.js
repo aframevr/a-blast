@@ -6,7 +6,7 @@ var GUNS = {
       rotationOffset: [0, 0, 0],
     },
     shootSound: 'url(sounds/gun0.ogg)',
-    shootingDelay: 20, // In ms
+    shootingDelay: 100, // In ms
     bullet: {
       speed: 10,
       acceleration: 5
@@ -34,7 +34,7 @@ AFRAME.registerComponent('gun', {
     this.el.setAttribute('sound__shoot', {
       src: this.gun.shootSound,
       on: 'shoot',
-      volume: 0.2,
+      volume: 0.0,
       poolSize: 10
     });
 
@@ -119,12 +119,6 @@ AFRAME.registerComponent('gun', {
       });
       bulletEntity.setAttribute('position', position);
 
-//      bulletEntity.setAttribute('position', position);
-/*      bulletEntity.setAttribute('bullet', {
-        speed: bullet.speed,
-        acceleration: bullet.acceleration
-      });
-*/
       this.el.emit('shoot', bulletEntity);
       this.canShoot = false;
       setTimeout(function () {this.canShoot = true;}.bind(this), this.gun.shootingDelay);
@@ -132,7 +126,6 @@ AFRAME.registerComponent('gun', {
   },
 
   tick: function (time, delta) {
-    // console.log(this.el.getObject3D('mesh'));
 
     var light = this.light.getAttribute('light');
     if (light.intensity > 0.0) {
@@ -147,11 +140,6 @@ AFRAME.registerComponent('gun', {
       if (this.fire) {
         this.fire.material.opacity = Math.sin(t * t);
         this.fire.material.transparent = true;
-        // this.fire.position.copy(this.fire.parent.parent.position);
-        // this.fire.applyMatrix( new THREE.Matrix4().setTranslation( 0, 10, 0 ) );
-        // this.fire.applyMatrix( new THREE.Matrix4().makeScale( t,t,t ) );
-        // console.log(this.fire.position, this.fire.parent.parent.position);
-        // this.fire.scale.set(t,t,t);
       }
     } else {
       if (this.fire) {
