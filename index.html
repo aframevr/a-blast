@@ -23,7 +23,8 @@
       <a-entity id="camera"
         camera="userHeight: 1.6"
         wasd-controls
-        look-controls>
+        look-controls
+        shoot="direction: 0 0 -1; spaceKeyEnabled: true">
         <!-- sound="src: url(sounds/hit0.ogg); on: player-hit" -->
 
         <a-entity id="gameover"
@@ -39,8 +40,9 @@
         </a-entity>
       </a-entity>
 
-      <a-entity id="left-hand" shoot-controls="hand: left" gun=""></a-entity>
-      <a-entity id="right-hand" shoot-controls="hand: right" gun=""></a-entity>
+      <!-- Hands. -->
+      <a-entity id="leftHand" shoot-controls="hand: left" weapon shoot></a-entity>
+      <a-entity id="rightHand" shoot-controls="hand: right" weapon shoot></a-entity>
 
       <a-entity id="ground" json-model="src:url(models/platform.json);"></a-entity>
       <a-entity id="border" json-model="src:url(models/border.json);"></a-entity>
