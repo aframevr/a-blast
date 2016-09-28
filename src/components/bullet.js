@@ -109,6 +109,7 @@ AFRAME.registerComponent('bullet', {
   },
 
   resetBullet: function () {
+    this.el.setAttribute('bullet', 'active', false);
     this.el.setAttribute('material', 'color', '#ff0');
     this.el.setAttribute('scale', {x: 1, y: 1, z: 1});
     this.el.setAttribute('visible', false);
@@ -126,6 +127,7 @@ AFRAME.registerComponent('bullet', {
       // Lost in the sky
       if (length >= 80) {
         this.resetBullet();
+        return;
       }
 
       var friction = 0.005 * delta;
