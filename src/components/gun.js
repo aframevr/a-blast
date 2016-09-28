@@ -107,27 +107,25 @@ AFRAME.registerComponent('gun', {
       direction.normalize();
 
       //var inc = new THREE.Vector3(0.0, -0.03, -0.1);
-      var inc = new THREE.Vector3(0.0, -0.3, -0.1);
+      var inc = new THREE.Vector3(0.0, -0.4, -0.1);
       inc.applyQuaternion(quaternion);
       position.add(inc);
 
       var bullet = this.gun.bullet;
 
-      var bulletEntity = document.createElement('a-entity');
-      bulletEntity.setAttribute('position', position);
-      bulletEntity.setAttribute('bullet', {
+      var bulletEntity = el.sceneEl.systems.bullet.getBullet('default', {
         direction: direction,
-        position: position,
+        position: position
+      });
+      bulletEntity.setAttribute('position', position);
+
+//      bulletEntity.setAttribute('position', position);
+/*      bulletEntity.setAttribute('bullet', {
         speed: bullet.speed,
         acceleration: bullet.acceleration
       });
-      bulletEntity.setAttribute('geometry', {primitive: 'octahedron', radius: 0.1});
-      bulletEntity.setAttribute('material', {shader: 'standard', color: '#ff0'});
-      bulletEntity.id = 'bullet';
-      el.sceneEl.appendChild(bulletEntity);
-
+*/
       this.el.emit('shoot', bulletEntity);
-
       this.canShoot = false;
       setTimeout(function () {this.canShoot = true;}.bind(this), this.gun.shootingDelay);
     }
