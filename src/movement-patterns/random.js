@@ -6,17 +6,19 @@
 AFRAME.registerMovementPattern('random', {
   schema: {
     boundingRadius: {default: 30},
+    debug: {default: false},
     speed: {default: 10}  // meters per second.
   },
 
   init: function () {
     var currentPos;
     var data = this.data;
+    var el = this.el;
     var spline;
 
     // Build closed spline starting from and ending at current position.
     // TODO: Add safety bubble around player.
-    currentPos = this.el.object3D.position;
+    currentPos = el.object3D.position;
     spline = this.spline = new THREE.Spline();
     spline.initFromArray([
       [currentPos.x, currentPos.y, currentPos.z],
@@ -29,6 +31,10 @@ AFRAME.registerMovementPattern('random', {
 
     // Compute how long it takes to go through the whole spline using speed property (in ms).
     this.cycleTime = spline.getLength().total / data.speed * 1000;
+
+    if (data.debug) {
+      el.setAttribute('spline-line', {pointer: 'movement-pattern.movementPattern.spline'});
+    }
   },
 
   tick: function (t, dt) {

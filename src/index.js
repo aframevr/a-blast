@@ -17,3 +17,4 @@ require('./bullets/default.js');
 
 // Movement Patterns.
 require('./movement-patterns/random.js');
+require('./movement-patterns/toEntity.js');
