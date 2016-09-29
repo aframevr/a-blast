@@ -10,6 +10,7 @@ require('./components/enemy-movement.js');
 require('./components/gun.js');
 require('./components/headset.js');
 require('./components/json-model.js');
+require('./components/spline-line.js');
 
 // Bullets
 require('./bullets/default.js');
