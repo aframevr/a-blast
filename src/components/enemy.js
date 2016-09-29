@@ -65,12 +65,13 @@ AFRAME.registerSystem('enemy', {
 
     // this.enemies.push(entity);
     entity.setAttribute('position', {x: point[0], y: -10, z: point[2]});
-    entity.setAttribute('enemy-movement', '');
     entity.setAttribute('obj-model', {obj: '#droid-obj', mtl: '#droid-mtl'});
     entity.setAttribute('material', {
       shader: 'standard', color: '#ff9', transparent: 'true', opacity: 1.0, flatShading: true
     });
-    entity.setAttribute('spline-line', {pointer: 'enemy-movement.spline'});
+
+    entity.setAttribute('movement-pattern', {type: 'random'});
+    entity.setAttribute('spline-line', {pointer: 'movement-pattern.movementPattern.spline'});
   }
 });
 

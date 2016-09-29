@@ -17,17 +17,24 @@ AFRAME.registerComponent('spline-line', {
     var member;
 
     split = this.data.pointer.split('.');
-    componentName = split[0];
-    member = split[1];
+    componentName = split.shift();
 
     // TODO: Get `component-initialized` event.
-    if (el.components[componentName] && el.components[componentName][member]) {
-      this.drawLine(el.components[componentName][member]);
+    if (el.components[componentName]) {
+      this.drawLine(fetchMember(el.components[componentName], split));
     } else {
       el.addEventListener('componentchanged', function (evt) {
         if (evt.detail.name !== componentName) { return; }
-        self.drawLine(el.components[componentName][member]);
+        self.drawLine(fetchMember(el.components[componentName], split));
       });
+    }
+
+    function fetchMember (component, split) {
+      var member = component;
+      while (split.length) {
+        member = member[split.shift()];
+      }
+      return member;
     }
   },
 

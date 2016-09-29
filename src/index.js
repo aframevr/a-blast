@@ -6,11 +6,14 @@ require('./components/bullet.js');
 require('./components/counter.js');
 require('./components/enemy.js');
 require('./components/enemybullet.js');
-require('./components/enemy-movement.js');
 require('./components/gun.js');
 require('./components/headset.js');
 require('./components/json-model.js');
+require('./components/movement-pattern.js');
 require('./components/spline-line.js');
 
-// Bullets
+// Bullets.
 require('./bullets/default.js');
+
+// Movement Patterns.
+require('./movement-patterns/random.js');

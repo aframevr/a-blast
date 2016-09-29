@@ -1,13 +1,10 @@
-/* global AFRAME, THREE */
+/* global AFRAME */
 
 /**
- * Movement pattern.
- * Currently random movement powered by spline interpolation.
- * Can extend later.
+ * Spline interpolation between random points.
  */
-AFRAME.registerComponent('enemy-movement', {
+AFRAME.registerMovementPattern('random', {
   schema: {
-    type: {default: 'random'},
     boundingRadius: {default: 30},
     speed: {default: 10}  // meters per second.
   },
