@@ -66,7 +66,7 @@ AFRAME.registerComponent('enemy-movement-debug', {
   dependencies: ['enemy-movement'],
 
   schema: {
-    numPoints: {default: 500}
+    numPoints: {default: 100}
   },
 
   init: function () {
