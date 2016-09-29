@@ -58,3 +58,44 @@ function getRandomPoint (bound) {
     bound * Math.random() - offsetToNeg
   ];
 }
+
+/**
+ * Draw spline.
+ */
+AFRAME.registerComponent('enemy-movement-debug', {
+  dependencies: ['enemy-movement'],
+
+  schema: {
+    numPoints: {default: 500}
+  },
+
+  init: function () {
+    var data = this.data;
+    var el = this.el;
+    var geometry;
+    var i;
+    var material;
+    var spline;
+
+    spline = el.components['enemy-movement'].spline;
+
+    // Create line.
+    geometry = new THREE.Geometry();
+    material = new THREE.LineBasicMaterial({
+      color: new THREE.Color(Math.random(), Math.random(), Math.random())
+    });
+    for (i = 0; i < data.numPoints; i++){
+      var point = spline.getPoint(i / data.numPoints);
+      geometry.vertices.push(new THREE.Vector3(point.x, point.y, point.z));
+    }
+    geometry.verticesNeedsUpdate = true;
+
+    // Append line to scene.
+    this.line = new THREE.Line(geometry, material);
+    el.sceneEl.object3D.add(this.line);
+  },
+
+  remove: function () {
+    this.el.sceneEl.object3D.remove(this.line);
+  }
+});
