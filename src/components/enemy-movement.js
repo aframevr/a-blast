@@ -50,12 +50,12 @@ AFRAME.registerComponent('enemy-movement', {
 /**
  * Random point within spherical bounds.
  */
-function getRandomPoint (bound) {
-  var offsetToNeg = bound / 2;
+function getRandomPoint (radius) {
+  var offsetToNeg = radius / 2;
   return [
-    bound * Math.random() - offsetToNeg,
-    bound * Math.random() - offsetToNeg,
-    bound * Math.random() - offsetToNeg
+    radius * Math.random() - offsetToNeg,
+    radius * Math.random() + 3,
+    radius * Math.random()
   ];
 }
 
