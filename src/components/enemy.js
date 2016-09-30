@@ -64,9 +64,23 @@ AFRAME.registerSystem('enemy', {
     this.sceneEl.appendChild(entity);
 
     // this.enemies.push(entity);
-    entity.setAttribute('position', {x: point[0], y: -10, z: point[2]});
     entity.setAttribute('obj-model', {obj: '#droid-obj', mtl: '#droid-mtl'});
-    entity.setAttribute('material', {shader: 'standard', color: '#ff9', transparent: 'true', opacity: 1.0, flatShading: true});
+    entity.setAttribute('material', {
+      shader: 'standard', color: '#ff9', transparent: 'true', opacity: 1.0, flatShading: true
+    });
+
+    // TODO: Wave management.
+    if (Math.random() > .25) {
+      entity.setAttribute('position', {x: point[0], y: -10, z: point[2]});
+      entity.setAttribute('movement-pattern', {
+        type: 'random', debug: true
+      });
+    } else {
+      entity.setAttribute('position', {x: point[0], y: 5, z: point[2]});
+      entity.setAttribute('movement-pattern', {
+        type: 'toEntity', target: '#player', debug: true
+      });
+    }
   }
 });
 

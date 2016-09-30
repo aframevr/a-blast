@@ -9,6 +9,12 @@ require('./components/enemybullet.js');
 require('./components/gun.js');
 require('./components/headset.js');
 require('./components/json-model.js');
+require('./components/movement-pattern.js');
+require('./components/spline-line.js');
 
-// Bullets
+// Bullets.
 require('./bullets/default.js');
+
+// Movement Patterns.
+require('./movement-patterns/random.js');
+require('./movement-patterns/toEntity.js');
