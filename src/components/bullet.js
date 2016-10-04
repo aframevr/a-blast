@@ -29,6 +29,7 @@ AFRAME.registerComponent('bullet', {
     if (this.data.owner === 'enemy') {
       this.el.emit('player-hit');
     }
+    this.resetBullet();
   },
 
   resetBullet: function () {
