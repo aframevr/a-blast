@@ -33,6 +33,7 @@ AFRAME.registerMovementPattern = function registerMovementPattern (name, definit
   BasePattern.prototype = {
     schema: {},
     init: function () { },
+    update: function () { },
     tick: function (t, dt) { },
   };
 
@@ -69,16 +70,21 @@ AFRAME.registerComponent('movement-pattern', {
     this.extendSchema(schema);
   },
 
-  update: function () {
+  update: function (oldData) {
     var data = this.data;
     var el = this.el;
 
     // Remove old pattern behavior (in case we want to dynamically update movement pattern).
-    if (this.movementPattern) {
-      el.sceneEl.removeBehavior(this.movementPattern.tick);
+    if (oldData && oldData.type !== data.type) {
+      if (this.movementPattern) {
+        el.sceneEl.removeBehavior(this.movementPattern.tick);
+      }
+      this.movementPattern = new MOVEMENT_PATTERNS[data.type].MovementPattern(el, data);
+      this.movementPattern.init();
     }
-    this.movementPattern = new MOVEMENT_PATTERNS[data.type].MovementPattern(el, data);
-    this.movementPattern.init();
+
+    this.movementPattern.data = data;
+    this.movementPattern.update();
   },
 
   tick: function (t, dt) {

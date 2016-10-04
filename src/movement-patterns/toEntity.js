@@ -34,6 +34,11 @@ AFRAME.registerMovementPattern('toEntity', {
 
     // Compute how long it takes to go through the whole spline using speed property (in ms).
     this.cycleTime = spline.getLength().total / data.speed * 1000;
+  },
+
+  update: function () {
+    var data = this.data;
+    var el = this.el;
 
     if (data.debug) {
       el.setAttribute('spline-line', {
