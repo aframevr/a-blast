@@ -1,9 +1,7 @@
 /* global AFRAME THREE*/
 AFRAME.BULLETS = {};
 
-// @Hack until I'll find out how to import helpers :)
-var helpers = {};
-helpers.mixinFactory = function (id, obj, scene) {
+function createMixin (id, obj, scene) {
   var mixinEl = document.createElement('a-mixin');
   mixinEl.setAttribute('id', id);
   Object.keys(obj).forEach(function (componentName) {
@@ -15,7 +13,6 @@ helpers.mixinFactory = function (id, obj, scene) {
 
   return mixinEl;
 };
-//@hack end
 
 AFRAME.registerBullet = function (name, data, definition) {
 
@@ -41,7 +38,7 @@ AFRAME.registerSystem('bullet', {
       var definition = AFRAME.BULLETS[name].data;
       var mixinName = 'bullet' + name;
 
-      var mixinEl = helpers.mixinFactory(mixinName,
+      var mixinEl = createMixin(mixinName,
         { bullet: `name: ${name}; acceleration: ${definition.acceleration}` },
         this.sceneEl);
 
@@ -53,6 +50,11 @@ AFRAME.registerSystem('bullet', {
         });
     }
   },
+  releaseBullet: function (name, entity) {
+    var mixinName = 'bullet' + name;
+    var poolName = 'pool__' + mixinName;
+    this.sceneEl.components[poolName].returnEntity(entity);
+  } ,
   getBullet: function (name) {
     var mixinName = 'bullet' + name;
     var poolName = 'pool__' + mixinName;

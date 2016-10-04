@@ -34,7 +34,8 @@ AFRAME.registerComponent('bullet', {
   resetBullet: function () {
     this.hit = false;
     this.bullet.definition.reset.call(this);
-    this.el.pool.returnEntity(this.el);
+    //this.el.pool.returnEntity(this.el);
+    this.system.releaseBullet(this.data.name, this.el);
   },
 
   tick: (function () {
