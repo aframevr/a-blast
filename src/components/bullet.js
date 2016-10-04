@@ -1,6 +1,11 @@
 /* global AFRAME THREE*/
 AFRAME.BULLETS = {};
 
+String.prototype.capitalizeFirstLetter = function() {
+  console.log(this, this.charAt(0).toUpperCase() + this.slice(1));
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
 AFRAME.registerBullet = function (name, data, definition) {
 
   if (AFRAME.BULLETS[name]) {
@@ -17,20 +22,20 @@ AFRAME.registerBullet = function (name, data, definition) {
 
 AFRAME.registerSystem('bullet', {
   init: function () {
-    this.initializePool();
+    this.initializePools();
   },
 
-  initializePool: function () {
-    this.pool = {};
-    for (var bullet in AFRAME.BULLETS) {
-      this.pool[bullet] = [];
-      var definition = AFRAME.BULLETS[bullet].data;
-      for (var i = 0; i < definition.poolSize; i++) {
-        this.addNewBulletToPool(bullet, definition);
-      }
+  initializePools: function () {
+
+    console.log(this.sceneEl);
+
+    /* <a-scene pool__laser="mixin: laser; size: 10" pool__bomb="mixin: bomb; size: 10"></a-scene> */
+    for (var name in AFRAME.BULLETS) {
+      var definition = AFRAME.BULLETS[name].data;
+      this.sceneEl.setAttribute('pool__' + 'bullet' + name.capitalizeFirstLetter(), `size: $(definition.poolSize)`);
     }
   },
-
+/*
   addNewBulletToPool: function (name, definition) {
     var bullet = this.createNewBullet(name, definition);
     this.pool[name].push(bullet);
@@ -73,6 +78,7 @@ AFRAME.registerSystem('bullet', {
     this.activateBullet(bullet, extraData);
     return bullet;
   }
+*/
 });
 
 AFRAME.registerComponent('bullet', {

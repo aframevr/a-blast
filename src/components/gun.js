@@ -175,7 +175,7 @@ AFRAME.registerComponent('shoot', {
       inc = new THREE.Vector3(0.0, -0.4, -0.1);
       inc.applyQuaternion(quaternion);
       position.add(inc);
-
+      return;
       // Ask system for bullet and set bullet position to starting point.
       bulletEntity = el.sceneEl.systems.bullet.getBullet(weapon.bullet, {
         direction: direction,
