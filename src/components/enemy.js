@@ -63,8 +63,8 @@ AFRAME.registerSystem('enemy', {
 
     this.sceneEl.appendChild(entity);
 
-    // this.enemies.push(entity);
-    entity.setAttribute('obj-model', {obj: '#droid-obj', mtl: '#droid-mtl'});
+    entity.setAttribute('json-model', {src: 'url(https://fernandojsg.github.io/a-shooter-assets/models/enemy0.json)'});
+
     entity.setAttribute('material', {
       shader: 'standard', color: '#ff9', transparent: 'true', opacity: 1.0, flatShading: true
     });
