@@ -1,3 +1,22 @@
+var PoolHelper = require('../poolhelper.js');
+
+ASHOOTER.ENEMIES = {};
+
+ASHOOTER.registerEnemy = function (name, data, definition) {
+  if (ASHOOTER.ENEMIES[name]) {
+    throw new Error('The enemy `' + name + '` has been already registered. ' +
+                    'Check that you are not loading two versions of the same enemy ' +
+                    'or two different enemies of the same name.');
+  }
+
+  ASHOOTER.ENEMIES[name] = {
+    components: data.components,
+    definition: definition
+  };
+
+  console.info(`Enemy registered '${name}'`);
+}
+
 AFRAME.registerSystem('enemy', {
   schema: {
     wave: {default: 1}
@@ -7,7 +26,9 @@ AFRAME.registerSystem('enemy', {
     var self = this;
     var sceneEl = this.sceneEl;
 
-    this.enemies = [];
+    this.poolHelper = new PoolHelper('enemy', ASHOOTER.ENEMIES, this.sceneEl);
+    console.log("LOLASO0000");
+    this.activeEnemies = [];
     this.createNewEnemy();
     this.createNewEnemy();
     this.createNewEnemy();
@@ -17,10 +38,22 @@ AFRAME.registerSystem('enemy', {
       if (!('wave' in evt.detail.diff)) { return; }
       self.data.wave = evt.detail.state.wave;
     });
+
+  },
+  returnEnemy: function (name, entity) {
+    this.poolHelper.returnEntity(name, entity);
+  },
+  getEnemy: function (name) {
+    return this.poolHelper.requestEntity(name);
+  },
+  onEnemyDies: function (name, entity) {
+    this.returnEnemy(name, entity);
+    // @todo Manage state and wave
+    this.createNewEnemy();
   },
   createNewEnemy: function () {
     var data = this.data;
-    var entity = document.createElement('a-entity');
+
     var maxRadius = 30;
     var minRadius = 15;
     var radius = Math.floor(Math.random() * maxRadius) + minRadius;
@@ -39,30 +72,19 @@ AFRAME.registerSystem('enemy', {
       waitingTime = 2000;
     }
 
-    // Easy
-    var bulletSpeed = 6 + Math.random() * wave * 0.5;
-    if (bulletSpeed > 8) {
-      bulletSpeed = 8;
-    }
-
     var chargingDuration = 6000 - wave * 500;
     if (chargingDuration < 4000) {
       chargingDuration = 4000;
     }
 
+    var entity = this.getEnemy('enemy0');
     entity.setAttribute('enemy', {
       lifespan: 6 * (Math.random()) + 1,
       waitingTime: waitingTime,
       startPosition: {x: point[0], y: -10, z: point[2]},
       endPosition: {x: point[0], y: point[1], z: point[2]},
-      chargingDuration: chargingDuration,
-      bulletSpeed: bulletSpeed
+      chargingDuration: chargingDuration
     });
-
-    this.sceneEl.appendChild(entity);
-
-    // this.enemies.push(entity);
-    entity.setAttribute('json-model', {src: 'url(https://fernandojsg.github.io/a-shooter-assets/models/enemy0.json)'});
 
     // TODO: Wave management.
     if (Math.random() > .25) {
@@ -76,5 +98,7 @@ AFRAME.registerSystem('enemy', {
         type: 'toEntity', target: '#player', debug: true
       });
     }
+
+    this.activeEnemies.push(entity);
   }
 });

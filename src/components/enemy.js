@@ -19,7 +19,6 @@ AFRAME.registerComponent('enemy', {
   },
   init: function () {
     this.state = 'appearing';
-    this.system.enemies.push(this);
     this.life = this.data.lifespan;
     this.waitingTime = this.data.waitingTime;
     this.alive = true;
@@ -92,8 +91,7 @@ AFRAME.registerComponent('enemy', {
 
   die: function () {
     this.alive = false;
-    this.removeAll();
-    this.system.createNewEnemy();
+    this.system.onEnemyDies(this.data.name, this);
   },
 
   shoot: function (time) {
@@ -111,7 +109,6 @@ AFRAME.registerComponent('enemy', {
     bulletEntity.setAttribute('bullet', {
       direction: direction,
       position: position,
-      speed: this.data.bulletSpeed,
       owner: 'enemy'
     });
     bulletEntity.setAttribute('visible', true);

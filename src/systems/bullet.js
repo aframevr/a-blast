@@ -1,66 +1,32 @@
 /* global AFRAME THREE*/
-AFRAME.BULLETS = {};
+var PoolHelper = require('../poolhelper.js');
 
-function createMixin (id, obj, scene) {
-  var mixinEl = document.createElement('a-mixin');
-  mixinEl.setAttribute('id', id);
-  Object.keys(obj).forEach(function (componentName) {
-    mixinEl.setAttribute(componentName, obj[componentName]);
-  });
+ASHOOTER.BULLETS = {};
 
-  var assetsEl = scene ? scene.querySelector('a-assets') : document.querySelector('a-assets');
-  assetsEl.appendChild(mixinEl);
+ASHOOTER.registerBullet = function (name, data, definition) {
 
-  return mixinEl;
-};
-
-AFRAME.registerBullet = function (name, data, definition) {
-
-  if (AFRAME.BULLETS[name]) {
+  if (ASHOOTER.BULLETS[name]) {
     throw new Error('The bullet `' + name + '` has been already registered. ' +
                     'Check that you are not loading two versions of the same bullet ' +
                     'or two different bullets of the same name.');
   }
 
-  AFRAME.BULLETS[name] = {
-    data: data,
+  ASHOOTER.BULLETS[name] = {
+    components: data.components,
     definition: definition
   };
+
+  console.info(`Bullet registered '${name}'`);
 };
 
 AFRAME.registerSystem('bullet', {
   init: function () {
-    this.initializePools();
+    this.poolHelper = new PoolHelper('bullet', ASHOOTER.BULLETS, this.sceneEl);
   },
-
-  initializePools: function () {
-    for (var name in AFRAME.BULLETS) {
-      var definition = AFRAME.BULLETS[name].data;
-      var mixinName = 'bullet' + name;
-
-      var mixinEl = createMixin(mixinName,
-        { bullet: `name: ${name}; acceleration: ${definition.acceleration}` },
-        this.sceneEl);
-
-      this.sceneEl.setAttribute('pool__' + mixinName,
-        {
-          size: definition.poolSize,
-          mixin: mixinName,
-          dynamic: true
-        });
-    }
-  },
-  releaseBullet: function (name, entity) {
-    var mixinName = 'bullet' + name;
-    var poolName = 'pool__' + mixinName;
-    this.sceneEl.components[poolName].returnEntity(entity);
+  returnBullet: function (name, entity) {
+    this.poolHelper.returnEntity(name, entity);
   } ,
   getBullet: function (name) {
-    var mixinName = 'bullet' + name;
-    var poolName = 'pool__' + mixinName;
-    var entity = this.sceneEl.components[poolName].requestEntity();
-
-    entity.play();
-    return entity;
+    return this.poolHelper.requestEntity(name);
   }
 });
