@@ -48,7 +48,7 @@
 
       <a-entity id="gamestateDebug"
         gamestate-debug
-        position="-1 1 -3"></a-entity>
+        position="-1 -0.8 -3"></a-entity>
 
       <a-entity id="sky"
         geometry="primitive: sphere; radius: 200;"
@@ -58,7 +58,8 @@
       <a-entity id="scoreboard"
         counter
         gamestate-bind="health: counter.health; points: counter.points"
-        scale="0.1 0.1 0.1"
+        scale="0.05 0.05 0.05"
+        rotation="0 40 0"
         obj-model="obj: url(https://fernandojsg.github.io/a-shooter-assets/models/counter.obj)"
         material="color: #fff"
       ></a-entity>

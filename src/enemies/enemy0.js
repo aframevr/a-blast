@@ -11,7 +11,7 @@ ASHOOTER.registerEnemy(
         src: 'url(https://fernandojsg.github.io/a-shooter-assets/models/enemy0.json)'
       }
     },
-    poolSize: 20
+    poolSize: 1
   },
   // implementation
   {

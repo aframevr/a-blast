@@ -27,7 +27,7 @@ AFRAME.registerSystem('enemy', {
     var sceneEl = this.sceneEl;
 
     this.poolHelper = new PoolHelper('enemy', ASHOOTER.ENEMIES, this.sceneEl);
-    console.log("LOLASO0000");
+
     this.activeEnemies = [];
     this.createNewEnemy();
     this.createNewEnemy();
@@ -52,10 +52,11 @@ AFRAME.registerSystem('enemy', {
     this.createNewEnemy();
   },
   createNewEnemy: function () {
+    console.log('Create new enemy');
     var data = this.data;
 
-    var maxRadius = 30;
-    var minRadius = 15;
+    var maxRadius = 20;
+    var minRadius = 5;
     var radius = Math.floor(Math.random() * maxRadius) + minRadius;
     var angle = Math.random() * Math.PI * 2;
     var dist = radius * Math.sqrt(Math.random());
@@ -66,24 +67,9 @@ AFRAME.registerSystem('enemy', {
       point[1] = -point[1];
     }
 
-    var wave = data.wave;
-    var waitingTime = 5000 - (Math.random() * 2 + wave) * 500;
-    if (waitingTime < 2000) {
-      waitingTime = 2000;
-    }
-
-    var chargingDuration = 6000 - wave * 500;
-    if (chargingDuration < 4000) {
-      chargingDuration = 4000;
-    }
-
     var entity = this.getEnemy('enemy0');
     entity.setAttribute('enemy', {
-      lifespan: 6 * (Math.random()) + 1,
-      waitingTime: waitingTime,
-      startPosition: {x: point[0], y: -10, z: point[2]},
-      endPosition: {x: point[0], y: point[1], z: point[2]},
-      chargingDuration: chargingDuration
+      shootingDelay: Math.random() * 5000 + 2000
     });
 
     // TODO: Wave management.
@@ -98,7 +84,6 @@ AFRAME.registerSystem('enemy', {
         type: 'toEntity', target: '#player', debug: true
       });
     }
-
     this.activeEnemies.push(entity);
   }
 });

@@ -1,28 +1,22 @@
 AFRAME.registerComponent('enemy', {
   schema: {
     name: { default: 'enemy0' },
-    active: { default: true },
-    lifespan: {default: ''},
-    waitingTime: {default: ''},
-    startPosition: {default: ''},
-    endPosition: {default: ''},
-    bulletSpeed: {default: ''},
-    chargingDuration: {default: ''}
+    bulletName: { default: 'enemy'},
+    shootingDelay: { default: 2000 }, // ms
   },
   init: function () {
-    this.state = 'appearing';
-    this.life = this.data.lifespan;
-    this.waitingTime = this.data.waitingTime;
     this.alive = true;
-    this.chargingDuration = this.data.chargingDuration;
-
     this.definition = ASHOOTER.ENEMIES[this.data.name].definition;
     this.definition.init.call(this);
 
     this.exploding = false;
     this.el.addEventListener('hit', this.collided.bind(this));
     // @todo Maybe we could send the time in init?
-    this.statusChangeTime = this.time = this.el.sceneEl.time;
+
+    var self = this;
+    setTimeout(function() {
+      self.shoot();
+    }, this.data.shootingDelay);
   },
   collided: function () {
     if (this.exploding) {
@@ -31,7 +25,7 @@ AFRAME.registerComponent('enemy', {
 
     this.el.emit('enemy-hit');
 
-    this.shoot();
+    // this.shoot(); // Add as a parameter to shoot back when dead
     var children = this.el.getObject3D('mesh').children;
     for (var i = 0; i < children.length; i++) {
       children[i].explodingDirection = new THREE.Vector3(
@@ -46,20 +40,27 @@ AFRAME.registerComponent('enemy', {
 
   die: function () {
     this.alive = false;
-    this.system.onEnemyDies(this.data.name, this);
+    this.reset();
+    this.system.onEnemyDies(this.data.name, this.el);
   },
 
-  shoot: function (time) {
-    var el = this.el;
+  reset: function () {
+    this.alive = true;
+    this.exploding = false;
+    this.definition.reset.call(this);
+  },
 
-    this.statusChangeTime = time;
+  shoot: function () {
+    var el = this.el;
+    var data = this.data;
 
     var position = el.object3D.position;
     var head = el.sceneEl.camera.el.components['look-controls'].dolly.position.clone();
     var direction = head.sub(el.object3D.position.clone()).normalize();
 
     // Ask system for bullet and set bullet position to starting point.
-    var bulletEntity = el.sceneEl.systems.bullet.getBullet('enemy');
+/*
+    var bulletEntity = el.sceneEl.systems.bullet.getBullet(data.bulletName);
     bulletEntity.setAttribute('position', this.el.object3D.position);
     bulletEntity.setAttribute('bullet', {
       direction: direction,
@@ -68,26 +69,16 @@ AFRAME.registerComponent('enemy', {
     });
     bulletEntity.setAttribute('visible', true);
     bulletEntity.setAttribute('position', position);
-  },
-  removeAll: function () {
-    var index = this.system.enemies.indexOf(this);
-    this.system.enemies.splice(index, 1);
-    this.el.parentElement.removeChild(this.el);
-  },
-  charge: function (time) {
-    this.statusChangeTime = time;
-    this.state = 'charging';
+*/
+    var self = this;
+    setTimeout(function() {
+      self.shoot();
+    }, this.data.shootingDelay);
   },
   tick: function (time, delta) {
-    var game = document.querySelector('a-scene').getAttribute('game');
-    if (game && game.state === 'game-over') {
-      return;
-    }
-
     if (!this.alive) {
       return;
     }
-    var statusTimeOffset = time - this.statusChangeTime;
 
     if (this.exploding) {
       if (!this.explodingTime) {
@@ -113,6 +104,7 @@ AFRAME.registerComponent('enemy', {
       return;
     }
 
+/*
     if (this.state === 'appearing') {
       duration = 2000;
       t = statusTimeOffset / duration;
@@ -147,14 +139,12 @@ AFRAME.registerComponent('enemy', {
       if (offset <= 1.0) {
         this.el.setAttribute('scale', '1 1 1');
 
-        /*
         offset = TWEEN.Easing.Exponential.Out(offset);
         pos = this.shootingBackPosition.clone();
         offset = Math.sin(offset * Math.PI);
         offset = 1 - offset;
         pos.lerp(this.data.endPosition, offset);
         this.el.setAttribute('position', pos);
-        */
       }
 
       if (this.waitingTime > 0) {
@@ -165,7 +155,7 @@ AFRAME.registerComponent('enemy', {
         }
       }
     }
-
+*/
     // Make the droid to look the headset
     var head = this.el.sceneEl.camera.el.components['look-controls'].dolly.position.clone();
     this.el.object3D.lookAt(head);
