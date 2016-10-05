@@ -4,11 +4,11 @@
 var WEAPONS = {
   default: {
     model: {
-      url: 'url(models/gun.json)',
+      url: 'url(https://fernandojsg.github.io/a-shooter-assets/models/gun.json)',
       positionOffset: [0, 0, 0],
       rotationOffset: [0, 0, 0],
     },
-    shootSound: 'url(sounds/gun0.ogg)',
+    shootSound: 'url(https://fernandojsg.github.io/a-shooter-assets/sounds/gun0.ogg)',
     shootingDelay: 100, // In ms
     bullet: 'default'
   }
