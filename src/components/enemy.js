@@ -1,5 +1,6 @@
 AFRAME.registerComponent('enemy', {
   schema: {
+    name: { default: 'enemy0' },
     active: { default: true },
     lifespan: {default: ''},
     waitingTime: {default: ''},
@@ -8,15 +9,6 @@ AFRAME.registerComponent('enemy', {
     bulletSpeed: {default: ''},
     chargingDuration: {default: ''}
   },
-
-  deactivate: function () {
-    this.active = false;
-    this.visible = false;
-  },
-  activate: function () {
-    this.active = true;
-    this.visible = true;
-  },
   init: function () {
     this.state = 'appearing';
     this.life = this.data.lifespan;
@@ -24,48 +16,13 @@ AFRAME.registerComponent('enemy', {
     this.alive = true;
     this.chargingDuration = this.data.chargingDuration;
 
+    this.definition = ASHOOTER.ENEMIES[this.data.name].definition;
+    this.definition.init.call(this);
+
     this.exploding = false;
     this.el.addEventListener('hit', this.collided.bind(this));
     // @todo Maybe we could send the time in init?
     this.statusChangeTime = this.time = this.el.sceneEl.time;
-/*
-    this.soundExplosion = document.createElement('a-entity');
-    this.soundExplosion.setAttribute('sound', {
-      src: 'sounds/explosion0.ogg',
-      on: 'enemy-hit',
-      volume: 0.15
-    });
-    this.soundExplosion.addEventListener('loaded', function () {
-      this.el.emit('appearing');
-    }.bind(this));
-    this.el.appendChild(this.soundExplosion);
-
-    this.soundCharging = document.createElement('a-entity');
-    this.soundCharging.setAttribute('sound', {
-      src: 'sounds/whoosh0.ogg',
-      on: 'charging',
-      off: 'shooting',
-      volume: 0.1
-    });
-    this.el.appendChild(this.soundCharging);
-
-    this.soundShooting = document.createElement('a-entity');
-    this.soundShooting.setAttribute('sound', {
-      src: 'sounds/laser0.ogg',
-      on: 'shooting',
-      volume: 0.15
-    });
-    this.el.appendChild(this.soundShooting);
-    this.soundAppearing = document.createElement('a-entity');
-    this.soundAppearing.setAttribute('sound', {
-      src: 'sounds/robots0.ogg',
-      on: 'appearing',
-      volume: 0.4
-    });
-    this.soundAppearing.addEventListener('loaded', function () {
-      this.el.emit('appearing');
-    }.bind(this));
-*/
   },
   collided: function () {
     if (this.exploding) {
@@ -73,12 +30,10 @@ AFRAME.registerComponent('enemy', {
     }
 
     this.el.emit('enemy-hit');
-    // this.soundExplosion.emit('enemy-hit');
 
     this.shoot();
     var children = this.el.getObject3D('mesh').children;
     for (var i = 0; i < children.length; i++) {
-      // children[i].explodingDirection = new THREE.Vector3(Math.random(), Math.random(), Math.random()).normalize();
       children[i].explodingDirection = new THREE.Vector3(
         2 * Math.random() - 1,
         2 * Math.random() - 1,
@@ -120,10 +75,8 @@ AFRAME.registerComponent('enemy', {
     this.el.parentElement.removeChild(this.el);
   },
   charge: function (time) {
-    // console.log('charging');
     this.statusChangeTime = time;
     this.state = 'charging';
-    // this.soundCharging.emit('charging');
   },
   tick: function (time, delta) {
     var game = document.querySelector('a-scene').getAttribute('game');
@@ -131,7 +84,6 @@ AFRAME.registerComponent('enemy', {
       return;
     }
 
-    // if (!this.alive || !this.active) {
     if (!this.alive) {
       return;
     }
@@ -160,10 +112,6 @@ AFRAME.registerComponent('enemy', {
       }
       return;
     }
-
-    // var timeOffset = time - this.time;
-
-    // console.log(this.state, time.toFixed(2), statusTimeOffset.toFixed(2));
 
     if (this.state === 'appearing') {
       duration = 2000;
@@ -197,16 +145,7 @@ AFRAME.registerComponent('enemy', {
       var shootingAnimationDuration = 1000;
       offset = statusTimeOffset / shootingAnimationDuration;
       if (offset <= 1.0) {
-        /*
-        offset = offset;
-        var sca = this.currentScale * (1-offset);
-        if (sca < 1.0) {
-          sca= 1.0;
-        }
-        */
-        sca = 1;
-
-        this.el.setAttribute('scale', {x: sca, y: sca, z: sca});
+        this.el.setAttribute('scale', '1 1 1');
 
         /*
         offset = TWEEN.Easing.Exponential.Out(offset);
