@@ -40,16 +40,15 @@ AFRAME.registerSystem('enemy', {
     });
 
   },
-  returnEnemy: function (name, entity) {
-    this.poolHelper.returnEntity(name, entity);
-  },
   getEnemy: function (name) {
     return this.poolHelper.requestEntity(name);
   },
   onEnemyDies: function (name, entity) {
-    this.returnEnemy(name, entity);
-    // @todo Manage state and wave
-    this.createNewEnemy();
+    console.log('Returning', name, entity, this.poolHelper);
+    this.poolHelper.returnEntity(name, entity);// @todo Manage state and wave
+    setTimeout(function() {
+      this.createNewEnemy();
+    }.bind(this), 1000);
   },
   createNewEnemy: function () {
     console.log('Create new enemy');

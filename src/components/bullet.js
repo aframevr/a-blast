@@ -34,7 +34,6 @@ AFRAME.registerComponent('bullet', {
   resetBullet: function () {
     this.hit = false;
     this.bullet.definition.reset.call(this);
-    //this.el.pool.returnEntity(this.el);
     this.system.returnBullet(this.data.name, this.el);
   },
 
@@ -78,6 +77,7 @@ AFRAME.registerComponent('bullet', {
           for (var i = 0; i < enemies.length; i++) {
             if (newBulletPosition.distanceTo(enemies[i].object3D.position) < 1) {
               enemies[i].emit('hit');
+              console.log('Colliding enemy');
               this.hitObject('enemy');
               return;
             }

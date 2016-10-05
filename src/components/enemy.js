@@ -36,6 +36,8 @@ AFRAME.registerComponent('enemy', {
       children[i].endPosition = children[i].position.clone().add(children[i].explodingDirection.clone().multiplyScalar(3));
     }
     this.exploding = true;
+
+    this.die();
   },
 
   die: function () {
@@ -79,7 +81,7 @@ AFRAME.registerComponent('enemy', {
     if (!this.alive) {
       return;
     }
-
+/*
     if (this.exploding) {
       if (!this.explodingTime) {
         this.explodingTime = time;
@@ -90,7 +92,6 @@ AFRAME.registerComponent('enemy', {
       var t = TWEEN.Easing.Exponential.Out(t0);
 
       for (var i = 0; i < children.length; i++) {
-        // t = TWEEN.Easing.Exponential.Out(t);
         var pos = children[i].startPosition.clone();
         children[i].position.copy(children[i].startPosition.clone().lerp(children[i].endPosition, t));
         var dur = 1 - t;
@@ -103,59 +104,8 @@ AFRAME.registerComponent('enemy', {
       }
       return;
     }
-
-/*
-    if (this.state === 'appearing') {
-      duration = 2000;
-      t = statusTimeOffset / duration;
-      pos = new THREE.Vector3(this.data.startPosition.x, this.data.startPosition.y, this.data.startPosition.z);
-      t = TWEEN.Easing.Back.Out(t);
-      pos.lerp(this.data.endPosition, t);
-      this.el.setAttribute('position', pos);
-
-      if (statusTimeOffset >= duration) {
-        this.charge(time);
-      }
-    } else if (this.state === 'charging') {
-      var offset = statusTimeOffset / this.chargingDuration;
-      var sca = offset / 2 + 1 + Math.random() * 0.1;
-      this.el.setAttribute('scale', {x: sca, y: sca, z: sca});
-      if (statusTimeOffset >= this.chargingDuration) {
-        this.state = 'shooting';
-        // this.el.setAttribute('scale', {x: 1, y: 1, z: 1});
-        this.currentScale = sca;
-
-        this.shootingBackPosition = new THREE.Vector3(
-          this.data.endPosition.x,
-          this.data.endPosition.y,
-          this.data.endPosition.z)
-          .multiplyScalar(1.1);
-
-        this.shoot(time);
-      }
-    } else if (this.state === 'shooting') {
-      var shootingAnimationDuration = 1000;
-      offset = statusTimeOffset / shootingAnimationDuration;
-      if (offset <= 1.0) {
-        this.el.setAttribute('scale', '1 1 1');
-
-        offset = TWEEN.Easing.Exponential.Out(offset);
-        pos = this.shootingBackPosition.clone();
-        offset = Math.sin(offset * Math.PI);
-        offset = 1 - offset;
-        pos.lerp(this.data.endPosition, offset);
-        this.el.setAttribute('position', pos);
-      }
-
-      if (this.waitingTime > 0) {
-        this.waitingTime -= delta;
-        if (this.waitingTime <= 0) {
-          this.charge(time);
-          this.waitingTime = this.data.waitingTime;
-        }
-      }
-    }
 */
+
     // Make the droid to look the headset
     var head = this.el.sceneEl.camera.el.components['look-controls'].dolly.position.clone();
     this.el.object3D.lookAt(head);

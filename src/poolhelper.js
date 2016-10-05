@@ -17,7 +17,7 @@ PoolHelper.prototype = {
 
       self.sceneEl.setAttribute('pool__' + mixinName,
         {
-          size: item.poolSize || 10,
+          size: 1 ||item.poolSize,
           mixin: mixinName,
           dynamic: true
         });
