@@ -177,10 +177,14 @@ AFRAME.registerComponent('shoot', {
       position.add(inc);
 
       // Ask system for bullet and set bullet position to starting point.
-      bulletEntity = el.sceneEl.systems.bullet.getBullet(weapon.bullet, {
+      bulletEntity = el.sceneEl.systems.bullet.getBullet(weapon.bullet);
+      bulletEntity.setAttribute('position', position);
+      bulletEntity.setAttribute('bullet', {
         direction: direction,
-        position: position
+        position: position,
+        owner: 'player'
       });
+      bulletEntity.setAttribute('visible', true);
       bulletEntity.setAttribute('position', position);
 
       // Communicate the shoot.

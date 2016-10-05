@@ -69,7 +69,6 @@ AFRAME.registerComponent('shoot-controls', {
     var el = this.el;
     // handId: 0 - right, 1 - left
     var controller = data.hand === 'right' ? 0 : 1;
-    console.log(controller);
     el.setAttribute('tracked-controls', 'controller', controller);
   }
 });

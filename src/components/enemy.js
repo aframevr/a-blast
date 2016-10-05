@@ -1,89 +1,3 @@
-/* global AFRAME THREE TWEEN warn */
-
-AFRAME.registerSystem('enemy', {
-  schema: {
-    wave: {default: 1}
-  },
-
-  init: function () {
-    var self = this;
-    var sceneEl = this.sceneEl;
-
-    this.enemies = [];
-    this.createNewEnemy();
-    this.createNewEnemy();
-    this.createNewEnemy();
-
-    // TODO: Enable A-Frame `System.update()` to decouple from gamestate.
-    sceneEl.addEventListener('gamestate-changed', function (evt) {
-      if (!('wave' in evt.detail.diff)) { return; }
-      self.data.wave = evt.detail.state.wave;
-    });
-  },
-  createNewEnemy: function () {
-    var data = this.data;
-    var entity = document.createElement('a-entity');
-    var maxRadius = 30;
-    var minRadius = 15;
-    var radius = Math.floor(Math.random() * maxRadius) + minRadius;
-    var angle = Math.random() * Math.PI * 2;
-    var dist = radius * Math.sqrt(Math.random());
-    var point = [ dist * Math.cos(angle),
-                  dist * Math.sin(angle),
-                  Math.sqrt(radius * radius - dist * dist)];
-    if (point[1] < 0) {
-      point[1] = -point[1];
-    }
-
-    var wave = data.wave;
-    var waitingTime = 5000 - (Math.random() * 2 + wave) * 500;
-    if (waitingTime < 2000) {
-      waitingTime = 2000;
-    }
-
-    // Easy
-    var bulletSpeed = 6 + Math.random() * wave * 0.5;
-    if (bulletSpeed > 8) {
-      bulletSpeed = 8;
-    }
-
-    var chargingDuration = 6000 - wave * 500;
-    if (chargingDuration < 4000) {
-      chargingDuration = 4000;
-    }
-
-    entity.setAttribute('enemy', {
-      lifespan: 6 * (Math.random()) + 1,
-      waitingTime: waitingTime,
-      startPosition: {x: point[0], y: -10, z: point[2]},
-      endPosition: {x: point[0], y: point[1], z: point[2]},
-      chargingDuration: chargingDuration,
-      bulletSpeed: bulletSpeed
-    });
-
-    this.sceneEl.appendChild(entity);
-
-    entity.setAttribute('json-model', {src: 'url(https://fernandojsg.github.io/a-shooter-assets/models/enemy0.json)'});
-
-    entity.setAttribute('material', {
-      shader: 'standard', color: '#ff9', transparent: 'true', opacity: 1.0, flatShading: true
-    });
-
-    // TODO: Wave management.
-    if (Math.random() > .25) {
-      entity.setAttribute('position', {x: point[0], y: -10, z: point[2]});
-      entity.setAttribute('movement-pattern', {
-        type: 'random', debug: true
-      });
-    } else {
-      entity.setAttribute('position', {x: point[0], y: 5, z: point[2]});
-      entity.setAttribute('movement-pattern', {
-        type: 'toEntity', target: '#player', debug: true
-      });
-    }
-  }
-});
-
 AFRAME.registerComponent('enemy', {
   schema: {
     active: { default: true },
@@ -163,9 +77,6 @@ AFRAME.registerComponent('enemy', {
     // this.soundExplosion.emit('enemy-hit');
 
     this.shoot();
-    // var mesh = this.el.getObject3D('mesh');
-    // mesh.material.color.setHex(0xff0000);
-    // this.explodingTime = this.el.sceneEl.time;
     var children = this.el.getObject3D('mesh').children;
     for (var i = 0; i < children.length; i++) {
       // children[i].explodingDirection = new THREE.Vector3(Math.random(), Math.random(), Math.random()).normalize();
@@ -178,6 +89,7 @@ AFRAME.registerComponent('enemy', {
     }
     this.exploding = true;
   },
+
   die: function () {
     this.alive = false;
     this.removeAll();
@@ -185,21 +97,25 @@ AFRAME.registerComponent('enemy', {
   },
 
   shoot: function (time) {
-    // this.soundCharging.emit('shooting');
-    // this.soundShooting.emit('shooting');
-    // console.info('shooting');
+    var el = this.el;
+
     this.statusChangeTime = time;
 
-    var entity = document.createElement('a-entity');
-    var direction = this.el.object3D.position.clone();
-    var head = this.el.sceneEl.camera.el.components['look-controls'].dolly.position.clone();
-    direction = head.sub(direction).normalize();
+    var position = el.object3D.position;
+    var head = el.sceneEl.camera.el.components['look-controls'].dolly.position.clone();
+    var direction = head.sub(el.object3D.position.clone()).normalize();
 
-    entity.setAttribute('enemybullet', {direction: direction, position: this.el.object3D.position, speed: this.data.bulletSpeed});
-    entity.setAttribute('position', this.el.object3D.position);
-    entity.setAttribute('geometry', {primitive: 'icosahedron', radius: 0.08, detail: 0});
-    entity.setAttribute('material', {shader: 'standard', flatShading: true, color: '#f00'});
-    this.el.sceneEl.appendChild(entity);
+    // Ask system for bullet and set bullet position to starting point.
+    var bulletEntity = el.sceneEl.systems.bullet.getBullet('enemy');
+    bulletEntity.setAttribute('position', this.el.object3D.position);
+    bulletEntity.setAttribute('bullet', {
+      direction: direction,
+      position: position,
+      speed: this.data.bulletSpeed,
+      owner: 'enemy'
+    });
+    bulletEntity.setAttribute('visible', true);
+    bulletEntity.setAttribute('position', position);
   },
   removeAll: function () {
     var index = this.system.enemies.indexOf(this);
@@ -315,13 +231,5 @@ AFRAME.registerComponent('enemy', {
     // Make the droid to look the headset
     var head = this.el.sceneEl.camera.el.components['look-controls'].dolly.position.clone();
     this.el.object3D.lookAt(head);
-  },
-
-  update: function () {
-  },
-
-  remove: function () {
-    // if (!this.model) { return; }
-    // this.el.removeObject3D('mesh');
   }
 });
