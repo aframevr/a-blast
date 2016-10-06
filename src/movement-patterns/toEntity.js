@@ -22,8 +22,8 @@ AFRAME.registerMovementPattern('toEntity', {
       return;
     }
 
-    initPos = el.getComputedAttribute('position')
-    targetPos = data.target.getComputedAttribute('position');
+    initPos = el.getAttribute('position')
+    targetPos = data.target.getAttribute('position');
 
     spline = this.spline = new THREE.Spline();
     spline.initFromArray([

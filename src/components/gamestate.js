@@ -82,7 +82,7 @@ AFRAME.registerComponent('gamestate-bind', {
     el.sceneEl.addEventListener('gamestate-changed', function (evt) {
       syncState(evt.detail.diff);
     });
-    syncState(el.sceneEl.getComputedAttribute('gamestate'));
+    syncState(el.sceneEl.getAttribute('gamestate'));
 
     function syncState (state) {
       Object.keys(state).forEach(function updateIfNecessary (stateProperty) {

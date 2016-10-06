@@ -70,11 +70,12 @@ AFRAME.registerSystem('enemy', {
       entity.setAttribute('movement-pattern', {
         type: 'random', debug: true
       });
-    } else {
-      entity.setAttribute('position', {x: point[0], y: 5, z: point[2]});
-      entity.setAttribute('movement-pattern', {
-        type: 'toEntity', target: '#player', debug: true
-      });
     }
+    // } else {
+    //   entity.setAttribute('position', {x: point[0], y: 5, z: point[2]});
+    //   entity.setAttribute('movement-pattern', {
+    //     type: 'toEntity', target: '#player', debug: true
+    //   });
+    // }
   }
 });

@@ -4,7 +4,7 @@ AFRAME.registerComponent('bullet', {
     direction: { type: 'vec3' },
     maxSpeed: { default: 5.0 },
     position: { type: 'vec3' },
-    acceleration: { default: 0.5 },
+    acceleration: { default: 0.5, min: 0 },
     owner: { default: 'player', oneOf: ['enemy', 'player']},
   },
 

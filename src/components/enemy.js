@@ -5,7 +5,7 @@ AFRAME.registerComponent('enemy', {
     waitingTime: {default: ''},
     startPosition: {default: ''},
     endPosition: {default: ''},
-    bulletSpeed: {default: ''},
+    bulletAcceleration: {default: 0.5},
     chargingDuration: {default: ''}
   },
 
@@ -111,7 +111,7 @@ AFRAME.registerComponent('enemy', {
     bulletEntity.setAttribute('bullet', {
       direction: direction,
       position: position,
-      speed: this.data.bulletSpeed,
+      acceleration: this.data.bulletAcceleration,
       owner: 'enemy'
     });
     bulletEntity.setAttribute('visible', true);
