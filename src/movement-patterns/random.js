@@ -7,7 +7,7 @@ AFRAME.registerMovementPattern('random', {
   schema: {
     boundingRadius: {default: 30},
     debug: {default: false},
-    speed: {default: 10}  // meters per second.
+    speed: {default: 3, min: 0, max: 20}  // meters per second.
   },
 
   init: function () {

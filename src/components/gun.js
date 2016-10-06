@@ -107,6 +107,7 @@ AFRAME.registerComponent('weapon', {
  */
 AFRAME.registerComponent('shoot', {
   schema: {
+    bulletAcceleration: {default: 0.5, min: 0.1, max: 0.8},
     direction: {type: 'vec3', default: {x: 0, y: -2, z: -1}},  // Event to fire bullet.
     on: {default: 'triggerdown'},  // Event to fire bullet.
     spaceKeyEnabled: {default: false},  // Keyboard support.
@@ -180,6 +181,7 @@ AFRAME.registerComponent('shoot', {
       bulletEntity = el.sceneEl.systems.bullet.getBullet(weapon.bullet);
       bulletEntity.setAttribute('position', position);
       bulletEntity.setAttribute('bullet', {
+        acceleration: this.data.bulletAcceleration,
         direction: direction,
         position: position,
         owner: 'player'

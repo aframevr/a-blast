@@ -51,7 +51,8 @@ AFRAME.registerMovementPattern = function registerMovementPattern (name, definit
  */
 AFRAME.registerComponent('movement-pattern', {
   schema: {
-    type: {default: 'random'}  // Movement type.
+    type: {default: 'random'},  // Movement type.
+    speed: {default: 1, min: 0, max: 10}
   },
 
   updateSchema: function (data) {
@@ -69,10 +70,10 @@ AFRAME.registerComponent('movement-pattern', {
     this.extendSchema(schema);
   },
 
-  update: function () {
+  update: function (oldData) {
     var data = this.data;
     var el = this.el;
-
+    if (this.data.type === oldData.type) { return; }
     // Remove old pattern behavior (in case we want to dynamically update movement pattern).
     if (this.movementPattern) {
       el.sceneEl.removeBehavior(this.movementPattern.tick);
@@ -83,6 +84,6 @@ AFRAME.registerComponent('movement-pattern', {
 
   tick: function (t, dt) {
     if (!this.movementPattern.tick) { return; }
-    this.movementPattern.tick(t, dt);
+    this.movementPattern.tick(t * this.data.speed, dt);
   }
 });

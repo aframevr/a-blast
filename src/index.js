@@ -1,5 +1,6 @@
 // Vendor.
 require('../vendor/aframe-bmfont-text-component.min.js');
+require('../vendor/debug-ui.js');
 
 // Systems.
 require('./systems/bullet.js');
