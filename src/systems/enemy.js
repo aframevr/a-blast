@@ -44,7 +44,7 @@ AFRAME.registerSystem('enemy', {
     return this.poolHelper.requestEntity(name);
   },
   onEnemyDies: function (name, entity) {
-    console.log('Returning', name, entity, this.poolHelper);
+    this.activeEnemies.splice(this.activeEnemies.indexOf(entity), 1);
     this.poolHelper.returnEntity(name, entity);// @todo Manage state and wave
     setTimeout(function() {
       this.createNewEnemy();
