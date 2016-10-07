@@ -129,7 +129,7 @@ function getRandomPoint (radius) {
   return [
     radius * Math.random() - offsetToNeg,
     radius * Math.random() + offsetToNeg,
-    radius * Math.random()
+    radius * Math.random() * -1
   ];
 }
 
