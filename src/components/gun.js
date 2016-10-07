@@ -186,6 +186,7 @@ AFRAME.registerComponent('shoot', {
       });
       bulletEntity.setAttribute('visible', true);
       bulletEntity.setAttribute('position', position);
+      bulletEntity.play();
 
       // Communicate the shoot.
       el.emit('shoot', bulletEntity);

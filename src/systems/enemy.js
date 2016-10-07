@@ -29,9 +29,9 @@ AFRAME.registerSystem('enemy', {
     this.poolHelper = new PoolHelper('enemy', ASHOOTER.ENEMIES, this.sceneEl);
 
     this.activeEnemies = [];
-    this.createNewEnemy();
-    this.createNewEnemy();
-    this.createNewEnemy();
+    for (var i = 0; i < 1; i++){
+      this.createNewEnemy();
+    }
 
     // TODO: Enable A-Frame `System.update()` to decouple from gamestate.
     sceneEl.addEventListener('gamestate-changed', function (evt) {
@@ -44,7 +44,6 @@ AFRAME.registerSystem('enemy', {
     return this.poolHelper.requestEntity(name);
   },
   onEnemyDies: function (name, entity) {
-    this.activeEnemies.splice(this.activeEnemies.indexOf(entity), 1);
     this.poolHelper.returnEntity(name, entity);// @todo Manage state and wave
     setTimeout(function() {
       this.createNewEnemy();
@@ -57,19 +56,28 @@ AFRAME.registerSystem('enemy', {
     var maxRadius = 20;
     var minRadius = 5;
     var radius = Math.floor(Math.random() * maxRadius) + minRadius;
-    var angle = Math.random() * Math.PI * 2;
-    var dist = radius * Math.sqrt(Math.random());
-    var point = [ dist * Math.cos(angle),
-                  dist * Math.sin(angle),
-                  Math.sqrt(radius * radius - dist * dist) * -1];
+
+    var theta = Math.random() * 2 * Math.PI;
+    var u = 2 * Math.random() - 1;
+    var v = Math.sqrt(1 - u * u);
+    var point = [ v * Math.cos(theta) * radius,
+                  v * Math.sin(theta) * radius,
+                  u * radius];
+
     if (point[1] < 0) {
       point[1] = -point[1];
+    }
+    if (point[2] > 0) {
+      point[2] = -point[2];
     }
 
     var entity = this.getEnemy('enemy0');
     entity.setAttribute('enemy', {
       shootingDelay: Math.random() * 5000 + 2000
     });
+
+    entity.setAttribute('position',  {x: point[0], y: point[1], z: point[2]});
+    entity.play();
 
     // TODO: Wave management.
     if (Math.random() > .25) {

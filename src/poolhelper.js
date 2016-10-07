@@ -17,7 +17,7 @@ PoolHelper.prototype = {
 
       self.sceneEl.setAttribute('pool__' + mixinName,
         {
-          size: 1 ||item.poolSize,
+          size: 1 || item.poolSize,
           mixin: mixinName,
           dynamic: true
         });
@@ -32,8 +32,6 @@ PoolHelper.prototype = {
     var mixinName = this.groupName + name;
     var poolName = 'pool__' + mixinName;
     var entity = this.sceneEl.components[poolName].requestEntity();
-
-    entity.play();
     return entity;
   }
 }

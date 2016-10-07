@@ -22,6 +22,7 @@ ASHOOTER.registerBullet = function (name, data, definition) {
 AFRAME.registerSystem('bullet', {
   init: function () {
     this.poolHelper = new PoolHelper('bullet', ASHOOTER.BULLETS, this.sceneEl);
+
   },
   returnBullet: function (name, entity) {
     this.poolHelper.returnEntity(name, entity);
