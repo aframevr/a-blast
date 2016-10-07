@@ -211,12 +211,14 @@ AFRAME.registerComponent('enemy', {
 
         this.el.setAttribute('scale', {x: sca, y: sca, z: sca});
 
+        /*
         offset = TWEEN.Easing.Exponential.Out(offset);
         pos = this.shootingBackPosition.clone();
         offset = Math.sin(offset * Math.PI);
         offset = 1 - offset;
         pos.lerp(this.data.endPosition, offset);
         this.el.setAttribute('position', pos);
+        */
       }
 
       if (this.waitingTime > 0) {

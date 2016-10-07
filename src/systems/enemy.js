@@ -28,7 +28,7 @@ AFRAME.registerSystem('enemy', {
     var dist = radius * Math.sqrt(Math.random());
     var point = [ dist * Math.cos(angle),
                   dist * Math.sin(angle),
-                  Math.sqrt(radius * radius - dist * dist)];
+                  Math.sqrt(radius * radius - dist * dist) * -1];
     if (point[1] < 0) {
       point[1] = -point[1];
     }
