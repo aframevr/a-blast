@@ -1,11 +1,11 @@
 ASHOOTER.registerEnemy(
   // name
-  'enemy0',
+  'enemy1',
   // data
   {
     components: {
       enemy: {
-        name: 'enemy0'
+        name: 'enemy1'
       },
       'json-model': {
         src: 'url(https://fernandojsg.github.io/a-shooter-assets/models/enemy0.json)'
@@ -18,9 +18,9 @@ ASHOOTER.registerEnemy(
     init: function () { this.reset(); },
     reset: function () {
       this.el.removeAttribute('movement-pattern');
-      this.el.setAttribute('position', 'y', -10);
+      this.el.setAttribute('position', 'y', 5);
       this.el.setAttribute('movement-pattern', {
-        type: 'random', debug: false
+        type: 'toEntity', target: '#player', debug: false
       });
     },
     tick: function (time, delta) {},

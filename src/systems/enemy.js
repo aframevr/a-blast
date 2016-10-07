@@ -29,7 +29,7 @@ AFRAME.registerSystem('enemy', {
     this.poolHelper = new PoolHelper('enemy', ASHOOTER.ENEMIES, this.sceneEl);
 
     this.activeEnemies = [];
-    for (var i = 0; i < 1; i++){
+    for (var i = 0; i < 10; i++){
       this.createNewEnemy();
     }
 
@@ -50,7 +50,6 @@ AFRAME.registerSystem('enemy', {
     }.bind(this), 1000);
   },
   createNewEnemy: function () {
-    console.log('Create new enemy');
     var data = this.data;
 
     var maxRadius = 20;
@@ -71,26 +70,14 @@ AFRAME.registerSystem('enemy', {
       point[2] = -point[2];
     }
 
-    var entity = this.getEnemy('enemy0');
-    entity.setAttribute('enemy', {
-      shootingDelay: Math.random() * 5000 + 2000
-    });
+    var enemyType = (Math.random() > .25) ? 'enemy0' : 'enemy1';
 
+    var entity = this.getEnemy(enemyType);
     entity.setAttribute('position',  {x: point[0], y: point[1], z: point[2]});
+    entity.setAttribute('enemy', {
+      shootingDelay: Math.random() * 7000 + 6000
+    });
     entity.play();
-
-    // TODO: Wave management.
-    if (Math.random() > .25) {
-      entity.setAttribute('position', {x: point[0], y: -10, z: point[2]});
-      entity.setAttribute('movement-pattern', {
-        type: 'random', debug: true
-      });
-    } else {
-      entity.setAttribute('position', {x: point[0], y: 5, z: point[2]});
-      entity.setAttribute('movement-pattern', {
-        type: 'toEntity', target: '#player', debug: true
-      });
-    }
     this.activeEnemies.push(entity);
   }
 });
