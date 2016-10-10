@@ -70,7 +70,8 @@ AFRAME.registerSystem('enemy', {
       point[2] = -point[2];
     }
 
-    var enemyType = (Math.random() > .25) ? 'enemy0' : 'enemy1';
+    // var enemyType = (Math.random() > .25) ? 'enemy0' : 'enemy1';
+    var enemyType = 'enemyfeiss';
 
     var entity = this.getEnemy(enemyType);
     entity.setAttribute('position',  {x: point[0], y: point[1], z: point[2]});
