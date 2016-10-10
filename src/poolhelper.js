@@ -1,3 +1,5 @@
+var createMixin = require('./utils').createMixin;
+
 var PoolHelper = function (groupName, data, sceneEl) {
   this.groupName = groupName;
   this.sceneEl = sceneEl || document.querySelector('a-scene');

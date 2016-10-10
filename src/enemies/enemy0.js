@@ -1,3 +1,5 @@
+var randomPointInSphere = require('../utils.js').randomPointInSphere;
+
 ASHOOTER.registerEnemy(
   // name
   'enemy0',
@@ -8,7 +10,7 @@ ASHOOTER.registerEnemy(
         name: 'enemy0'
       },
       'json-model': {
-        src: 'url(https://fernandojsg.github.io/a-shooter-assets/models/enemy0.json)'
+        src: 'url(https://feiss.github.io/a-shooter-assets/models/enemy0.json)'
       }
     },
     poolSize: 1
@@ -17,9 +19,13 @@ ASHOOTER.registerEnemy(
   {
     init: function () { this.reset(); },
     reset: function () {
-      this.el.removeAttribute('movement-pattern');
-      this.el.setAttribute('position', 'y', -10);
-      this.el.setAttribute('movement-pattern', {
+      var el = this.el;
+      var position = randomPointInSphere(5, 20);
+      position.y = -10;
+      el.setAttribute('position',  position);
+
+      el.removeAttribute('movement-pattern');
+      el.setAttribute('movement-pattern', {
         type: 'random', debug: false
       });
     },
