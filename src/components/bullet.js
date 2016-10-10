@@ -9,10 +9,9 @@ AFRAME.registerComponent('bullet', {
   },
 
   init: function () {
-    this.bullet = AFRAME.BULLETS[this.data.name];
+    this.bullet = ASHOOTER.BULLETS[this.data.name];
     this.bullet.definition.init.call(this);
-    this.resetBullet();
-
+    this.hit = false;
     this.direction = new THREE.Vector3();
   },
 
@@ -35,8 +34,7 @@ AFRAME.registerComponent('bullet', {
   resetBullet: function () {
     this.hit = false;
     this.bullet.definition.reset.call(this);
-    //this.el.pool.returnEntity(this.el);
-    this.system.releaseBullet(this.data.name, this.el);
+    this.system.returnBullet(this.data.name, this.el);
   },
 
   tick: (function () {
@@ -75,7 +73,7 @@ AFRAME.registerComponent('bullet', {
 
         // Detect collision against enemies
         if (this.data.owner === 'player') {
-          var enemies = document.querySelectorAll('[enemy]');
+          var enemies = this.el.sceneEl.systems.enemy.activeEnemies;
           for (var i = 0; i < enemies.length; i++) {
             if (newBulletPosition.distanceTo(enemies[i].object3D.position) < 1) {
               enemies[i].emit('hit');

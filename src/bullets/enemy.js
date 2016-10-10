@@ -1,11 +1,16 @@
-AFRAME.registerBullet(
+ASHOOTER.registerBullet(
   // name
   'enemy',
   // data
   {
-    maxSpeed: 10,
-    acceleration: 0.3,
-    poolSize: 20
+    components: {
+      bullet: {
+        name: 'enemy',
+        maxSpeed: 10,
+        acceleration: 0.3,
+      }
+    },
+    poolSize: 1
   },
   // implementation
   {

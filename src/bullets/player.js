@@ -1,11 +1,16 @@
-AFRAME.registerBullet(
+ASHOOTER.registerBullet(
   // name
   'default',
   // data
   {
-    maxSpeed: 10,
-    acceleration: 0.5,
-    poolSize: 20
+    components: {
+      bullet: {
+        name: 'default',
+        maxSpeed: 10,
+        acceleration: 0.5,
+      }
+    },
+    poolSize: 1
   },
   // implementation
   {
