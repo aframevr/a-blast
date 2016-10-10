@@ -15,4 +15,27 @@ function createMixin (id, obj, scene) {
   return mixinEl;
 };
 
-window.createMixin = createMixin;
+function randomPointInSphere (minRadius, maxRadius) {
+  var radius = Math.floor(Math.random() * maxRadius) + minRadius;
+
+  var theta = Math.random() * 2 * Math.PI;
+  var u = 2 * Math.random() - 1;
+  var v = Math.sqrt(1 - u * u);
+  var point = { x: v * Math.cos(theta) * radius,
+                y: v * Math.sin(theta) * radius,
+                z:u * radius };
+
+  if (point.y < 0) {
+    point.y = -point.y;
+  }
+  if (point.z > 0) {
+    point.z = -point.z;
+  }
+
+  return point;
+}
+
+module.exports = {
+  createMixin: createMixin,
+  randomPointInSphere: randomPointInSphere
+};

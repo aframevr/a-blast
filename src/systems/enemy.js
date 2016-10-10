@@ -29,7 +29,7 @@ AFRAME.registerSystem('enemy', {
     this.poolHelper = new PoolHelper('enemy', ASHOOTER.ENEMIES, this.sceneEl);
 
     this.activeEnemies = [];
-    for (var i = 0; i < 10; i++){
+    for (var i = 0; i < 15; i++){
       this.createNewEnemy();
     }
 
@@ -40,41 +40,24 @@ AFRAME.registerSystem('enemy', {
     });
 
   },
+
   getEnemy: function (name) {
     return this.poolHelper.requestEntity(name);
   },
+
   onEnemyDies: function (name, entity) {
     this.poolHelper.returnEntity(name, entity);// @todo Manage state and wave
     setTimeout(function() {
       this.createNewEnemy();
     }.bind(this), 1000);
   },
+
   createNewEnemy: function () {
     var data = this.data;
-
-    var maxRadius = 20;
-    var minRadius = 5;
-    var radius = Math.floor(Math.random() * maxRadius) + minRadius;
-
-    var theta = Math.random() * 2 * Math.PI;
-    var u = 2 * Math.random() - 1;
-    var v = Math.sqrt(1 - u * u);
-    var point = [ v * Math.cos(theta) * radius,
-                  v * Math.sin(theta) * radius,
-                  u * radius];
-
-    if (point[1] < 0) {
-      point[1] = -point[1];
-    }
-    if (point[2] > 0) {
-      point[2] = -point[2];
-    }
-
-    // var enemyType = (Math.random() > .25) ? 'enemy0' : 'enemy1';
-    var enemyType = 'enemyfeiss';
+    var enemies = Object.keys(ASHOOTER.ENEMIES);
+    var enemyType = enemies[Math.floor(Math.random() * enemies.length)];
 
     var entity = this.getEnemy(enemyType);
-    entity.setAttribute('position',  {x: point[0], y: point[1], z: point[2]});
     entity.setAttribute('enemy', {
       shootingDelay: Math.random() * 7000 + 6000
     });

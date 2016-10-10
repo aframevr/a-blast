@@ -85,6 +85,8 @@ AFRAME.registerComponent('enemy', {
       return;
     }
 
+    this.definition.tick.call(this, time, delta);
+
     if (this.exploding) {
       this.die();
       return;

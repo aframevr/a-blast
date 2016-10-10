@@ -14,9 +14,10 @@ require('./bullets/player.js');
 require('./bullets/enemy.js');
 
 // Enemies.
-//require('./enemies/enemy0.js');
-//require('./enemies/enemy1.js');
-require('./enemies/enemyfeiss.js');
+require('./enemies/enemy0.js');
+require('./enemies/enemy1.js');
+require('./enemies/enemy2.js');
+require('./enemies/enemy3.js');
 
 // Components
 require('./components/gamestate.js');
