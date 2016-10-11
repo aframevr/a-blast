@@ -7,7 +7,11 @@ ASHOOTER.registerBullet(
       bullet: {
         name: 'default',
         maxSpeed: 10,
-        acceleration: 0.5,
+        acceleration: 0.3, //0.5,
+      },
+      'collision-helper': {
+        debug: true,
+        radius: 0.1
       }
     },
     poolSize: 1

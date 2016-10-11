@@ -1,3 +1,5 @@
+var Sphere = require('../sphere');
+
 /* globals AFRAME THREE */
 AFRAME.registerComponent('json-model', {
   schema: {

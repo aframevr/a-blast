@@ -9,6 +9,10 @@ ASHOOTER.registerEnemy(
       enemy: {
         name: 'enemy3'
       },
+      'collision-helper': {
+        debug: true,
+        radius: 0.65
+      },
       'json-model': {
         src: 'url(https://feiss.github.io/a-shooter-assets/models/enemy3.json)'
       }

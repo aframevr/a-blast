@@ -73,9 +73,12 @@ AFRAME.registerComponent('bullet', {
 
         // Detect collision against enemies
         if (this.data.owner === 'player') {
+          var bulletRadius = this.el.getAttribute('collision-helper').radius;
           var enemies = this.el.sceneEl.systems.enemy.activeEnemies;
           for (var i = 0; i < enemies.length; i++) {
-            if (newBulletPosition.distanceTo(enemies[i].object3D.position) < 1) {
+            var enemy = enemies[i];
+            var radius = enemy.getAttribute('collision-helper').radius;
+            if (newBulletPosition.distanceTo(enemies[i].object3D.position) < radius + bulletRadius) {
               enemies[i].emit('hit');
               this.hitObject('enemy');
               return;

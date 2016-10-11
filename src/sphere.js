@@ -1,0 +1,228 @@
+var Vector3 = THREE.Vector3;
+var Box3 = THREE.Box3;
+
+/**
+ * @author bhouston / http://clara.io
+ * @author mrdoob / http://mrdoob.com/
+ */
+
+function Sphere( center, radius ) {
+
+	this.center = ( center !== undefined ) ? center : new Vector3();
+	this.radius = ( radius !== undefined ) ? radius : 0;
+
+}
+
+Sphere.prototype = {
+
+	constructor: Sphere,
+
+	set: function ( center, radius ) {
+
+		this.center.copy( center );
+		this.radius = radius;
+
+		return this;
+
+	},
+
+	setFromPoints: function () {
+
+		var box = new Box3();
+
+		return function setFromPoints( points, optionalCenter ) {
+
+			var center = this.center;
+
+			if ( optionalCenter !== undefined ) {
+
+				center.copy( optionalCenter );
+
+			} else {
+
+				box.setFromPoints( points ).center( center );
+
+			}
+
+			var maxRadiusSq = 0;
+
+			for ( var i = 0, il = points.length; i < il; i ++ ) {
+
+				maxRadiusSq = Math.max( maxRadiusSq, center.distanceToSquared( points[ i ] ) );
+
+			}
+
+			this.radius = Math.sqrt( maxRadiusSq );
+
+			return this;
+
+		};
+
+	}(),
+
+  setFromObject: function () {
+
+		// Computes the world-axis-aligned bounding box of an object (including its children),
+		// accounting for both the object's, and children's, world transforms
+
+		var v1 = new Vector3();
+
+		return function setFromObject( object ) {
+
+			var scope = this;
+      var center = this.center;
+      this.center.set(0,0,0.2);
+
+			object.updateMatrixWorld( true );
+
+			//this.makeEmpty();
+      var maxRadiusSq = 0;
+
+			object.traverse( function ( node ) {
+
+				var geometry = node.geometry;
+
+				if ( geometry !== undefined ) {
+          console.log("LOLASO", geometry);
+
+					var vertices = geometry.vertices;
+
+					for ( var i = 0, il = vertices.length; i < il; i ++ ) {
+
+						v1.copy( vertices[ i ] );
+						v1.applyMatrix4( node.matrixWorld );
+
+						// scope.expandByPoint( v1 );
+            maxRadiusSq = Math.max( maxRadiusSq, center.distanceToSquared( v1 ) );
+					}
+				}
+
+			} );
+
+      this.radius = Math.sqrt( maxRadiusSq );
+
+			return this;
+
+		};
+
+	}(),
+
+	clone: function () {
+
+		return new this.constructor().copy( this );
+
+	},
+
+	copy: function ( sphere ) {
+
+		this.center.copy( sphere.center );
+		this.radius = sphere.radius;
+
+		return this;
+
+	},
+
+	empty: function () {
+
+		return ( this.radius <= 0 );
+
+	},
+
+	containsPoint: function ( point ) {
+
+		return ( point.distanceToSquared( this.center ) <= ( this.radius * this.radius ) );
+
+	},
+
+	distanceToPoint: function ( point ) {
+
+		return ( point.distanceTo( this.center ) - this.radius );
+
+	},
+
+	intersectsSphere: function ( sphere ) {
+
+		var radiusSum = this.radius + sphere.radius;
+
+		return sphere.center.distanceToSquared( this.center ) <= ( radiusSum * radiusSum );
+
+	},
+
+	intersectsBox: function ( box ) {
+
+		return box.intersectsSphere( this );
+
+	},
+
+	intersectsPlane: function ( plane ) {
+
+		// We use the following equation to compute the signed distance from
+		// the center of the sphere to the plane.
+		//
+		// distance = q * n - d
+		//
+		// If this distance is greater than the radius of the sphere,
+		// then there is no intersection.
+
+		return Math.abs( this.center.dot( plane.normal ) - plane.constant ) <= this.radius;
+
+	},
+
+	clampPoint: function ( point, optionalTarget ) {
+
+		var deltaLengthSq = this.center.distanceToSquared( point );
+
+		var result = optionalTarget || new Vector3();
+
+		result.copy( point );
+
+		if ( deltaLengthSq > ( this.radius * this.radius ) ) {
+
+			result.sub( this.center ).normalize();
+			result.multiplyScalar( this.radius ).add( this.center );
+
+		}
+
+		return result;
+
+	},
+
+	getBoundingBox: function ( optionalTarget ) {
+
+		var box = optionalTarget || new Box3();
+
+		box.set( this.center, this.center );
+		box.expandByScalar( this.radius );
+
+		return box;
+
+	},
+
+	applyMatrix4: function ( matrix ) {
+
+		this.center.applyMatrix4( matrix );
+		this.radius = this.radius * matrix.getMaxScaleOnAxis();
+
+		return this;
+
+	},
+
+	translate: function ( offset ) {
+
+		this.center.add( offset );
+
+		return this;
+
+	},
+
+	equals: function ( sphere ) {
+
+		return sphere.center.equals( this.center ) && ( sphere.radius === this.radius );
+
+	}
+
+};
+
+// export { Sphere };
+
+module.exports = Sphere;
