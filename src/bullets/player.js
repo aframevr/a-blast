@@ -6,8 +6,9 @@ ASHOOTER.registerBullet(
     components: {
       bullet: {
         name: 'default',
-        maxSpeed: 10,
-        acceleration: 0.3, //0.5,
+        maxSpeed: 5,
+        initialSpeed: 1,
+        acceleration: 0.2, //0.5,
       },
       'collision-helper': {
         debug: true,

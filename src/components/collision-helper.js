@@ -22,7 +22,6 @@ AFRAME.registerComponent('collision-helper', {
   update: function (oldData) {
     var data = this.data;
     this.helperMesh.visible = data.debug;
-    console.log(data.radius);
     this.helperMesh.geometry = new THREE.IcosahedronGeometry(data.radius, 1);
   }
 });
