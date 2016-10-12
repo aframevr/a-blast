@@ -1,3 +1,4 @@
+/* globals ASHOOTER */
 var randomPointInSphere = require('../utils.js').randomPointInSphere;
 
 ASHOOTER.registerEnemy(
@@ -26,7 +27,7 @@ ASHOOTER.registerEnemy(
       var el = this.el;
       var position = randomPointInSphere(5, 20);
       position.y = 5;
-      el.setAttribute('position',  position);
+      el.setAttribute('position', position);
 
       el.removeAttribute('movement-pattern');
       el.setAttribute('movement-pattern', {

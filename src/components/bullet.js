@@ -1,3 +1,4 @@
+/* globals AFRAME ASHOOTER THREE */
 AFRAME.registerComponent('bullet', {
   schema: {
     name: { default: '' },
@@ -6,7 +7,7 @@ AFRAME.registerComponent('bullet', {
     initialSpeed: { default: 5.0 },
     position: { type: 'vec3' },
     acceleration: { default: 0.5 },
-    owner: { default: 'player', oneOf: ['enemy', 'player']},
+    owner: {default: 'player', oneOf: ['enemy', 'player']}
   },
 
   init: function () {
@@ -50,7 +51,6 @@ AFRAME.registerComponent('bullet', {
     var position = new THREE.Vector3();
     var direction = new THREE.Vector3();
     return function tick (time, delta) {
-
       // Update acceleration based on the friction
       position.copy(this.el.getAttribute('position'));
       var friction = 0.005 * delta;
@@ -82,7 +82,6 @@ AFRAME.registerComponent('bullet', {
 
       // Detect collision depending on the owner
       if (this.data.owner === 'player') {
-
         // megahack
         this.el.object3D.lookAt(this.direction.clone().multiplyScalar(1000));
 
@@ -98,7 +97,7 @@ AFRAME.registerComponent('bullet', {
               return;
             }
           }
-        };
+        }
       } else {
         // @hack Any better way to get the head position ?
         var head = this.el.sceneEl.camera.el.components['look-controls'].dolly.position;
@@ -113,12 +112,12 @@ AFRAME.registerComponent('bullet', {
       var collisionResults = ray.intersectObjects(this.backgroundEl.getObject3D('mesh').children, true);
       var self = this;
       collisionResults.forEach(function (collision) {
-       if (collision.distance < position.length()) {
-         if (!collision.object.el) { return; }
-         self.hitObject('background', collision);
-         return;
-       }
-     });
-    }
+        if (collision.distance < position.length()) {
+          if (!collision.object.el) { return; }
+          self.hitObject('background', collision);
+          return;
+        }
+      });
+    };
   })()
 });

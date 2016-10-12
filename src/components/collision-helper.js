@@ -1,3 +1,4 @@
+/* globals AFRAME THREE */
 AFRAME.registerComponent('collision-helper', {
   schema: {
     type: {default: 'sphere', oneOf: ['sphere', 'box']},
@@ -12,7 +13,7 @@ AFRAME.registerComponent('collision-helper', {
     var self = this;
 
     this.geometry = new THREE.IcosahedronGeometry(data.radius, 1);
-    this.material = new THREE.MeshBasicMaterial({ color: data.color, wireframe: true});
+    this.material = new THREE.MeshBasicMaterial({color: data.color, wireframe: true});
     this.helperMesh = new THREE.Mesh(this.geometry, this.material);
     this.helperMesh.visible = data.debug;
     // el.sceneEl.object3D.add(this.helperMesh);

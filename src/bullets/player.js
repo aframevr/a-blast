@@ -1,3 +1,4 @@
+/* globals ASHOOTER */
 ASHOOTER.registerBullet(
   // name
   'default',
@@ -8,7 +9,7 @@ ASHOOTER.registerBullet(
         name: 'default',
         maxSpeed: 5,
         initialSpeed: 1,
-        acceleration: 0.2, //0.5,
+        acceleration: 0.2
       },
       'collision-helper': {
         debug: true,

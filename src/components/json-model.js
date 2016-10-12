@@ -1,5 +1,3 @@
-var Sphere = require('../sphere');
-
 /* globals AFRAME THREE */
 AFRAME.registerComponent('json-model', {
   schema: {
@@ -42,7 +40,6 @@ AFRAME.registerComponent('json-model', {
         child.geometry.normalsNeedUpdate = true;
         child.geometry.verticesNeedUpdate = true;
         // child.material = new THREE.MeshPhongMaterial();
-
       });
       self.el.setObject3D('mesh', group);
       self.el.emit('model-loaded', {format: 'json', model: group, src: src});

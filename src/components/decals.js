@@ -1,3 +1,4 @@
+/* globals AFRAME THREE */
 AFRAME.registerSystem('decals', {
   schema: {
     size: {default: 0.1},
@@ -60,7 +61,6 @@ AFRAME.registerSystem('decals', {
     var decal = null;
 
     if (maxDecals === 0 || this.numDecals < maxDecals) {
-      var data = this.data;
       decal = new THREE.Mesh(this.geometry, this.material);
       this.numDecals++;
       this.decals.push(decal);

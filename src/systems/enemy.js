@@ -1,3 +1,4 @@
+/* globals ASHOOTER AFRAME */
 var PoolHelper = require('../poolhelper.js');
 
 // Dumb wave management.
@@ -24,7 +25,7 @@ ASHOOTER.registerEnemy = function (name, data, definition) {
   };
 
   console.info(`Enemy registered '${name}'`);
-}
+};
 
 AFRAME.registerSystem('enemy', {
   schema: {

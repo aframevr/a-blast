@@ -1,4 +1,4 @@
-ASHOOTER = {};
+window.ASHOOTER = {};
 
 // Vendor.
 require('../vendor/aframe-bmfont-text-component.min.js');

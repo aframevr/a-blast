@@ -6,7 +6,7 @@ var WEAPONS = {
     model: {
       url: 'url(https://fernandojsg.github.io/a-shooter-assets/models/gun.json)',
       positionOffset: [0, 0, 0],
-      rotationOffset: [0, 0, 0],
+      rotationOffset: [0, 0, 0]
     },
     shootSound: 'url(https://fernandojsg.github.io/a-shooter-assets/sounds/gun0.ogg)',
     shootingDelay: 100, // In ms
@@ -27,7 +27,6 @@ AFRAME.registerComponent('weapon', {
 
   init: function () {
     var el = this.el;
-    var self = this;
 
     this.model = null;
     this.weapon = WEAPONS[ this.data.type ];
@@ -48,9 +47,8 @@ AFRAME.registerComponent('weapon', {
       modelWithPivot.add(this.model);
       el.setObject3D('mesh', modelWithPivot);
 
-      evt.detail.model.position.set(0,-0.1,0);
+      evt.detail.model.position.set(0, -0.1, 0);
       modelWithPivot.rotation.x = -1.2;
-      var pivot = new THREE.Group();
 
       for (var i = 0; i < this.model.children.length; i++) {
         if (this.model.children[i].name === 'fire') {
@@ -99,7 +97,6 @@ AFRAME.registerComponent('weapon', {
     this.weapon = WEAPONS[ data.type ];
   }
 });
-
 
 /**
  * Spawn bullets on an event.

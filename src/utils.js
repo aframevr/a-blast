@@ -1,3 +1,4 @@
+/* globals AFRAME */
 function createMixin (id, obj, scene) {
   var mixinEl = document.createElement('a-mixin');
   mixinEl.setAttribute('id', id);
@@ -13,7 +14,7 @@ function createMixin (id, obj, scene) {
   assetsEl.appendChild(mixinEl);
 
   return mixinEl;
-};
+}
 
 function randomPointInSphere (minRadius, maxRadius) {
   var radius = Math.floor(Math.random() * maxRadius) + minRadius;
@@ -23,7 +24,7 @@ function randomPointInSphere (minRadius, maxRadius) {
   var v = Math.sqrt(1 - u * u);
   var point = { x: v * Math.cos(theta) * radius,
                 y: v * Math.sin(theta) * radius,
-                z:u * radius };
+                z: u * radius };
 
   if (point.y < 0) {
     point.y = -point.y;

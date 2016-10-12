@@ -1,3 +1,4 @@
+/* globals ASHOOTER */
 ASHOOTER.registerBullet(
   // name
   'enemy',
@@ -7,7 +8,7 @@ ASHOOTER.registerBullet(
       bullet: {
         name: 'enemy',
         maxSpeed: 10,
-        acceleration: 0.3,
+        acceleration: 0.3
       }
     },
     poolSize: 1

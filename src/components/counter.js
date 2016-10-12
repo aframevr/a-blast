@@ -127,7 +127,7 @@ AFRAME.registerComponent('counter', {
       return;
     }
 
-    text = '<br><br><br><br>health: ' + data.health +'<br> points: ' + data.points;
+    text = '<br><br><br><br>health: ' + data.health + '<br> points: ' + data.points;
     mesh.children[0].material.map = this.canvas.drawText(text);
     mesh.children[0].material.needsUpdate = true;
   }
