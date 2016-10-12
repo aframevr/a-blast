@@ -2,7 +2,7 @@ var PoolHelper = require('../poolhelper.js');
 
 // Dumb wave management.
 var WAVES = [
-  [['enemy0', 3]],
+  [['enemy0', 1]],
   [['enemy0', 2], ['enemy1', 1]],
   [['enemy0', 1], ['enemy3', 3]],
   [['enemy1', 2], ['enemy4', 4]]

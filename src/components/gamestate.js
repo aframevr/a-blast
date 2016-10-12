@@ -61,14 +61,15 @@ AFRAME.registerComponent('gamestate', {
     }
 
     function publishState (event, newState) {
+      var oldState = AFRAME.utils.extend({}, state);
       el.setAttribute('gamestate', newState);
+      state = newState;
       el.emit('gamestate-changed', {
         event: event,
-        diff: AFRAME.utils.diff(state, newState),
+        diff: AFRAME.utils.diff(oldState, newState),
         state: newState
       });
       console.log(event, newState);
-      state = newState;
     }
   }
 });
