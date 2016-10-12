@@ -43,8 +43,6 @@ AFRAME.registerComponent('json-model', {
         child.geometry.verticesNeedUpdate = true;
         // child.material = new THREE.MeshPhongMaterial();
 
-        var fnh = new THREE.FaceNormalsHelper( child, 0.3 );
-        //group.add( fnh );
       });
       self.el.setObject3D('mesh', group);
       self.el.emit('model-loaded', {format: 'json', model: group, src: src});
