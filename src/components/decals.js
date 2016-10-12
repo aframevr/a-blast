@@ -14,7 +14,7 @@ AFRAME.registerSystem('decals', {
     this.oldestDecalIdx = 0;
     this.textureSrc = null;
 
-    this.geometry = new THREE.PlaneGeometry(data.size, data.size);
+    this.geometry = new THREE.PlaneGeometry(1, 1);
     this.material = new THREE.MeshBasicMaterial({
       transparent: true,
       color: '#fff',
@@ -49,15 +49,12 @@ AFRAME.registerSystem('decals', {
 
   update: function (oldData) {
     var data = this.data;
-    if (data.size !== oldData.size) {
-      this.geometry = new THREE.PlaneGeometry(data.size, data.size);
-    }
-
     this.updateMap();
   },
 
   getDecal: function () {
     var maxDecals = this.data.maxDecals;
+    var size = this.data.size;
     var decal = null;
 
     if (maxDecals === 0 || this.numDecals < maxDecals) {
@@ -68,6 +65,7 @@ AFRAME.registerSystem('decals', {
       decal = this.decals[this.oldestDecalIdx];
       this.oldestDecalIdx = (this.oldestDecalIdx + 1) % this.data.maxDecals;
     }
+    decal.scale.set(size, size, size);
 
     return decal;
   },
