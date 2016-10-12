@@ -5,12 +5,13 @@
  */
 AFRAME.registerMovementPattern('random', {
   schema: {
-    boundingRadius: {default: 30},
     closed: {default: false},
     debug: {default: false},
-    randomPoints: {default: 4},
+    randomBoundsMin: {type: 'vec3', default: {x: -10, y: 0, z: -3}},
+    randomBoundsMax: {type: 'vec3', default: {x: 10, y: 10, z: -10}},
+    randomNumPoints: {default: 4},
     restTime: {default: 1500},  // ms.
-    speed: {default: 5}  // meters per second.
+    speed: {default: 3}  // meters per second.
   },
 
   init: function () {
@@ -25,8 +26,8 @@ AFRAME.registerMovementPattern('random', {
     // Set waypoints.
     currentPos = el.object3D.position;
     points = [[currentPos.x, currentPos.y, currentPos.z]];
-    for (i = 0; i < data.randomPoints; i++) {
-      points.push(getRandomPoint(data.boundingRadius));
+    for (i = 0; i < data.randomNumPoints; i++) {
+      points.push(getRandomPoint(data.randomBoundsMin, data.randomBoundsMax));
     }
     if (data.closed) { points.push([currentPos.x, currentPos.y, currentPos.z]); }
 
@@ -121,15 +122,16 @@ AFRAME.registerMovementPattern('random', {
 });
 
 /**
- * Random point within spherical bounds.
+ * Random point between two bounds.
  */
-function getRandomPoint (radius) {
-  // TODO: Add safety bubble around player.
-  var offsetToNeg = radius / 2;
+function getRandomPoint (randomBoundsMin, randomBoundsMax) {
+  function randBetween (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
   return [
-    radius * Math.random() - offsetToNeg,
-    radius * Math.random() + offsetToNeg,
-    radius * Math.random() * -1
+    randBetween(randomBoundsMin.x, randomBoundsMax.x),
+    randBetween(randomBoundsMin.y, randomBoundsMax.y),
+    randBetween(randomBoundsMin.z, randomBoundsMax.z)
   ];
 }
 
