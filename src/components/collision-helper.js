@@ -25,7 +25,7 @@ AFRAME.registerComponent('collision-helper', {
     var radius = this.data.radius;
     this.helperMesh = new THREE.Mesh(this.geometry, this.material);
     this.helperMesh.visible = true;
-    this.helperMesh.scale.set(radius, radius, radius);
+    this.helperMesh.scale.set(radius, radius, 1);
     this.el.setObject3D('collision-helper-mesh', this.helperMesh);
   },
 
@@ -37,7 +37,7 @@ AFRAME.registerComponent('collision-helper', {
       this.createHelperMesh();
     } else {
       this.material.color.set(data.color);
-      this.helperMesh.scale.set(data.radius, data.radius, data.radius);
+      this.helperMesh.scale.set(data.radius, data.radius, 1);
       this.helperMesh.visible = data.debug;
     }
   }
