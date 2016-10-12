@@ -10,7 +10,7 @@ AFRAME.registerComponent('gamestate-debug', {
     sceneEl.addEventListener('gamestate-changed', setText);
 
     function setText (evt) {
-      el.setAttribute('bmfont-text', {text: buildText(evt.detail.state)});
+      el.setAttribute('bmfont-text', {text: buildText(evt.detail.state), color: '#DADADA'});
     }
   }
 });

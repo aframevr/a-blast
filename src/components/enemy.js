@@ -49,7 +49,7 @@ AFRAME.registerComponent('enemy', {
   die: function () {
     this.alive = false;
     this.reset();
-    this.system.onEnemyDies(this.data.name, this.el);
+    this.system.onEnemyDeath(this.data.name, this.el);
   },
 
   reset: function () {

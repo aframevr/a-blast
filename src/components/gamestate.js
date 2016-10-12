@@ -3,10 +3,11 @@
 AFRAME.registerComponent('gamestate', {
   schema: {
     health: {default: 5},
+    numEnemies: {default: 0},
     points: {default: 0},
     isGameOver: {default: false},
     state: {default: 'STATE_START'},
-    wave: {default: 1}
+    wave: {default: 0}
   },
 
   init: function () {
@@ -19,18 +20,24 @@ AFRAME.registerComponent('gamestate', {
 
     el.emit('gamestate-initialized', {state: initialState});
 
-    el.addEventListener('enemy-hit', function () {
-      var newState = AFRAME.utils.extend({}, state);
+    registerHandler('enemy-death', function (newState) {
       newState.points += 1;
-      newState.wave = parseInt(newState.points / 10, 10);
-      publishState(newState);
+      newState.numEnemies--;
+      // All enemies killed, advance wave.
+      if (newState.numEnemies === 0) { newState.wave++; }
+      return newState;
     });
 
-    el.addEventListener('player-hit', function () {
-      var newState = AFRAME.utils.extend({}, state);
+    registerHandler('enemy-spawn', function (newState) {
+      newState.numEnemies++;
+      return newState;
+    });
+
+    registerHandler('player-hit', function (newState) {
       newState.health -= 1;
       if (newState.health <= 0) {
         newState.isGameOver = true;
+        newState.numEnemies = 0;
         newState.state = 'STATE_GAME_OVER';
 
         // TEMPORARY: Reset the game after a few seconds.
@@ -39,19 +46,28 @@ AFRAME.registerComponent('gamestate', {
           publishState(initialState);
         }, 5000);
       }
-      publishState(newState);
+      return newState;
     });
 
-    el.addEventListener('reset', function () {
-      publishState(initialState);
+    registerHandler('reset', function () {
+      return initialState;
     });
 
-    function publishState (newState) {
+    function registerHandler (event, handler) {
+      el.addEventListener(event, function () {
+        var newState = handler(AFRAME.utils.extend({}, state));
+        publishState(event, newState);
+      });
+    }
+
+    function publishState (event, newState) {
       el.setAttribute('gamestate', newState);
       el.emit('gamestate-changed', {
+        event: event,
         diff: AFRAME.utils.diff(state, newState),
         state: newState
       });
+      console.log(event, newState);
       state = newState;
     }
   }
@@ -82,7 +98,10 @@ AFRAME.registerComponent('gamestate-bind', {
     el.sceneEl.addEventListener('gamestate-changed', function (evt) {
       syncState(evt.detail.diff);
     });
-    syncState(el.sceneEl.getComputedAttribute('gamestate'));
+
+    el.sceneEl.addEventListener('gamestate-initialized', function (evt) {
+      syncState(evt.detail.state);
+    });
 
     function syncState (state) {
       Object.keys(state).forEach(function updateIfNecessary (stateProperty) {

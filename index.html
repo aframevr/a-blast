@@ -8,7 +8,7 @@
     <script src="build/build.js"></script>
   </head>
   <body>
-    <a-scene debug="true" gamestate="health: 5; wave: 1">
+    <a-scene debug="true" gamestate="health: 5">
       <a-assets>
         <audio id="backgroundMusic" src="https://fernandojsg.github.io/a-shooter-assets/sounds/music0.ogg" loop crossorigin="anonymous"></audio>
       </a-assets>
@@ -44,7 +44,8 @@
 
       <a-entity id="gamestateDebug"
         gamestate-debug
-        position="-1 -0.8 -3"></a-entity>
+        position="-5 1 -3"
+        rotation="0 65 0"></a-entity>
 
       <a-entity id="sky"
         geometry="primitive: sphere; radius: 200;"
