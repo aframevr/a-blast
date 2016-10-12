@@ -31,6 +31,7 @@ require('./components/headset.js');
 require('./components/json-model.js');
 require('./components/movement-pattern.js');
 require('./components/spline-line.js');
+require('./components/wave-text.js');
 
 // Movement Patterns.
 require('./movement-patterns/random.js');
