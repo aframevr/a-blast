@@ -11,6 +11,9 @@ AFRAME.registerComponent('json-model', {
     this.objectLoader = new THREE.ObjectLoader();
     this.objectLoader.setCrossOrigin('');
     this.helpers = new THREE.Group();
+    this.mixer = null;
+    this.animation = null;
+    this.animationNames = [];
   },
 
   fixNormal: function (vector) {
@@ -26,6 +29,13 @@ AFRAME.registerComponent('json-model', {
 
     this.objectLoader.load(this.data.src, function (group) {
       self.helpers = new THREE.Group();
+
+      if (group['animations'] !== undefined) {
+        for (var i in group.animations) {
+          self.animationNames[group.animations[i].name] = group.animations[i];
+        }
+        self.mixer = new THREE.AnimationMixer( group );
+      }
 
       // var Rotation = new THREE.Matrix4().makeRotationX(-Math.PI / 2);
       group.traverse(function (child) {
@@ -57,5 +67,24 @@ AFRAME.registerComponent('json-model', {
     });
 
     this.helpers.visible = this.data.debugNormals;
+  },
+
+  playAnimation: function (animationName, repeat) {
+    this.animation = this.mixer.clipAction(this.animationNames[animationName]).play();
+    var repetitions = 0;
+    if (repeat === true) repetitions = Infinity;
+    else if (repeat == undefined) repeat = false;
+    else if (typeof(repeat) == 'number') {
+      if (repeat === 0) repeat = false;
+      repetitions = repeat;
+    }
+    else repeat = false;
+    this.animation.setLoop( repeat ? THREE.LoopRepeat : THREE.LoopOnce, repetitions );
+  },
+
+  tick: function(time, timeDelta) {
+    if( this.mixer ) {
+      this.mixer.update( timeDelta / 1000 );
+    }
   }
 });
