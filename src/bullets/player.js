@@ -22,7 +22,7 @@ ASHOOTER.registerBullet(
   {
     init: function () {
       var el = this.el;
-      el.setAttribute('geometry', {primitive: 'octahedron', radius: 0.1});
+      el.setAttribute('geometry', {primitive: 'octahedron', radius: 0.1, detail: 1});
       el.setAttribute('material', {shader: 'flat', color: '#ff0'});
     },
     reset: function () {
