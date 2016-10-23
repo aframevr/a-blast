@@ -1,8 +1,9 @@
+/* globals AFRAME ASHOOTER THREE */
 AFRAME.registerComponent('enemy', {
   schema: {
-    name: { default: 'enemy0' },
-    bulletName: { default: 'enemy'},
-    shootingDelay: { default: 2000 }, // ms
+    name: {default: 'enemy0'},
+    bulletName: {default: 'enemy'},
+    shootingDelay: {default: 2000} // ms
   },
   init: function () {
     this.alive = true;
@@ -17,7 +18,7 @@ AFRAME.registerComponent('enemy', {
   },
   play: function () {
     var self = this;
-    this.shootInterval = setInterval(function() {
+    this.shootInterval = setInterval(function () {
       self.shoot();
     }, this.data.shootingDelay);
   },
@@ -54,7 +55,6 @@ AFRAME.registerComponent('enemy', {
 
   reset: function () {
     clearInterval(this.shootInterval);
-    var self = this;
     this.alive = true;
     this.exploding = false;
     this.definition.reset.call(this);
@@ -77,8 +77,6 @@ AFRAME.registerComponent('enemy', {
     });
     bulletEntity.setAttribute('visible', true);
     bulletEntity.play();
-
-    var self = this;
   },
   tick: function (time, delta) {
     if (!this.alive) {
@@ -90,6 +88,7 @@ AFRAME.registerComponent('enemy', {
     if (this.exploding) {
       this.die();
       return;
+/*
       if (!this.explodingTime) {
         this.explodingTime = time;
       }
@@ -99,7 +98,6 @@ AFRAME.registerComponent('enemy', {
       var t = TWEEN.Easing.Exponential.Out(t0);
 
       for (var i = 0; i < children.length; i++) {
-        var pos = children[i].startPosition.clone();
         children[i].position.copy(children[i].startPosition.clone().lerp(children[i].endPosition, t));
         var dur = 1 - t;
         children[i].scale.set(dur, dur, dur);
@@ -110,6 +108,7 @@ AFRAME.registerComponent('enemy', {
         this.die();
       }
       return;
+*/
     }
 
     // Make the droid to look the headset

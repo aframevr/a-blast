@@ -8,8 +8,9 @@
     <script src="build/build.js"></script>
   </head>
   <body>
-    <a-scene debug="true" gamestate="health: 5">
+    <a-scene debug="true" gamestate="health: 5; wave: 1" decals="maxDecals: 30; src: #bulletDecal; size: 0.2">
       <a-assets>
+        <img id="bulletDecal" src="bullethole.png" crossOrigin="anonymous">
         <audio id="backgroundMusic" src="https://fernandojsg.github.io/a-shooter-assets/sounds/music0.ogg" loop crossorigin="anonymous"></audio>
       </a-assets>
 
@@ -40,7 +41,7 @@
       <a-entity id="leftHand" shoot-controls="hand: left" weapon shoot></a-entity>
       <a-entity id="rightHand" shoot-controls="hand: right" weapon shoot></a-entity>
 
-      <a-entity id="border" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/border.json);"></a-entity>
+      <a-entity id="border" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/border.json);" position="0 0 2"></a-entity>
 
       <a-entity id="gamestateDebug"
         gamestate-debug

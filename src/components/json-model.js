@@ -25,6 +25,7 @@ AFRAME.registerComponent('json-model', {
       // var Rotation = new THREE.Matrix4().makeRotationX(-Math.PI / 2);
       group.traverse(function (child) {
         if (!(child instanceof THREE.Mesh)) { return; }
+/*
         // child.position.applyMatrix4(Rotation);
         child.geometry.faces.forEach(face => {
           self.fixNormal(face.normal);
@@ -35,6 +36,7 @@ AFRAME.registerComponent('json-model', {
             }
           });
         });
+*/
         child.geometry.normalsNeedUpdate = true;
         child.geometry.verticesNeedUpdate = true;
         // child.material = new THREE.MeshPhongMaterial();

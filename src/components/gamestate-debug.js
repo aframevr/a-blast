@@ -1,3 +1,4 @@
+/* globals AFRAME */
 /**
  * Display entire game state as text.
  */

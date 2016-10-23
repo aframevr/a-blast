@@ -1,10 +1,9 @@
-/* global AFRAME THREE*/
+/* global AFRAME ASHOOTER */
 var PoolHelper = require('../poolhelper.js');
 
 ASHOOTER.BULLETS = {};
 
 ASHOOTER.registerBullet = function (name, data, definition) {
-
   if (ASHOOTER.BULLETS[name]) {
     throw new Error('The bullet `' + name + '` has been already registered. ' +
                     'Check that you are not loading two versions of the same bullet ' +
@@ -22,11 +21,12 @@ ASHOOTER.registerBullet = function (name, data, definition) {
 AFRAME.registerSystem('bullet', {
   init: function () {
     this.poolHelper = new PoolHelper('bullet', ASHOOTER.BULLETS, this.sceneEl);
-
   },
+
   returnBullet: function (name, entity) {
     this.poolHelper.returnEntity(name, entity);
-  } ,
+  },
+
   getBullet: function (name) {
     return this.poolHelper.requestEntity(name);
   }

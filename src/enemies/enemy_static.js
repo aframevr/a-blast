@@ -3,12 +3,12 @@ var randomPointInSphere = require('../utils.js').randomPointInSphere;
 
 ASHOOTER.registerEnemy(
   // name
-  'enemy0',
+  'enemy_static',
   // data
   {
     components: {
-      enemy: {
-        name: 'enemy0'
+      'enemy': {
+        name: 'enemy_static'
       },
       'collision-helper': {
         debug: true,
@@ -26,13 +26,8 @@ ASHOOTER.registerEnemy(
     reset: function () {
       var el = this.el;
       var position = randomPointInSphere(5, 20);
-      position.y = -10;
+      position = {x: 0, y: 1, z: -3};
       el.setAttribute('position', position);
-
-      el.removeAttribute('movement-pattern');
-      el.setAttribute('movement-pattern', {
-        type: 'random', debug: false
-      });
     },
     tick: function (time, delta) {},
     onHit: function (type) {}

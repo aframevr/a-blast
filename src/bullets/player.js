@@ -1,3 +1,4 @@
+/* globals ASHOOTER */
 ASHOOTER.registerBullet(
   // name
   'default',
@@ -6,8 +7,13 @@ ASHOOTER.registerBullet(
     components: {
       bullet: {
         name: 'default',
-        maxSpeed: 10,
-        acceleration: 0.5,
+        maxSpeed: 5,
+        initialSpeed: 1,
+        acceleration: 0.2
+      },
+      'collision-helper': {
+        debug: true,
+        radius: 0.1
       }
     },
     poolSize: 1
@@ -16,7 +22,7 @@ ASHOOTER.registerBullet(
   {
     init: function () {
       var el = this.el;
-      el.setAttribute('geometry', {primitive: 'octahedron', radius: 0.1});
+      el.setAttribute('geometry', {primitive: 'octahedron', radius: 0.1, detail: 1});
       el.setAttribute('material', {shader: 'flat', color: '#ff0'});
     },
     reset: function () {
