@@ -40,6 +40,7 @@ AFRAME.registerComponent('json-model', {
       // var Rotation = new THREE.Matrix4().makeRotationX(-Math.PI / 2);
       group.traverse(function (child) {
         if (!(child instanceof THREE.Mesh)) { return; }
+
 /*
         // child.position.applyMatrix4(Rotation);
         child.geometry.faces.forEach(face => {
@@ -70,7 +71,7 @@ AFRAME.registerComponent('json-model', {
   },
 
   playAnimation: function (animationName, repeat) {
-    this.animation = this.mixer.clipAction(this.animationNames[animationName]).play();
+    this.animation = this.mixer.clipAction(this.animationNames[animationName]).stop().play();
     var repetitions = 0;
     if (repeat === true) repetitions = Infinity;
     else if (repeat == undefined) repeat = false;
