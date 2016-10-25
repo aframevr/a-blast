@@ -14,8 +14,9 @@
         <audio id="backgroundMusic" src="https://fernandojsg.github.io/a-shooter-assets/sounds/music0.ogg" loop crossorigin="anonymous"></audio>
       </a-assets>
 
-      <a-entity position="0 50 -15" light="intensity:0.5; type:point"></a-entity>
-      <a-entity position="0 -50 0" light="intensity:0.4; type:point; color:#2496bb"></a-entity>
+      <a-entity light="color: #ffffff; groundColor: #79a8bb; intensity: 0.3; type: hemisphere"></a-entity>
+      <a-entity position="0 50 0" light="intensity: 0.9; type: point"></a-entity>
+      <a-entity position="0 -50 0" light="intensity: 0.5; type: point"></a-entity>
 
       <a-entity id="player"
         camera="userHeight: 1.6"
@@ -41,7 +42,7 @@
       <a-entity id="leftHand" shoot-controls="hand: left" weapon shoot></a-entity>
       <a-entity id="rightHand" shoot-controls="hand: right" weapon shoot></a-entity>
 
-      <a-entity id="border" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/border.json); debugNormals: false" position="0 0 2"></a-entity>
+      <a-entity id="border" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/border.json); debugNormals: false" position="0 0 0"></a-entity>
 
       <a-entity id="gamestateDebug"
         gamestate-debug
