@@ -41,22 +41,21 @@ AFRAME.registerComponent('weapon', {
     });
 
     this.fire = null;
+    this.trigger = null;
+    
     el.addEventListener('model-loaded', function (evt) {
       this.model = evt.detail.model;
       var modelWithPivot = new THREE.Group();
       modelWithPivot.add(this.model);
       el.setObject3D('mesh', modelWithPivot);
 
-      evt.detail.model.position.set(0, -0.1, 0);
-      modelWithPivot.rotation.x = -1.2;
-
-      for (var i = 0; i < this.model.children.length; i++) {
-        if (this.model.children[i].name === 'fire') {
-          this.model.children[i].visible = false;
-          this.fire = this.model.children[i];
-          break;
-        }
+      this.fire = this.model.getObjectByName('fire');
+      if (this.fire) {
+          this.fire.visible = false;
       }
+
+      this.trigger = this.model.getObjectByName('trigger');
+
     }.bind(this));
 
     el.addEventListener('shoot', function (evt) {
@@ -70,7 +69,7 @@ AFRAME.registerComponent('weapon', {
     this.light = document.createElement('a-entity');
     el.appendChild(this.light);
 
-    this.light.setAttribute('light', {color: '#ff0', intensity: 0.0, type: 'point'});
+    this.light.setAttribute('light', {color: '#24CAFF', intensity: 0.0, type: 'point'});
     this.light.setAttribute('position', {x: 0, y: -0.1, z: -0.2});
   },
 
@@ -99,6 +98,12 @@ AFRAME.registerComponent('weapon', {
   update: function () {
     var data = this.data;
     this.weapon = WEAPONS[ data.type ];
+  },
+
+  setTriggerPressure: function (pressure) {
+    if (this.trigger) {
+      this.trigger.position.setY(pressure * 0.01814);
+    }
   }
 });
 
