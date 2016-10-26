@@ -20,11 +20,15 @@ AFRAME.registerComponent('bullet', {
 
   update: function (oldData) {
     var data = this.data;
-
     this.direction.set(data.direction.x, data.direction.y, data.direction.z);
     this.currentAcceleration = data.acceleration;
     this.speed = data.initialSpeed;
     this.startPosition = data.position;
+
+    this.trail = this.el.getObject3D('mesh').getObjectByName('trail');
+    if (this.trail) {
+      this.trail.scale.setY(0.001);
+    }
   },
 
   hitObject: function (type, data) {
@@ -69,6 +73,12 @@ AFRAME.registerComponent('bullet', {
       var newBulletPosition = position.add(direction.multiplyScalar(this.speed));
       this.el.setAttribute('position', newBulletPosition);
 
+      //stretch trail
+      if (this.trail && this.trail.scale.y < 1) {
+        var trailScale = this.trail.scale.y * 2;
+        this.trail.scale.setY(trailScale);
+      }
+
       // Check if the bullet is lost in the sky
       if (position.length() >= 80) {
         this.resetBullet();
@@ -90,8 +100,9 @@ AFRAME.registerComponent('bullet', {
           var enemies = this.el.sceneEl.systems.enemy.activeEnemies;
           for (var i = 0; i < enemies.length; i++) {
             var enemy = enemies[i];
-            var radius = enemy.getAttribute('collision-helper').radius;
-            if (newBulletPosition.distanceTo(enemies[i].object3D.position) < radius + bulletRadius) {
+            var enemyHelper = enemy.getAttribute('collision-helper');
+            if (!enemyHelper) continue;
+            if (newBulletPosition.distanceTo(enemies[i].object3D.position) < enemyHelper.radius + bulletRadius) {
               enemy.emit('hit');
               this.hitObject('enemy', enemy);
               return;
@@ -106,6 +117,8 @@ AFRAME.registerComponent('bullet', {
           return;
         }
       }
+
+      return;
 
       // Detect collission aginst the background
       var ray = new THREE.Raycaster(position, direction.clone().normalize());

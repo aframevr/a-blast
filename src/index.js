@@ -12,6 +12,7 @@ require('./systems/enemy.js');
 // Bullets.
 require('./bullets/player.js');
 require('./bullets/enemy-slow.js');
+require('./bullets/enemy-fast.js');
 
 // Enemies.
 require('./enemies/enemy0.js');

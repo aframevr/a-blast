@@ -14,6 +14,9 @@ ASHOOTER.registerBullet(
       'collision-helper': {
         debug: false,
         radius: 0.1
+      },
+      'json-model': {
+        src: 'url(https://feiss.github.io/a-shooter-assets/models/player-bullet.json)'
       }
     },
     poolSize: 10
@@ -22,13 +25,13 @@ ASHOOTER.registerBullet(
   {
     init: function () {
       var el = this.el;
-      el.setAttribute('geometry', {primitive: 'octahedron', radius: 0.08, detail: 1});
-      el.setAttribute('material', {shader: 'flat', color: '#24CAFF'});
+      el.setAttribute('material', 'color', '#24CAFF');
+      el.setAttribute('scale', {x: 0.1, y: 0.1, z: 0.1});
     },
     reset: function () {
       var el = this.el;
       el.setAttribute('material', 'color', '#24CAFF');
-      el.setAttribute('scale', {x: 1, y: 1, z: 1});
+      el.setAttribute('scale', {x: 0.1, y: 0.1, z: 0.1});
     },
     tick: function (time, delta) {
     },
