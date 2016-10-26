@@ -26,7 +26,8 @@ ASHOOTER.registerEnemy(
     reset: function () {
       var el = this.el;
       var position = randomPointInSphere(5, 20);
-      position = {x: 0, y: 1, z: -3};
+      position = {x: 4, y: 1, z: -10};
+      //position = {x: 0, y: 0, z: -3};
       el.setAttribute('position', position);
     },
     tick: function (time, delta) {},

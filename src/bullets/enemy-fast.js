@@ -34,6 +34,7 @@ ASHOOTER.registerBullet(
       el.setAttribute('scale', {x: 0.06, y: 0.06, z: 0.06});
     },
     tick: function (time, delta) {
+      
     },
     onHit: function (type) {
     }
