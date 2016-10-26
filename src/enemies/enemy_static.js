@@ -25,7 +25,17 @@ ASHOOTER.registerEnemy(
   // implementation
   {
     init: function () { this.reset(); },
+<<<<<<< cddba21cdad1e22d0582061bd29adf2473886e02
     reset: function () {},
+=======
+    reset: function () {
+      var el = this.el;
+      var position = randomPointInSphere(5, 20);
+      position = {x: 4, y: 1, z: -10};
+      //position = {x: 0, y: 0, z: -3};
+      el.setAttribute('position', position);
+    },
+>>>>>>> Fixed bullets orientation
     tick: function (time, delta) {},
     onHit: function (type) {}
   }
