@@ -24,11 +24,6 @@ AFRAME.registerComponent('bullet', {
     this.currentAcceleration = data.acceleration;
     this.speed = data.initialSpeed;
     this.startPosition = data.position;
-
-    this.trail = this.el.getObject3D('mesh').getObjectByName('trail');
-    if (this.trail) {
-      this.trail.scale.setY(0.001);
-    }
   },
 
   hitObject: function (type, data) {
@@ -48,6 +43,12 @@ AFRAME.registerComponent('bullet', {
   resetBullet: function () {
     this.hit = false;
     this.bullet.definition.reset.call(this);
+
+    this.direction.set(this.data.direction.x, this.data.direction.y, this.data.direction.z);
+    this.currentAcceleration = this.data.acceleration;
+    this.speed = this.data.initialSpeed;
+    this.startPosition = this.data.position;
+
     this.system.returnBullet(this.data.name, this.el);
   },
 
@@ -55,6 +56,12 @@ AFRAME.registerComponent('bullet', {
     var position = new THREE.Vector3();
     var direction = new THREE.Vector3();
     return function tick (time, delta) {
+
+      this.bullet.definition.tick.call(this, time, delta);
+
+      // Align the bullet to its direction
+      this.el.object3D.lookAt(this.direction.clone().multiplyScalar(1000));
+
       // Update acceleration based on the friction
       position.copy(this.el.getAttribute('position'));
       var friction = 0.005 * delta;
@@ -73,12 +80,6 @@ AFRAME.registerComponent('bullet', {
       var newBulletPosition = position.add(direction.multiplyScalar(this.speed));
       this.el.setAttribute('position', newBulletPosition);
 
-      //stretch trail
-      if (this.trail && this.trail.scale.y < 1) {
-        var trailScale = this.trail.scale.y * 2;
-        this.trail.scale.setY(trailScale);
-      }
-
       // Check if the bullet is lost in the sky
       if (position.length() >= 80) {
         this.resetBullet();
@@ -93,7 +94,6 @@ AFRAME.registerComponent('bullet', {
       // Detect collision depending on the owner
       if (this.data.owner === 'player') {
         // megahack
-        this.el.object3D.lookAt(this.direction.clone().multiplyScalar(1000));
 
         // Detect collision against enemies
         if (this.data.owner === 'player') {
