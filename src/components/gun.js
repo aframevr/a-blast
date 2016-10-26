@@ -178,7 +178,7 @@ AFRAME.registerComponent('shoot', {
       direction.applyQuaternion(quaternion);
       direction.normalize();
 
-      inc = new THREE.Vector3(0.0, -0.4, -0.1);
+      inc = new THREE.Vector3(0.0, -0.23, -0.15);
       inc.applyQuaternion(quaternion);
       position.add(inc);
 

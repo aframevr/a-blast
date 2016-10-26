@@ -5,7 +5,7 @@ var PoolHelper = require('../poolhelper.js');
 var WAVES = [
   [['enemy0', 1]],
   [['enemy0', 2], ['enemy1', 1]],
-  [['enemy0', 1], ['enemy3', 3]],
+  [['enemy0', 1], ['enemy1', 3]],
   [['enemy1', 2], ['enemy4', 4]]
 ];
 
@@ -91,7 +91,7 @@ AFRAME.registerSystem('enemy', {
   createEnemy: function (enemyType) {
     var data = this.data;
     var entity = this.getEnemy(enemyType);
-    entity.setAttribute('enemy', {shootingDelay: Math.random() * 7000 + 6000});
+    entity.setAttribute('enemy', {shootingDelay: 1000});//Math.random() * 7000 + 6000});
     entity.play();
     this.activeEnemies.push(entity);
     this.sceneEl.emit('enemy-spawn', {enemy: entity});

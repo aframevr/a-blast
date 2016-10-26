@@ -8,10 +8,11 @@ ASHOOTER.registerEnemy(
   {
     components: {
       enemy: {
-        name: 'enemy1'
+        name: 'enemy1',
+        bulletName: 'enemy-fast'
       },
       'collision-helper': {
-        debug: true,
+        debug: false,
         radius: 0.6
       },
       'json-model': {
