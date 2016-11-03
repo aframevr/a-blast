@@ -97,9 +97,10 @@ AFRAME.registerComponent('bullet', {
           var enemies = this.el.sceneEl.systems.enemy.activeEnemies;
           for (var i = 0; i < enemies.length; i++) {
             var enemy = enemies[i];
-            var enemyHelper = enemy.getAttribute('collision-helper');
-            if (!enemyHelper) continue;
-            if (newBulletPosition.distanceTo(enemies[i].object3D.position) < enemyHelper.radius + bulletRadius) {
+            var helper = enemy.getAttribute('collision-helper');
+            if (!helper) continue;
+            var radius = helper.radius;
+            if (newBulletPosition.distanceTo(enemies[i].object3D.position) < radius + bulletRadius) {
               enemy.emit('hit');
               this.hitObject('enemy', enemy);
               return;

@@ -34,6 +34,7 @@ PoolHelper.prototype = {
     var mixinName = this.groupName + name;
     var poolName = 'pool__' + mixinName;
     var entity = this.sceneEl.components[poolName].requestEntity();
+    entity.id= this.groupName+Math.floor(Math.random()*1000);
     return entity;
   }
 };

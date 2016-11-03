@@ -33,7 +33,7 @@ AFRAME.registerComponent('weapon', {
 
     el.setAttribute('json-model', {src: this.weapon.model.url});
 
-    el.setAttribute('sound__shoot', {
+    el.setAttribute('sound', {
       src: this.weapon.shootSound,
       on: 'shoot',
       volume: 1.0,

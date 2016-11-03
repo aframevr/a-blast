@@ -12,7 +12,23 @@
       <a-assets>
         <img id="bulletDecal" src="https://feiss.github.io/a-shooter-assets/images/decal0.png" crossOrigin="anonymous">
         <audio id="backgroundMusic" src="https://fernandojsg.github.io/a-shooter-assets/sounds/music0.ogg" loop crossorigin="anonymous"></audio>
+        <img id="fx1" src="https://feiss.github.io/a-shooter-assets/images/fx1.png" crossOrigin="anonymous">
+        <img id="fx2" src="https://feiss.github.io/a-shooter-assets/images/fx2.png" crossOrigin="anonymous">
+        <img id="fx3" src="https://feiss.github.io/a-shooter-assets/images/fx3.png" crossOrigin="anonymous">
+        <img id="fx4" src="https://feiss.github.io/a-shooter-assets/images/fx4.png" crossOrigin="anonymous">
+        <img id="fx5" src="https://feiss.github.io/a-shooter-assets/images/fx5.png" crossOrigin="anonymous">
+        <img id="fx6" src="https://feiss.github.io/a-shooter-assets/images/fx6.png" crossOrigin="anonymous">
+        <img id="fx7" src="https://feiss.github.io/a-shooter-assets/images/fx7.png" crossOrigin="anonymous">
+        <audio id="backgroundMusicOgg" src="https://feiss.github.io/a-shooter-assets/sounds/music0.ogg"  crossorigin="anonymous"></audio>
+        <audio id="explosion0" src="https://feiss.github.io/a-shooter-assets/sounds/explosion0.ogg"  crossorigin="anonymous"></audio>
+        <audio id="explosion1" src="https://feiss.github.io/a-shooter-assets/sounds/explosion1.ogg"  crossorigin="anonymous"></audio>
+        <audio id="explosion2" src="https://feiss.github.io/a-shooter-assets/sounds/explosion2.ogg"  crossorigin="anonymous"></audio>
       </a-assets>
+
+      <a-entity id="backgroundMusic" sound="src: #backgroundMusicOgg; autoplay: false; loop: true"></a-entity>
+      <a-entity id="explosion0" sound="src:#explosion0"></a-entity>
+      <a-entity id="explosion1" sound="src:#explosion1"></a-entity>
+      <a-entity id="explosion2" sound="src:#explosion2"></a-entity>
 
       <a-entity light="color: #ffffff; groundColor: #79a8bb; intensity: 0.3; type: hemisphere"></a-entity>
       <a-entity position="0 50 0" light="intensity: 0.9; type: point"></a-entity>
