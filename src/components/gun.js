@@ -8,7 +8,7 @@ var WEAPONS = {
       positionOffset: [0, 0, 0],
       rotationOffset: [0, 0, 0]
     },
-    shootSound: 'url(https://fernandojsg.github.io/a-shooter-assets/sounds/gun0.ogg)',
+    shootSound: 'url(https://feiss.github.io/a-shooter-assets/sounds/gun0.ogg)',
     shootingDelay: 100, // In ms
     bullet: 'default'
   }
@@ -36,11 +36,11 @@ AFRAME.registerComponent('weapon', {
     el.setAttribute('sound__shoot', {
       src: this.weapon.shootSound,
       on: 'shoot',
-      volume: 0.0,
+      volume: 1.0,
       poolSize: 10
     });
 
-    this.fire = null;
+    this.fires = [];
     this.trigger = null;
     
     el.addEventListener('model-loaded', function (evt) {
@@ -49,20 +49,34 @@ AFRAME.registerComponent('weapon', {
       modelWithPivot.add(this.model);
       el.setObject3D('mesh', modelWithPivot);
 
-      this.fire = this.model.getObjectByName('fire');
-      if (this.fire) {
-          this.fire.visible = false;
+      for (var i = 0; i < 5; i++){
+        var fire = this.model.getObjectByName('fire'+i);
+        if (fire) {
+          fire.material.depthWrite = false;
+          fire.visible = false;
+          this.fires.push(fire);
+        }
       }
+
 
       this.trigger = this.model.getObjectByName('trigger');
 
     }.bind(this));
 
+    var self = this;
     el.addEventListener('shoot', function (evt) {
       el.components['json-model'].playAnimation('default');
+      self.light.components.light.light.intensity = self.lightIntensity;
+      if (self.fires){
+        for (var i in self.fires){
+          self.fires[i].visible = true;
+          self.fires[i].material.opacity = Math.min(1, 0.3 + Math.random());
+          self.fires[i].rotation.set(0, Math.random() * 1.4 - 0.7 + (Math.random() > 0.5 ? Math.PI: 0) , 0);
+        }
+      }
     });
 
-    this.lightIntensity = 0.1;
+    this.lightIntensity = 3.0;
     this.life = this.data.lifespan;
     this.canShoot = true;
 
@@ -70,27 +84,29 @@ AFRAME.registerComponent('weapon', {
     el.appendChild(this.light);
 
     this.light.setAttribute('light', {color: '#24CAFF', intensity: 0.0, type: 'point'});
-    this.light.setAttribute('position', {x: 0, y: -0.1, z: -0.2});
+    this.light.setAttribute('position', {x: 0, y: -0.22, z: -0.14});
+    this.lightObj = this.light.components.light.light; // threejs light
   },
 
   tick: function (time, delta) {
-    var light = this.light.getAttribute('light');
-    if (light.intensity > 0.0) {
-      light.intensity -= delta / 1000;
-      if (light.intensity < 0.0) {
-        light.intensity = 0.0;
+    if (this.lightObj.intensity > 0.0) {
+      this.light.visible = true;
+      this.lightObj.intensity -= delta / 1000 * 10;
+      if (this.lightObj.intensity < 0.0) {
+        this.lightObj.intensity = 0.0;
+        this.light.visible = false;
       }
-
-      this.light.setAttribute('light', light);
-
-      var t = light.intensity / this.lightIntensity;
-      if (this.fire) {
-        this.fire.material.opacity = Math.sin(t * t);
-        this.fire.material.transparent = true;
-      }
-    } else {
-      if (this.fire) {
-        this.fire.visible = false;
+      if (this.fires) {
+        for (var i in this.fires){
+          if (!this.fires[i].visible) continue;
+          var opacity = this.fires[i].material.opacity - delta / 1000;
+          if (opacity < 0){
+            this.fires[i].visible = false;
+          }
+          else {
+            this.fires[i].material.opacity = opacity;
+          }
+        }
       }
     }
   },
