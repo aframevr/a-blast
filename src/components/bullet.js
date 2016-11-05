@@ -32,11 +32,9 @@ AFRAME.registerComponent('bullet', {
     if (this.data.owner === 'enemy') {
       this.el.emit('player-hit');
     }
-
     if (type === 'background') {
       this.el.sceneEl.systems.decals.addDecal(data.point, data.face.normal);
     }
-
     this.resetBullet();
   },
 
@@ -56,7 +54,6 @@ AFRAME.registerComponent('bullet', {
     var position = new THREE.Vector3();
     var direction = new THREE.Vector3();
     return function tick (time, delta) {
-
       this.bullet.definition.tick.call(this, time, delta);
 
       // Align the bullet to its direction
@@ -117,8 +114,6 @@ AFRAME.registerComponent('bullet', {
           return;
         }
       }
-
-      return;
 
       // Detect collission aginst the background
       var ray = new THREE.Raycaster(position, direction.clone().normalize());

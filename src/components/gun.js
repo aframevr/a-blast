@@ -49,7 +49,7 @@ AFRAME.registerComponent('weapon', {
       modelWithPivot.add(this.model);
       el.setObject3D('mesh', modelWithPivot);
 
-      for (var i = 0; i < 5; i++){
+      for (var i = 0; i < 3; i++){
         var fire = this.model.getObjectByName('fire'+i);
         if (fire) {
           fire.material.depthWrite = false;
@@ -57,7 +57,6 @@ AFRAME.registerComponent('weapon', {
           this.fires.push(fire);
         }
       }
-
 
       this.trigger = this.model.getObjectByName('trigger');
 
@@ -67,12 +66,9 @@ AFRAME.registerComponent('weapon', {
     el.addEventListener('shoot', function (evt) {
       el.components['json-model'].playAnimation('default');
       self.light.components.light.light.intensity = self.lightIntensity;
-      if (self.fires){
-        for (var i in self.fires){
-          self.fires[i].visible = true;
-          self.fires[i].material.opacity = Math.min(1, 0.3 + Math.random());
-          self.fires[i].rotation.set(0, Math.random() * 1.4 - 0.7 + (Math.random() > 0.5 ? Math.PI: 0) , 0);
-        }
+      for (var i in self.fires){
+        self.fires[i].visible = true;
+        self.fires[i].life = 50 + Math.random() * 100;
       }
     });
 
@@ -96,16 +92,17 @@ AFRAME.registerComponent('weapon', {
         this.lightObj.intensity = 0.0;
         this.light.visible = false;
       }
-      if (this.fires) {
-        for (var i in this.fires){
-          if (!this.fires[i].visible) continue;
-          var opacity = this.fires[i].material.opacity - delta / 1000;
-          if (opacity < 0){
-            this.fires[i].visible = false;
-          }
-          else {
-            this.fires[i].material.opacity = opacity;
-          }
+      for (var i in this.fires){
+        if (!this.fires[i].visible) continue;
+        this.fires[i].life -= delta;
+        if (i == 0) {
+          this.fires[i].rotation.set(0, Math.random() * Math.PI * 2, 0);
+        }
+        else {
+          this.fires[i].rotation.set(0, Math.random() * 1 - 0.5 + (Math.random() > 0.5 ? Math.PI: 0) , 0);
+        }
+        if (this.fires[i].life < 0){
+          this.fires[i].visible = false;
         }
       }
     }
@@ -182,12 +179,6 @@ AFRAME.registerComponent('shoot', {
       matrixWorld = el.object3D.matrixWorld;
       position.setFromMatrixPosition(matrixWorld);
       matrixWorld.decompose(translation, quaternion, scale);
-
-      /*
-        var light = this.light.getAttribute('light');
-        light.intensity = this.lightIntensity;
-        this.light.setAttribute('light', light);
-      */
 
       // Set projectile direction.
       direction.set(data.direction.x, data.direction.y, data.direction.z);
