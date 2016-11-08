@@ -41,10 +41,8 @@ AFRAME.registerComponent('json-model', {
       group.traverse(function (child) {
         if (!(child instanceof THREE.Mesh)) { return; }
 
-/*
         // child.position.applyMatrix4(Rotation);
         child.geometry.faces.forEach(face => {
-          self.fixNormal(face.normal);
           face.vertexNormals.forEach(vertex => {
             if (!vertex.hasOwnProperty('fixed')) {
               self.fixNormal(vertex);
@@ -52,7 +50,7 @@ AFRAME.registerComponent('json-model', {
             }
           });
         });
-*/
+
         child.geometry.normalsNeedUpdate = true;
         child.geometry.verticesNeedUpdate = true;
 
