@@ -26,6 +26,7 @@ ASHOOTER.registerEnemy(
   {
     init: function () { this.reset(); },
     reset: function () {
+      /*
       var el = this.el;
       var position = randomPointInSphere(5, 20);
       position.y = 5;
@@ -35,6 +36,7 @@ ASHOOTER.registerEnemy(
       el.setAttribute('movement-pattern', {
         type: 'toEntity', target: '#player', debug: false
       });
+      */
     },
     tick: function (time, delta) {},
     onHit: function (type) {}

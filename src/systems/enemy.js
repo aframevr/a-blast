@@ -1,12 +1,36 @@
 /* globals ASHOOTER AFRAME */
 var PoolHelper = require('../poolhelper.js');
 
-// Dumb wave management.
 var WAVES = [
-  [['enemy0', 1]],
-  [['enemy0', 2], ['enemy1', 1]],
-  [['enemy0', 1], ['enemy3', 3]],
-  [['enemy1', 2], ['enemy4', 4]]
+  {
+    name: 'WAVE 1',
+    sequences: [
+      {
+        start: 1000,
+        random: 5,
+        enemies: [
+          /*
+          {
+            type: 'enemy0',
+            points: [[3.3477237224578857,1.3690065145492554,-6.406318187713623],[0.012093067169189453,2.8417158126831055,-3.73813796043396],[-2.7143843173980713,3.9169554710388184,-1.4280019998550415]],
+            movement: 'loop',
+          },
+          {
+            type: 'enemy0',
+            points: [[-1.043067455291748,2.316108226776123,-6.373414516448975],[1.5889892578125,-0.9243419170379639,-6.513626575469971],[-1.6819621324539185,-3.0366225242614746,-4.636663913726807]],
+            movement: 'loop',
+          },
+          */
+          {
+            type: 'enemy1',
+            points: [ [3, -5, -5], [3, 0, -5], [3, 10, -5] ],
+            movement: 'single',
+            random: 8
+          }
+        ]
+      }
+    ]
+  }
 ];
 
 ASHOOTER.ENEMIES = {};
@@ -26,6 +50,15 @@ ASHOOTER.registerEnemy = function (name, data, definition) {
 
   console.info(`Enemy registered '${name}'`);
 };
+AFRAME.registerSystem('enemir', {
+  schema: {
+    default: 0
+  },
+
+  init: function() {
+    console.log(this.data);
+  }
+});
 
 AFRAME.registerSystem('enemy', {
   schema: {
@@ -71,27 +104,34 @@ AFRAME.registerSystem('enemy', {
     this.sceneEl.emit('enemy-death');
   },
 
+  createSequence: function (sequenceNumber) {
+    this.currentSequence = sequenceNumber;
+    var sequence = this.currentWave.sequences[sequenceNumber];
+    var self = this;
+    sequence.enemies.forEach(function createEnemyFromDef (enemyDef) {
+      self.createEnemy(enemyDef);
+    });
+  },
+
   createWave: function (waveNumber) {
     var enemyNum;
     var enemyType;
     var i;
     var self = this;
-    var wave;
 
-    wave = WAVES[waveNumber % WAVES.length]
-    wave.forEach(function createEnemyOfType (enemyDef) {
-      var enemyNum = enemyDef[1];
-      var enemyType = enemyDef[0];
-      for (i = 0; i < enemyNum; i++) {
-        self.createEnemy(enemyType);
-      }
-    });
+    this.currentWave = WAVES[waveNumber % WAVES.length];
+    console.log('Creating wave', waveNumber);
+    var self = this;
+    setTimeout(function initFirstSequence() {
+      self.createSequence(0);
+    }, this.currentWave.sequences[0].start);
   },
 
-  createEnemy: function (enemyType) {
-    var data = this.data;
-    var entity = this.getEnemy(enemyType);
-    entity.setAttribute('enemy', {shootingDelay: Math.random() * 7000 + 6000});
+  createEnemy: function (enemyDefinition) {
+    var entity = this.getEnemy(enemyDefinition.type);
+    entity.setAttribute('enemy', {shootingDelay: Math.random() * 57000 + 6000});
+    entity.setAttribute('curve-movement', {type: enemyDefinition.movement});
+    entity.components['curve-movement'].addPoints(enemyDefinition.points);
     entity.play();
     this.activeEnemies.push(entity);
     this.sceneEl.emit('enemy-spawn', {enemy: entity});
