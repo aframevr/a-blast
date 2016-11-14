@@ -20,7 +20,6 @@ AFRAME.registerComponent('bullet', {
 
   update: function (oldData) {
     var data = this.data;
-
     this.direction.set(data.direction.x, data.direction.y, data.direction.z);
     this.currentAcceleration = data.acceleration;
     this.speed = data.initialSpeed;
@@ -33,17 +32,21 @@ AFRAME.registerComponent('bullet', {
     if (this.data.owner === 'enemy') {
       this.el.emit('player-hit');
     }
-
     if (type === 'background') {
       this.el.sceneEl.systems.decals.addDecal(data.point, data.face.normal);
     }
-
     this.resetBullet();
   },
 
   resetBullet: function () {
     this.hit = false;
     this.bullet.definition.reset.call(this);
+
+    this.direction.set(this.data.direction.x, this.data.direction.y, this.data.direction.z);
+    this.currentAcceleration = this.data.acceleration;
+    this.speed = this.data.initialSpeed;
+    this.startPosition = this.data.position;
+
     this.system.returnBullet(this.data.name, this.el);
   },
 
@@ -51,6 +54,11 @@ AFRAME.registerComponent('bullet', {
     var position = new THREE.Vector3();
     var direction = new THREE.Vector3();
     return function tick (time, delta) {
+      this.bullet.definition.tick.call(this, time, delta);
+
+      // Align the bullet to its direction
+      this.el.object3D.lookAt(this.direction.clone().multiplyScalar(1000));
+
       // Update acceleration based on the friction
       position.copy(this.el.getAttribute('position'));
       var friction = 0.005 * delta;
@@ -83,15 +91,15 @@ AFRAME.registerComponent('bullet', {
       // Detect collision depending on the owner
       if (this.data.owner === 'player') {
         // megahack
-        this.el.object3D.lookAt(this.direction.clone().multiplyScalar(1000));
 
         // Detect collision against enemies
         if (this.data.owner === 'player') {
           var enemies = this.el.sceneEl.systems.enemy.activeEnemies;
           for (var i = 0; i < enemies.length; i++) {
             var enemy = enemies[i];
-            var radius = enemy.getAttribute('collision-helper').radius;
-            if (newBulletPosition.distanceTo(enemies[i].object3D.position) < radius + bulletRadius) {
+            var enemyHelper = enemy.getAttribute('collision-helper');
+            if (!enemyHelper) continue;
+            if (newBulletPosition.distanceTo(enemies[i].object3D.position) < enemyHelper.radius + bulletRadius) {
               enemy.emit('hit');
               this.hitObject('enemy', enemy);
               return;

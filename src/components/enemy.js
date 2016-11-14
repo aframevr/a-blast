@@ -2,7 +2,7 @@
 AFRAME.registerComponent('enemy', {
   schema: {
     name: {default: 'enemy0'},
-    bulletName: {default: 'enemy'},
+    bulletName: {default: 'enemy-slow'},
     shootingDelay: {default: 2000} // ms
   },
   init: function () {

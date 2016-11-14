@@ -2,7 +2,7 @@
 AFRAME.registerSystem('decals', {
   schema: {
     size: {default: 0.1},
-    src: {default: ''},
+    src: {default: '', type: 'asset'},
     maxDecals: {default: 30} // 0 for infinite
   },
 
@@ -17,7 +17,7 @@ AFRAME.registerSystem('decals', {
     this.geometry = new THREE.PlaneGeometry(1, 1);
     this.material = new THREE.MeshBasicMaterial({
       transparent: true,
-      color: '#fff',
+      color: '#24CAFF',
       depthTest: true,
       depthWrite: false,
       polygonOffset: true,
@@ -29,6 +29,7 @@ AFRAME.registerSystem('decals', {
 
   updateMap: function () {
     var src = this.data.src;
+
     if (src) {
       if (src === this.textureSrc) { return; }
       // Texture added or changed.
@@ -48,7 +49,6 @@ AFRAME.registerSystem('decals', {
   },
 
   update: function (oldData) {
-    var data = this.data;
     this.updateMap();
   },
 
@@ -76,6 +76,7 @@ AFRAME.registerSystem('decals', {
       decal.position.set(0, 0, 0);
       decal.position.copy(point);
       decal.lookAt(normal);
+      decal.rotation.z += Math.random() * Math.PI * 2;
       this.sceneEl.object3D.add(decal);
     }
   }
