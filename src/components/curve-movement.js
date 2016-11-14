@@ -31,7 +31,6 @@ AFRAME.registerComponent('curve-movement', {
 
     // Set waypoints.
     if (data.type === 'loop') {
-      console.log(this.data.loopStart);
       points.push(points[this.data.loopStart]);
     }
 

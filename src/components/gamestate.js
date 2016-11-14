@@ -4,6 +4,7 @@ AFRAME.registerComponent('gamestate', {
   schema: {
     health: {default: 5},
     numEnemies: {default: 0},
+    numSequences: {default: 0},
     points: {default: 0},
     isGameOver: {default: false},
     state: {default: 'STATE_START'},
@@ -38,7 +39,6 @@ AFRAME.registerComponent('gamestate', {
 
     registerHandler('wave-created', function (newState, params) {
       var wave = params.detail.wave;
-      newState.waveName = wave.name;
       newState.numSequences = wave.sequences.length;
       newState.waveSequence = 0;
       return newState;

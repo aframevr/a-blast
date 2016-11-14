@@ -129,15 +129,6 @@ AFRAME.registerSystem('enemy', {
         self.createEnemy(enemyDef);
       });
     }, this.currentWave.sequences[sequenceNumber].start);
-
-/*
-    this.currentSequence = sequenceNumber;
-    var sequence = this.currentWave.sequences[sequenceNumber];
-    var self = this;
-    sequence.enemies.forEach(function createEnemyFromDef (enemyDef) {
-      self.createEnemy(enemyDef);
-    });
-*/
   },
 
   createWave: function (waveNumber) {

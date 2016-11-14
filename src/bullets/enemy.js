@@ -11,7 +11,7 @@ ASHOOTER.registerBullet(
         acceleration: 0.3
       }
     },
-    poolSize: 1
+    poolSize: 10
   },
   // implementation
   {

@@ -20,7 +20,7 @@ ASHOOTER.registerEnemy(
         singleModel: true
       }
     },
-    poolSize: 1
+    poolSize: 10
   },
   // implementation
   {
