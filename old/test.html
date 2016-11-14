@@ -1,9 +1,8 @@
 <html>
   <head>
-    <script src="https://aframe.io/releases/0.3.0/aframe.min.js"></script>
-    <script src="../src/components/json-model.js"></script>
-
-</head>
+    <script src="../vendor/aframe.js"></script>
+    <script src="../build/build.js"></script>
+  </head>
   <body>
     <a-scene>
       <a-entity camera look-controls wasd-controls></a-entity>
@@ -13,7 +12,7 @@
        <a-animation attribute="rotation" from="0 0 0" to="0 360 0" repeat="indefinite" easing="linear" dur="8000"></a-animation>
         
       </a-sphere>
-      <a-entity json-model="src:url(https://fernandojsg.github.io/a-shooter-assets/models/enemy0.json)" position="0 0 0">
+      <a-entity json-model="src:url(https://feiss.github.io/a-shooter-assets/models/enemy0.json); texturePath:url(https://feiss.github.io/a-shooter-assets/images/); singleModel:true" position="0 0 0">
        <a-animation attribute="rotation" from="0 0 0" to="0 360 0" repeat="indefinite" easing="linear" dur="8000"></a-animation>
         </a-entity>
 
