@@ -9,7 +9,7 @@ AFRAME.registerComponent('curve-movement', {
     type: {default: 'single'},
     restTime: {default: 150},  // ms.
     speed: {default: 3},  // meters per second.
-    loopPoint: {default: 1}
+    loopStart: {default: 0}
   },
 
   init: function () {
@@ -31,7 +31,8 @@ AFRAME.registerComponent('curve-movement', {
 
     // Set waypoints.
     if (data.type === 'loop') {
-      points.push(points[0]);
+      console.log(this.data.loopStart);
+      points.push(points[this.data.loopStart]);
     }
 
     // Build spline.
@@ -111,7 +112,6 @@ AFRAME.registerComponent('curve-movement', {
     }
     percent = t;
     percent = inOutCubic(t);
-
 
     // Check if next point reached. If so, then update state and start resting.
 /*

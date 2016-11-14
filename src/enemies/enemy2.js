@@ -26,12 +26,15 @@ ASHOOTER.registerEnemy(
   {
     init: function () { this.reset(); },
     reset: function () {
+      /*
       var el = this.el;
       var position = randomPointInSphere(5, 20);
       el.setAttribute('position', position);
       this.direction = 1;
+      */
     },
     tick: function (time, delta) {
+      /*
       var el = this.el;
 
       var position = el.getAttribute('position');
@@ -40,6 +43,7 @@ ASHOOTER.registerEnemy(
       if (position.x < -5) { this.direction = 1; }
       position.x += this.direction * delta / 500;
       el.setAttribute('position', position);
+      */
     },
     onHit: function (type) {}
   }
