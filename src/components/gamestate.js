@@ -7,7 +7,8 @@ AFRAME.registerComponent('gamestate', {
     points: {default: 0},
     isGameOver: {default: false},
     state: {default: 'STATE_START'},
-    wave: {default: 0}
+    wave: {default: 0},
+    waveSequence: {default: 0}
   },
 
   init: function () {
@@ -24,7 +25,22 @@ AFRAME.registerComponent('gamestate', {
       newState.points += 1;
       newState.numEnemies--;
       // All enemies killed, advance wave.
-      if (newState.numEnemies === 0) { newState.wave++; }
+      if (newState.numEnemies === 0) {
+        newState.numSequences--;
+        newState.waveSequence++;
+        if (newState.numSequences === 0) {
+          newState.waveSequence = 0;
+          newState.wave++;
+        }
+      }
+      return newState;
+    });
+
+    registerHandler('wave-created', function (newState, params) {
+      var wave = params.detail.wave;
+      newState.waveName = wave.name;
+      newState.numSequences = wave.sequences.length;
+      newState.waveSequence = 0;
       return newState;
     });
 
@@ -54,8 +70,8 @@ AFRAME.registerComponent('gamestate', {
     });
 
     function registerHandler (event, handler) {
-      el.addEventListener(event, function () {
-        var newState = handler(AFRAME.utils.extend({}, state));
+      el.addEventListener(event, function (param) {
+        var newState = handler(AFRAME.utils.extend({}, state), param);
         publishState(event, newState);
       });
     }

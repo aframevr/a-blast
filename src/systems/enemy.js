@@ -9,23 +9,44 @@ var WAVES = [
         start: 1000,
         random: 5,
         enemies: [
-          /*{
-            type: 'enemy0',
-            points: [[3.3477237224578857,1.3690065145492554,-6.406318187713623],[0.012093067169189453,2.8417158126831055,-3.73813796043396],[-2.7143843173980713,3.9169554710388184,-1.4280019998550415]],
-            movement: 'loop',
-          },*/
           {
             type: 'enemy0',
             points: [[-1.043067455291748,2.316108226776123,-6.373414516448975],[1.5889892578125,-0.9243419170379639,-6.513626575469971],[-1.6819621324539185,-3.0366225242614746,-4.636663913726807]],
             movement: 'loop',
             loopStart: 1
-          },/*
+          }
+        ]
+      },
+      {
+        start: 1000,
+        enemies: [
+          {
+            type: 'enemy0',
+            points: [[3.3477237224578857,1.3690065145492554,-6.406318187713623],[0.012093067169189453,2.8417158126831055,-3.73813796043396],[-2.7143843173980713,3.9169554710388184,-1.4280019998550415]],
+            movement: 'loop',
+          }
+        ]
+      },
+      {
+        start: 2000,
+        enemies: [
+          {
+            type: 'enemy0',
+            points: [[3.3477237224578857,1.3690065145492554,-6.406318187713623],[0.012093067169189453,2.8417158126831055,-3.73813796043396],[-2.7143843173980713,3.9169554710388184,-1.4280019998550415]],
+            movement: 'loop',
+          },
+          {
+            type: 'enemy0',
+            points: [[-1.043067455291748,2.316108226776123,-6.373414516448975],[1.5889892578125,-0.9243419170379639,-6.513626575469971],[-1.6819621324539185,-3.0366225242614746,-4.636663913726807]],
+            movement: 'loop',
+            loopStart: 1
+          },
           {
             type: 'enemy1',
             points: [ [3, -5, -5], [3, 0, -5], [3, 10, -5] ],
             movement: 'pingpong',
             random: 8
-          }*/
+          }
         ]
       }
     ]
@@ -79,6 +100,11 @@ AFRAME.registerSystem('enemy', {
           self.reset();
         }
       }
+
+      if ('waveSequence' in evt.detail.diff) {
+        self.createSequence(evt.detail.state.waveSequence);
+      }
+
       if ('wave' in evt.detail.diff) {
         self.createWave(evt.detail.state.wave);
       }
@@ -95,12 +121,23 @@ AFRAME.registerSystem('enemy', {
   },
 
   createSequence: function (sequenceNumber) {
+    var self = this;
+    setTimeout(function initFirstSequence() {
+      self.currentSequence = sequenceNumber;
+      var sequence = self.currentWave.sequences[sequenceNumber];
+      sequence.enemies.forEach(function createEnemyFromDef (enemyDef) {
+        self.createEnemy(enemyDef);
+      });
+    }, this.currentWave.sequences[sequenceNumber].start);
+
+/*
     this.currentSequence = sequenceNumber;
     var sequence = this.currentWave.sequences[sequenceNumber];
     var self = this;
     sequence.enemies.forEach(function createEnemyFromDef (enemyDef) {
       self.createEnemy(enemyDef);
     });
+*/
   },
 
   createWave: function (waveNumber) {
@@ -111,14 +148,11 @@ AFRAME.registerSystem('enemy', {
 
     this.currentWave = WAVES[waveNumber % WAVES.length];
     console.log('Creating wave', waveNumber);
-    var self = this;
-    setTimeout(function initFirstSequence() {
-      self.createSequence(0);
-    }, this.currentWave.sequences[0].start);
+    this.createSequence(0);
+    this.sceneEl.emit('wave-created', {wave: this.currentWave});
   },
 
   createEnemy: function (enemyDefinition) {
-    console.log(enemyDefinition);
     var entity = this.getEnemy(enemyDefinition.type);
     entity.setAttribute('enemy', {shootingDelay: Math.random() * 57000 + 6000});
     entity.setAttribute('curve-movement', {type: enemyDefinition.movement});

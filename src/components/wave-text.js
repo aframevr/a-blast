@@ -3,24 +3,21 @@ AFRAME.registerComponent('wave-text', {
     var el = this.el;
     var self = this;
 
-    // TODO: tween.js-based animation component.
-    setTimeout(function () {
-      self.setText(0);
-    }, 500);
-
     el.sceneEl.addEventListener('gamestate-changed', function (evt) {
-      if ('wave' in evt.detail.diff) {
-        self.setText(evt.detail.state.wave);
+      if (evt.detail.event === 'wave-created') {
+        setTimeout(function(){
+          self.setText(evt.detail.state);
+        }, 500);
       }
     });
   },
 
-  setText: function (wave) {
+  setText: function (state) {
     var el = this.el;
     el.setAttribute('bmfont-text', {
       color: '#FFF',
       opacity: 0,
-      text: 'WAVE ' + wave
+      text: 'WAVE ' + state.wave
     });
     el.emit('wavetextchange');
   }
