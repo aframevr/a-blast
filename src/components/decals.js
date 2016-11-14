@@ -2,7 +2,7 @@
 AFRAME.registerSystem('decals', {
   schema: {
     size: {default: 0.1},
-    src: {default: ''},
+    src: {default: '', type: 'asset'},
     maxDecals: {default: 30} // 0 for infinite
   },
 
@@ -29,6 +29,7 @@ AFRAME.registerSystem('decals', {
 
   updateMap: function () {
     var src = this.data.src;
+
     if (src) {
       if (src === this.textureSrc) { return; }
       // Texture added or changed.
