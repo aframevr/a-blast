@@ -2,18 +2,14 @@
 AFRAME.registerComponent('json-model', {
   schema: {
     src: {type: 'src'},
-    vertexcolors: {default: false},
+    singleModel: {default: false},
+    texturePath: {type: 'src', default: ''},
     debugNormals: {default: false},
-    debugNormalsLength: {default: 0.2}
+    debugNormalsLength: {default: 0.2},
+    debugBones: {default: false}
   },
 
   init: function () {
-    this.objectLoader = new THREE.ObjectLoader();
-    this.objectLoader.setCrossOrigin('');
-    this.helpers = new THREE.Group();
-    this.mixer = null;
-    this.animation = null;
-    this.animationNames = [];
   },
 
   fixNormal: function (vector) {
@@ -23,67 +19,142 @@ AFRAME.registerComponent('json-model', {
   },
 
   update: function (oldData) {
-    var self = this;
+    this.loader = null;
+    this.helpers = new THREE.Group();
+    this.mixers = [];
+    this.animationNames = [];
+    this.skeletonHelper = null;
+
     var src = this.data.src;
     if (!src || src === oldData.src) { return; }
 
-    this.objectLoader.load(this.data.src, function (group) {
-      self.helpers = new THREE.Group();
+    if (this.data.singleModel) {
+      this.loader = new THREE.JSONLoader();
+      this.loader.setTexturePath(this.data.texturePath);
+      this.loader.load(src, this.onModelLoaded.bind(this));
+    }
+    else {
+      this.loader = new THREE.ObjectLoader();
+      this.loader.setCrossOrigin('');
+      this.loader.load(src, this.onSceneLoaded.bind(this));
+    }
+  },
 
-      if (group['animations'] !== undefined) {
-        for (var i in group.animations) {
-          self.animationNames[group.animations[i].name] = group.animations[i];
+  onModelLoaded: function(geometry, materials) {
+    this.helpers = new THREE.Group();
+
+    var mesh = new THREE.SkinnedMesh(geometry, materials[0]);
+    var self = this;
+    mesh.geometry.faces.forEach(face => {
+      face.vertexNormals.forEach(vertex => {
+        if (!vertex.hasOwnProperty('fixed')) {
+          self.fixNormal(vertex);
+          vertex.fixed = true;
         }
-        self.mixer = new THREE.AnimationMixer( group );
-      }
-
-      // var Rotation = new THREE.Matrix4().makeRotationX(-Math.PI / 2);
-      group.traverse(function (child) {
-        if (!(child instanceof THREE.Mesh)) { return; }
-
-        // child.position.applyMatrix4(Rotation);
-        child.geometry.faces.forEach(face => {
-          face.vertexNormals.forEach(vertex => {
-            if (!vertex.hasOwnProperty('fixed')) {
-              self.fixNormal(vertex);
-              vertex.fixed = true;
-            }
-          });
-        });
-
-        child.geometry.normalsNeedUpdate = true;
-        child.geometry.verticesNeedUpdate = true;
-
-        fnh = new THREE.FaceNormalsHelper(child, self.data.debugNormalsLength);
-        self.helpers.add(fnh);
-        vnh = new THREE.VertexNormalsHelper(child, self.data.debugNormalsLength);
-        self.helpers.add(vnh);
       });
-      self.el.setObject3D('helpers', self.helpers);
-      self.el.setObject3D('mesh', group);
-      self.el.emit('model-loaded', {format: 'json', model: group, src: src});
-      self.helpers.visible = self.data.debugNormals;
+    });
+
+    if (mesh.geometry['animations'] !== undefined && mesh.geometry.animations.length > 0){
+      mesh.material.skinning = true;
+      var mixer = {mixer: new THREE.AnimationMixer(mesh), clips: {}};
+      for (var i in mesh.geometry.animations) {
+        var anim = mesh.geometry.animations[i];
+        var clip = mixer.mixer.clipAction(anim).stop();
+        clip.setEffectiveWeight(1);
+        mixer.clips[anim.name] = clip;
+      }
+      this.mixers.push(mixer);
+    }
+    
+    self.addNormalHelpers(mesh);
+
+    this.helpers.visible = this.data.debugNormals;
+    this.el.setObject3D('helpers', this.helpers);
+    
+    this.skeletonHelper = new THREE.SkeletonHelper( mesh );
+    this.skeletonHelper.material.linewidth = 2;
+    this.el.setObject3D('skelhelper', this.skeletonHelper );
+    this.skeletonHelper.visible = this.data.debugBones;
+    
+    this.el.setObject3D('mesh', mesh);
+    this.el.emit('model-loaded', {format: 'json', model: mesh, src: this.data.src});
+  },
+
+  onSceneLoaded: function(group) {
+    this.helpers = new THREE.Group();
+
+    if (group['animations'] !== undefined) {
+      var mixer = {mixer: new THREE.AnimationMixer(group), clips: {}};
+      for (var i in group.animations) {
+        var anim = group.animations[i];
+        var clip = mixer.mixer.clipAction(anim).stop();
+        mixer.clips[anim.name] = clip;
+      } 
+      this.mixers.push(mixer);
+    }
+    var self = this;
+    group.traverse(function (child) {
+      if (!(child instanceof THREE.Mesh)) { return; }
+
+      child.geometry.faces.forEach(face => {
+        face.vertexNormals.forEach(vertex => {
+          if (!vertex.hasOwnProperty('fixed')) {
+            self.fixNormal(vertex);
+            vertex.fixed = true;
+          }
+        });
+      });
+
+      self.addNormalHelpers(child);
     });
 
     this.helpers.visible = this.data.debugNormals;
+    this.el.setObject3D('helpers', this.helpers);
+    this.el.setObject3D('mesh', group);
+    this.el.emit('model-loaded', {format: 'json', model: group, src: this.data.src});
+  },
+
+  addNormalHelpers: function (mesh) {
+    var fnh = new THREE.FaceNormalsHelper(mesh, this.data.debugNormalsLength);
+    this.helpers.add(fnh);
+    var vnh = new THREE.VertexNormalsHelper(mesh, this.data.debugNormalsLength);
+    this.helpers.add(vnh);
+
+    mesh.geometry.normalsNeedUpdate = true;
+    mesh.geometry.verticesNeedUpdate = true;
   },
 
   playAnimation: function (animationName, repeat) {
-    this.animation = this.mixer.clipAction(this.animationNames[animationName]).stop().play();
-    var repetitions = 0;
-    if (repeat === true) repetitions = Infinity;
-    else if (repeat == undefined) repeat = false;
-    else if (typeof(repeat) == 'number') {
-      if (repeat === 0) repeat = false;
-      repetitions = repeat;
+    for (var i in this.mixers) {
+      var clip = this.mixers[i].clips[animationName];
+      if (clip === undefined) continue;
+      clip.stop().play();
+      var repetitions = 0;
+      if (repeat === true) repetitions = Infinity;
+      else if (repeat == undefined) repeat = false;
+      else if (typeof(repeat) == 'number') {
+        if (repeat === 0) repeat = false;
+        repetitions = repeat;
+      }
+      else repeat = false;
+      clip.setLoop( repeat ? THREE.LoopRepeat : THREE.LoopOnce, repetitions );
     }
-    else repeat = false;
-    this.animation.setLoop( repeat ? THREE.LoopRepeat : THREE.LoopOnce, repetitions );
+  },
+
+  stopAnimation: function () {
+    for (var i in this.mixers) {
+      for (var j in this.mixers[i].clips) {
+        this.mixers[i].clips[j].stop();
+      }
+    }
   },
 
   tick: function(time, timeDelta) {
-    if( this.mixer ) {
-      this.mixer.update( timeDelta / 1000 );
+    for (var i in this.mixers) {
+      this.mixers[i].mixer.update( timeDelta / 1000 );
     }
+    if (this.skeletonHelper) {
+      this.skeletonHelper.update();
+    } 
   }
 });
