@@ -16,7 +16,7 @@ ASHOOTER.registerBullet(
         radius: 0.1
       }
     },
-    poolSize: 1
+    poolSize: 10
   },
   // implementation
   {

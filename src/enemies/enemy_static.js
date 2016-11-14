@@ -20,17 +20,12 @@ ASHOOTER.registerEnemy(
         singleModel: true
       }
     },
-    poolSize: 1
+    poolSize: 10
   },
   // implementation
   {
     init: function () { this.reset(); },
-    reset: function () {
-      var el = this.el;
-      var position = randomPointInSphere(5, 20);
-      position = {x: 0, y: 1, z: -3};
-      el.setAttribute('position', position);
-    },
+    reset: function () {},
     tick: function (time, delta) {},
     onHit: function (type) {}
   }

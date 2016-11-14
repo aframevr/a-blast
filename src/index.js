@@ -22,6 +22,7 @@ require('./enemies/enemy_static.js');
 
 // Components
 require('./components/decals.js');
+require('./components/curve-movement.js');
 require('./components/collision-helper.js');
 require('./components/gamestate.js');
 require('./components/gamestate-debug.js');
