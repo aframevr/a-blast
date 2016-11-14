@@ -15,7 +15,9 @@ ASHOOTER.registerEnemy(
         radius: 0.65
       },
       'json-model': {
-        src: 'url(https://feiss.github.io/a-shooter-assets/models/enemy3.json)'
+        src: 'url(https://feiss.github.io/a-shooter-assets/models/enemy3.json)',
+        texturePath: 'url(https://feiss.github.io/a-shooter-assets/images/)',
+        singleModel: true
       }
     },
     poolSize: 1

@@ -13,7 +13,7 @@ PoolHelper.prototype = {
       var item = data[name];
       var components = item.components;
       var mixinName = groupName + name;
-      createMixin(mixinName, components, this.sceneEl);
+      createMixin(mixinName, components, self.sceneEl);
 
       self.sceneEl.setAttribute('pool__' + mixinName,
         {

@@ -11,6 +11,10 @@ function createMixin (id, obj, scene) {
   });
 
   var assetsEl = scene ? scene.querySelector('a-assets') : document.querySelector('a-assets');
+  if (!assetsEl) {
+    assetsEl = document.createElement('a-assets');
+    scene.appendChild(assetsEl);
+  }
   assetsEl.appendChild(mixinEl);
 
   return mixinEl;
