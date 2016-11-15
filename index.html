@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>A-Shooter</title>
     <meta name="description" content="Room Scale A-Frame Demo">
+    <link rel="stylesheet" href="css/main.css">
     <script src="vendor/aframe.js"></script>
     <script src="build/build.js"></script>
     <script src="waves.js"></script>
@@ -87,5 +88,88 @@
         material="color: #fff"
       ></a-entity>
     </a-scene>
+
+    <div id="a-shooter-footer">
+      <a href="javascript:;" onclick="closeCamera()" id="closefooter">✖</a>
+      <h1>Fancy a different enemy face?</h1>
+      Drag and drop a picture to the browser<span id="cameracheck">, or <a href="javascript:;" onclick="openCamera()">take one with your camera</a></span>!
+      <div id="camera"></div>
+      <a href="javascript:;" onclick="snap()" id="snap"></a>
+    </div>
+    
+    <script type="text/javascript">
+    if (!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
+                navigator.mozGetUserMedia || navigator.msGetUserMedia)){
+      document.getElementById('cameracheck').style.display = 'none';
+    }
+    var cameraCanvas = null;
+    var canvasContext = null;
+    var cameraVideo = null;
+    var canvasStream = null;
+
+    function openCamera(){
+      if (cameraCanvas !== null) return;
+      var footer = document.getElementById('a-shooter-footer');
+      footer.style.bottom = '0';
+      
+      cameraCanvas = document.createElement('canvas');
+      cameraCanvas.width = 240;
+      cameraCanvas.height = 240;
+      canvasContext = cameraCanvas.getContext('2d');
+      /* debug */
+        cameraCanvas.style.position = 'absolute';
+        cameraCanvas.style.top = '0';
+        cameraCanvas.style.left = '-250px';
+        footer.appendChild(cameraCanvas);
+      /* ------ */
+
+      cameraVideo = document.createElement('video');
+      cameraVideo.setAttribute('autoplay', 'autoplay');
+      document.getElementById('camera').appendChild(cameraVideo);
+      
+      var constraints = { audio: false, video: { width: 320, height: 240 } }; 
+      navigator.mediaDevices.getUserMedia(constraints)
+      .then(function(mediaStream) {
+        cameraVideo.srcObject = mediaStream;
+        canvasStream = mediaStream;
+      })
+      .catch(function(err) { console.log(err.name + ": " + err.message); }); 
+    }
+
+    function closeCamera() {
+      if (canvasStream) {
+        var tracks = canvasStream.getTracks();
+        for (var i in tracks) {
+          tracks[i].stop();
+        }
+      }
+      var footer = document.getElementById('a-shooter-footer');
+      footer.style.transition = "bottom 0.2s ease-out";
+      footer.style.bottom = '-450px';
+      window.setTimeout(function (){
+        footer.parentNode.removeChild(footer);
+      }, 500);
+    }
+
+    function snap() {
+      if (canvasStream) {
+        canvasContext.drawImage(cameraVideo, -40, 0, 320, 240);
+
+        var imageData = canvasContext.getImageData(0, 0, cameraCanvas.width, cameraCanvas.height);
+        var data = imageData.data;
+        for (var i = 0; i < data.length; i += 4) {
+          var g = (data[i] + data[i + 1] + data[i + 2]) / 3;
+          g= Math.floor(g / 64) * 64;
+          data[i]     = g;
+          data[i + 1] = g;
+          data[i + 2] = g;
+        }
+        canvasContext.putImageData(imageData, 0, 0);
+
+        cameraCanvas.style.display= 'block';
+      }
+    }
+
+    </script>
   </body>
 </html>

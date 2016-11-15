@@ -1,0 +1,77 @@
+#a-shooter-footer{
+  box-sizing: border-box;
+  text-align: center;
+  font: 15px sans-serif;
+  font-weight: 100;
+  color: #8cf;
+  position: absolute;
+  z-index: 999;
+  bottom: -370px;
+  left: calc(50% - 250px);
+  width: 500px;
+  height: 410px;
+  padding: 0.5em;
+  background: rgba(0,0,0,0.5);
+  border-radius: 1em 1em 0 0;
+  line-height: 2em;
+  text-shadow: 0px 0px 4px #000;
+  cursor: pointer;
+  transition: bottom 0.1s ease-out;
+}
+#a-shooter-footer:hover{
+  bottom: -325px;
+}
+#a-shooter-footer h1{
+  margin: 0;
+  font-weight: 100;
+  font-size: 18px;
+}
+#a-shooter-footer a{
+  color: #8cf;
+}
+#a-shooter-footer #closefooter{
+  position: absolute;
+  background: #000;
+  border-radius: 20px;
+  width: 23px;
+  height: 25px;
+  margin-top: -4px;
+  right: 4px;
+  text-decoration: none;
+  line-height: 25px;
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+#a-shooter-footer:hover #closefooter{
+  opacity: 1;
+}
+#a-shooter-footer #closefooter:hover{
+  color: #fff;
+}
+#a-shooter-footer #camera{
+  width: 320px;
+  height: 240px;
+  margin: 1.5em auto;
+  background-color: red;
+  display: block;
+  overflow: hidden;
+}
+#a-shooter-footer video{
+  width: 320px;
+  height: 240px;
+}
+#a-shooter-footer #snap{
+  display: block;
+  margin: 1em auto;
+  width: 40px;
+  height: 40px;
+  background-color: #a00;
+  border-radius: 20px; 
+  box-shadow: 0 0 10px #000;
+}
+#a-shooter-footer #snap:hover{
+  background-color: #f00;
+}
+#a-shooter-footer #snap:active{
+  background-color: #fff;
+}
