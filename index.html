@@ -217,6 +217,10 @@
         // texture is available in faceWidget.texture
 
         fw.texture.style.display= 'block';
+    function snap(){
+      if (canvasStream) {
+        canvasContext.drawImage(cameraVideo, -40, 0);
+
       }
     }
 
