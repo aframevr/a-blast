@@ -10,6 +10,11 @@ AFRAME.registerComponent('enemy', {
     this.definition = ASHOOTER.ENEMIES[this.data.name].definition;
     this.definition.init.call(this);
 
+    var self = this;
+    this.el.addEventListener('model-loaded', function(event) {
+        self.el.components['json-model'].playAnimation('fly', true);
+    });
+
     this.exploding = false;
     this.el.addEventListener('hit', this.collided.bind(this));
     // @todo Maybe we could send the time in init?
