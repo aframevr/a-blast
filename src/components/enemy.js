@@ -61,8 +61,13 @@ AFRAME.registerComponent('enemy', {
     this.el.setAttribute('explosion','duration: ' + this.explodingDuration+ '; color: #4dd3ff');
 
     // Play sound
-    this.sounds[Math.floor(Math.random()*3)].play();
-
+    this.el.setAttribute('sound', {
+      src: this.sounds[Math.floor(Math.random()*3)].src,
+      volume: 1.0,
+      poolSize: 15,
+      autoplay: true
+    });
+    
     var mesh = this.el.getObject3D('mesh');
     this.whiteMaterial = new THREE.MeshBasicMaterial({color: 16777215, transparent: true });
     mesh.normalMaterial = mesh.material;

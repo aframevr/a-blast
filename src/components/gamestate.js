@@ -78,6 +78,7 @@ AFRAME.registerComponent('gamestate', {
 
     function publishState (event, newState) {
       var oldState = AFRAME.utils.extend({}, state);
+      console.log(oldState, newState);
       el.setAttribute('gamestate', newState);
       state = newState;
       el.emit('gamestate-changed', {
