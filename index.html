@@ -13,6 +13,7 @@
     <a-scene debug="true" gamestate="health: 5; wave: 1" decals="maxDecals: 30; src: #bulletDecal; size: 0.3">
       <a-assets>
         <img id="bulletDecal" src="https://feiss.github.io/a-shooter-assets/images/decal0.png" crossOrigin="anonymous">
+        <img id="faceTemplate" src="https://feiss.github.io/a-shooter-assets/images/face_template.jpg" crossOrigin="anonymous">
         <audio id="backgroundMusic" src="https://fernandojsg.github.io/a-shooter-assets/sounds/music0.ogg" loop crossorigin="anonymous"></audio>
         <img id="fx1" src="https://feiss.github.io/a-shooter-assets/images/fx1.png" crossOrigin="anonymous">
         <img id="fx2" src="https://feiss.github.io/a-shooter-assets/images/fx2.png" crossOrigin="anonymous">
@@ -93,80 +94,129 @@
       <a href="javascript:;" onclick="closeCamera()" id="closefooter">✖</a>
       <h1>Fancy a different enemy face?</h1>
       Drag and drop a picture to the browser<span id="cameracheck">, or <a href="javascript:;" onclick="openCamera()">take one with your camera</a></span>!
+      <img src="https://feiss.github.io/a-shooter-assets/images/face_guide.png" id="cameraGuide">
       <div id="camera"></div>
       <a href="javascript:;" onclick="snap()" id="snap"></a>
     </div>
     
     <script type="text/javascript">
-    if (!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
-                navigator.mozGetUserMedia || navigator.msGetUserMedia)){
-      document.getElementById('cameracheck').style.display = 'none';
+
+
+    var faceWidget = {
+      canvas: null,
+      ctx: null,
+      video: null,
+      stream: null,
+      dom: null,
+      texture: null
+    };
+
+    window.addEventListener('load', initFaceWidget);
+
+    function initFaceWidget(event) {
+      if (!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
+                  navigator.mozGetUserMedia || navigator.msGetUserMedia)){
+        document.getElementById('cameracheck').style.display = 'none';
+      }
+      faceWidget.dom = document.getElementById('a-shooter-footer');
     }
-    var cameraCanvas = null;
-    var canvasContext = null;
-    var cameraVideo = null;
-    var canvasStream = null;
 
     function openCamera(){
-      if (cameraCanvas !== null) return;
-      var footer = document.getElementById('a-shooter-footer');
-      footer.style.bottom = '0';
+      var fw = faceWidget;
+      if (fw.canvas !== null) return;
+      fw.dom.style.bottom = '0';
       
-      cameraCanvas = document.createElement('canvas');
-      cameraCanvas.width = 240;
-      cameraCanvas.height = 240;
-      canvasContext = cameraCanvas.getContext('2d');
+      fw.canvas = document.createElement('canvas');
+      fw.canvas.width = 80;
+      fw.canvas.height = 80;
+      fw.ctx = fw.canvas.getContext('2d');
+
+      var templateImg = document.getElementById('faceTemplate');
+      fw.texture = document.createElement('canvas');
+      fw.texture.width = templateImg.width;
+      fw.texture.height = templateImg.height;
+
       /* debug */
-        cameraCanvas.style.position = 'absolute';
-        cameraCanvas.style.top = '0';
-        cameraCanvas.style.left = '-250px';
-        footer.appendChild(cameraCanvas);
+        fw.canvas.style.position = 'absolute';
+        fw.canvas.style.top = '0';
+        fw.canvas.style.left = '-200px';
+        fw.dom.appendChild(fw.canvas);
+        fw.texture.style.position = 'absolute';
+        fw.texture.style.top = '-530px';
+        fw.dom.appendChild(fw.texture);
       /* ------ */
 
-      cameraVideo = document.createElement('video');
-      cameraVideo.setAttribute('autoplay', 'autoplay');
-      document.getElementById('camera').appendChild(cameraVideo);
+      fw.video = document.createElement('video');
+      fw.video.setAttribute('autoplay', 'autoplay');
+      document.getElementById('camera').appendChild(fw.video);
       
       var constraints = { audio: false, video: { width: 320, height: 240 } }; 
       navigator.mediaDevices.getUserMedia(constraints)
       .then(function(mediaStream) {
-        cameraVideo.srcObject = mediaStream;
-        canvasStream = mediaStream;
+        fw.video.srcObject = mediaStream;
+        fw.stream = mediaStream;
       })
       .catch(function(err) { console.log(err.name + ": " + err.message); }); 
     }
 
     function closeCamera() {
-      if (canvasStream) {
-        var tracks = canvasStream.getTracks();
+      var fw = faceWidget;
+      if (fw.stream) {
+        var tracks = fw.stream.getTracks();
         for (var i in tracks) {
           tracks[i].stop();
         }
       }
-      var footer = document.getElementById('a-shooter-footer');
-      footer.style.transition = "bottom 0.2s ease-out";
-      footer.style.bottom = '-450px';
+      fw.dom.style.transition = "bottom 0.2s ease-out";
+      fw.dom.style.bottom = '-450px';
       window.setTimeout(function (){
-        footer.parentNode.removeChild(footer);
+        fw.dom.parentNode.removeChild(fw.dom);
       }, 500);
     }
 
     function snap() {
-      if (canvasStream) {
-        canvasContext.drawImage(cameraVideo, -40, 0, 320, 240);
+      var fw = faceWidget;
+      if (fw.stream) {
+        var canvasW = fw.canvas.width;
+        var canvasH = fw.canvas.height;
+        var videoW = Math.floor(canvasW * 320 / 240);
+        var px = Math.floor((canvasW - videoW) / 2);
+        fw.ctx.drawImage(fw.video, px, 0, videoW, canvasH);
 
-        var imageData = canvasContext.getImageData(0, 0, cameraCanvas.width, cameraCanvas.height);
+        var imageData = fw.ctx.getImageData(0, 0, canvasW, canvasH);
         var data = imageData.data;
+        var radius = Math.pow(canvasW / 2 - 4, 2);
+        var g;
         for (var i = 0; i < data.length; i += 4) {
-          var g = (data[i] + data[i + 1] + data[i + 2]) / 3;
-          g= Math.floor(g / 64) * 64;
+          var dx = canvasW / 2 - (Math.floor(i / 4) % canvasW);
+          var dy = canvasH / 2 - (Math.floor(i / 4 / canvasW));
+
+          if (dx * dx + dy * dy > radius){
+            g = 255;
+          }
+          else {
+            g = (data[i] + data[i + 1] + data[i + 2]) / 3;
+            g = Math.floor(g / 32) * 32;
+          }
+
           data[i]     = g;
           data[i + 1] = g;
           data[i + 2] = g;
         }
-        canvasContext.putImageData(imageData, 0, 0);
 
-        cameraCanvas.style.display= 'block';
+        fw.ctx.putImageData(imageData, 0, 0);
+        
+        var templateImg = document.getElementById('faceTemplate');
+        var c = fw.texture.getContext('2d');
+        c.imageSmoothingEnabled = false;
+        c.globalCompositeOperation = "normal";
+        c.drawImage(templateImg, 0, 0);
+        c.globalCompositeOperation = "multiply";
+        c.drawImage(fw.canvas, 0, 0, fw.texture.width, fw.texture.height);
+
+        // texture is available in faceWidget.texture
+
+        fw.texture.style.display= 'block';
       }
     }
 

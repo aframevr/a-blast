@@ -49,16 +49,26 @@
   color: #fff;
 }
 #a-shooter-footer #camera{
-  width: 320px;
+  width: 240px;
   height: 240px;
   margin: 1.5em auto;
-  background-color: red;
+  background-color: rgba(0,0,0,0.4);
   display: block;
   overflow: hidden;
+  border-radius: 120px;
+  position: relative;
+}
+#a-shooter-footer #cameraGuide{
+  display: block;
+  margin: 1.5em 0;
+  position: absolute;
+  left: calc(50% - 120px);
+  z-index: 2000;
 }
 #a-shooter-footer video{
   width: 320px;
   height: 240px;
+  margin-left: -40px;
 }
 #a-shooter-footer #snap{
   display: block;
