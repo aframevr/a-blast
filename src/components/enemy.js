@@ -16,7 +16,14 @@ AFRAME.registerComponent('enemy', {
     });
 
     this.exploding = false;
+    this.explodingDuration = 500 + Math.floor(Math.random()*300);
     this.el.addEventListener('hit', this.collided.bind(this));
+    
+    this.sounds = [
+      document.getElementById('explosion0'),
+      document.getElementById('explosion1'),
+      document.getElementById('explosion2')
+    ];
     // @todo Maybe we could send the time in init?
   },
   update: function (oldData) {
@@ -38,6 +45,8 @@ AFRAME.registerComponent('enemy', {
     this.el.emit('enemy-hit');
 
     // this.shoot(); // Add as a parameter to shoot back when dead
+    
+    /*
     var children = this.el.getObject3D('mesh').children;
     for (var i = 0; i < children.length; i++) {
       children[i].explodingDirection = new THREE.Vector3(
@@ -47,7 +56,19 @@ AFRAME.registerComponent('enemy', {
       children[i].startPosition = children[i].position.clone();
       children[i].endPosition = children[i].position.clone().add(children[i].explodingDirection.clone().multiplyScalar(3));
     }
+    */
     this.exploding = true;
+    this.el.setAttribute('explosion','duration: ' + this.explodingDuration+ '; color: #4dd3ff');
+
+    // Play sound
+    this.sounds[Math.floor(Math.random()*3)].play();
+    
+    var children = this.el.getObject3D('mesh').children;
+    this.whiteMaterial = new THREE.MeshBasicMaterial({color: 16777215, transparent: true });
+    for (var i = 0; i < children.length; i++) {
+      children[i].normalMaterial = children[i].material;
+      children[i].material = this.whiteMaterial;
+    }
 
     this.system.activeEnemies.splice(this.system.activeEnemies.indexOf(this.el), 1);
   },
@@ -59,6 +80,21 @@ AFRAME.registerComponent('enemy', {
   },
 
   reset: function () {
+    //if it has exploded before, reset explosion properties
+    if (this.el.hasAttribute('explosion')) {
+      this.el.getObject3D('mesh').children[0].material.opacity = 1;
+      this.el.removeObject3D('explosion');
+      this.el.removeAttribute('explosion');
+      this.el.getObject3D('mesh').scale.set(1, 1, 1);
+      this.el.setAttribute('scale', '1 1 1');
+      var children = this.el.getObject3D('mesh').children;
+      for (var i = 0; i < children.length; i++) {
+        children[i].material = children[i].normalMaterial;
+      }
+    }
+    
+    this.explodingTime = null;
+
     clearInterval(this.shootInterval);
     this.alive = true;
     this.exploding = false;
@@ -88,10 +124,24 @@ AFRAME.registerComponent('enemy', {
       return;
     }
 
-    this.definition.tick.call(this, time, delta);
+    if (!this.exploding) {
+      this.definition.tick.call(this, time, delta);
+    }
+    else {
+      if (!this.explodingTime) {
+        this.explodingTime = time;
+      }
+      var t0 = (time - this.explodingTime) / this.explodingDuration;
 
-    if (this.exploding) {
-      this.die();
+      var scale = 1 + t0 * ( 2 - t0 ); //out easing
+
+      var mesh = this.el.getObject3D('mesh');
+      mesh.scale.set(scale, scale, scale);
+      mesh.children[0].material.opacity = Math.max(0, 1 - t0 * 1.5);
+      if (t0 >= 1) {
+        this.die();
+      }
+
       return;
 /*
       if (!this.explodingTime) {
