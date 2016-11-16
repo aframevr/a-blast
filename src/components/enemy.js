@@ -63,12 +63,10 @@ AFRAME.registerComponent('enemy', {
     // Play sound
     this.sounds[Math.floor(Math.random()*3)].play();
     
-    var children = this.el.getObject3D('mesh').children;
+    var mesh = this.el.getObject3D('mesh');
     this.whiteMaterial = new THREE.MeshBasicMaterial({color: 16777215, transparent: true });
-    for (var i = 0; i < children.length; i++) {
-      children[i].normalMaterial = children[i].material;
-      children[i].material = this.whiteMaterial;
-    }
+    mesh.normalMaterial = mesh.material;
+    mesh.material = this.whiteMaterial;
 
     this.system.activeEnemies.splice(this.system.activeEnemies.indexOf(this.el), 1);
   },
@@ -82,15 +80,13 @@ AFRAME.registerComponent('enemy', {
   reset: function () {
     //if it has exploded before, reset explosion properties
     if (this.el.hasAttribute('explosion')) {
-      this.el.getObject3D('mesh').children[0].material.opacity = 1;
+      var mesh = this.el.getObject3D('mesh');
+      mesh.material.opacity = 1;
       this.el.removeObject3D('explosion');
       this.el.removeAttribute('explosion');
-      this.el.getObject3D('mesh').scale.set(1, 1, 1);
+      mesh.scale.set(1, 1, 1);
       this.el.setAttribute('scale', '1 1 1');
-      var children = this.el.getObject3D('mesh').children;
-      for (var i = 0; i < children.length; i++) {
-        children[i].material = children[i].normalMaterial;
-      }
+      mesh.material = mesh.normalMaterial;
     }
     
     this.explodingTime = null;
@@ -137,7 +133,7 @@ AFRAME.registerComponent('enemy', {
 
       var mesh = this.el.getObject3D('mesh');
       mesh.scale.set(scale, scale, scale);
-      mesh.children[0].material.opacity = Math.max(0, 1 - t0 * 1.5);
+      mesh.material.opacity = Math.max(0, 1 - t0 * 2.5);
       if (t0 >= 1) {
         this.die();
       }

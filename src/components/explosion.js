@@ -34,7 +34,8 @@ AFRAME.registerComponent('explosion', {
         transparent: true,
         blending: THREE.AdditiveBlending,
         depthTest: true,
-        depthWrite: false
+        depthWrite: false,
+        visible: false
       });
 
       this.materials.push(material);
@@ -44,6 +45,7 @@ AFRAME.registerComponent('explosion', {
       function setMap (idx, texture) {
         this.materials[idx].alphaMap = texture;
         this.materials[idx].needsUpdate = true;
+        this.materials[idx].visible = true;
       }
 
       var dispersionCenter =  part.dispersion / 2;
