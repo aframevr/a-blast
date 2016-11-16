@@ -19,7 +19,7 @@ ASHOOTER.registerBullet(
         src: 'url(https://feiss.github.io/a-shooter-assets/models/enemy-bullet.json)'
       }
     },
-    poolSize: 10
+    poolSize: 1
   },
   // implementation
   {
@@ -44,6 +44,7 @@ ASHOOTER.registerBullet(
       }
     },
     tick: function (time, delta) {
+      console.log('tick');
       //stretch trail
       if (this.trail && this.trail.scale.y < 1) {
         var trailScale = this.trail.scale.y + delta/1000;

@@ -93,7 +93,8 @@ AFRAME.registerSystem('enemy', {
 
   createEnemy: function (enemyDefinition) {
     var entity = this.getEnemy(enemyDefinition.type);
-    entity.setAttribute('enemy', {shootingDelay: Math.random() * 57000 + 6000});
+    // entity.setAttribute('enemy', {shootingDelay: Math.random() * 57000 + 6000});
+    entity.setAttribute('enemy', {shootingDelay: 3000});
     entity.setAttribute('curve-movement', {type: enemyDefinition.movement});
     entity.components['curve-movement'].addPoints(enemyDefinition.points);
     entity.play();

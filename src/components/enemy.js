@@ -3,7 +3,7 @@ AFRAME.registerComponent('enemy', {
   schema: {
     name: {default: 'enemy0'},
     bulletName: {default: 'enemy-slow'},
-    shootingDelay: {default: 2000} // ms
+    shootingDelay: {default: 200} // ms
   },
   init: function () {
     this.alive = true;
@@ -18,7 +18,7 @@ AFRAME.registerComponent('enemy', {
     this.exploding = false;
     this.explodingDuration = 500 + Math.floor(Math.random()*300);
     this.el.addEventListener('hit', this.collided.bind(this));
-    
+
     this.sounds = [
       document.getElementById('explosion0'),
       document.getElementById('explosion1'),
@@ -30,6 +30,7 @@ AFRAME.registerComponent('enemy', {
   },
   play: function () {
     var self = this;
+    console.log('play',self.data.shootingDelay);
     this.shootInterval = setInterval(function () {
       self.shoot();
     }, this.data.shootingDelay);
@@ -45,7 +46,7 @@ AFRAME.registerComponent('enemy', {
     this.el.emit('enemy-hit');
 
     // this.shoot(); // Add as a parameter to shoot back when dead
-    
+
     /*
     var children = this.el.getObject3D('mesh').children;
     for (var i = 0; i < children.length; i++) {
@@ -62,7 +63,7 @@ AFRAME.registerComponent('enemy', {
 
     // Play sound
     this.sounds[Math.floor(Math.random()*3)].play();
-    
+
     var mesh = this.el.getObject3D('mesh');
     this.whiteMaterial = new THREE.MeshBasicMaterial({color: 16777215, transparent: true });
     mesh.normalMaterial = mesh.material;
@@ -88,7 +89,7 @@ AFRAME.registerComponent('enemy', {
       this.el.setAttribute('scale', '1 1 1');
       mesh.material = mesh.normalMaterial;
     }
-    
+
     this.explodingTime = null;
 
     clearInterval(this.shootInterval);
@@ -98,20 +99,23 @@ AFRAME.registerComponent('enemy', {
   },
 
   shoot: function () {
+    console.log('>>>> shooting');
     var el = this.el;
     var data = this.data;
-    var position = el.getAttribute('position');
+    var position = el.object3D.position.clone(); // el.getAttribute('position');
     var head = el.sceneEl.camera.el.components['look-controls'].dolly.position.clone();
-    var direction = head.sub(el.object3D.position.clone()).normalize();
+    var direction = head.sub(el.object3D.position).normalize();
 
     // Ask system for bullet and set bullet position to starting point.
     var bulletEntity = el.sceneEl.systems.bullet.getBullet(data.bulletName);
-    bulletEntity.setAttribute('position', position);
     bulletEntity.setAttribute('bullet', {
-      direction: direction,
       position: position,
+      direction: direction,
       owner: 'enemy'
     });
+    console.log('>>>> shooting', bulletEntity.getAttribute('bullet'));
+
+    bulletEntity.setAttribute('position', position);
     bulletEntity.setAttribute('visible', true);
     bulletEntity.play();
   },

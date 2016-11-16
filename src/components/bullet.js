@@ -20,7 +20,9 @@ AFRAME.registerComponent('bullet', {
 
   update: function (oldData) {
     var data = this.data;
+    this.owner = this.data.owner;
     this.direction.set(data.direction.x, data.direction.y, data.direction.z);
+    console.error('>>>',this.direction);
     this.currentAcceleration = data.acceleration;
     this.speed = data.initialSpeed;
     this.startPosition = data.position;
@@ -43,6 +45,8 @@ AFRAME.registerComponent('bullet', {
     this.bullet.definition.reset.call(this);
 
     this.direction.set(this.data.direction.x, this.data.direction.y, this.data.direction.z);
+    console.log('>>>2',this.direction);
+
     this.currentAcceleration = this.data.acceleration;
     this.speed = this.data.initialSpeed;
     this.startPosition = this.data.position;
@@ -71,11 +75,14 @@ AFRAME.registerComponent('bullet', {
       // Update speed based on acceleration
       this.speed += this.currentAcceleration;
       if (this.speed > this.data.maxSpeed) { this.speed = this.data.maxSpeed; }
+      console.log(this.speed);
 
       // Set new position
       direction.copy(this.direction);
       var newBulletPosition = position.add(direction.multiplyScalar(this.speed));
       this.el.setAttribute('position', newBulletPosition);
+
+      console.log(this.speed, this.direction, newBulletPosition);
 
       // Check if the bullet is lost in the sky
       if (position.length() >= 80) {
@@ -115,7 +122,7 @@ AFRAME.registerComponent('bullet', {
           return;
         }
       }
-
+/*
       // Detect collission aginst the background
       var ray = new THREE.Raycaster(position, direction.clone().normalize());
       var collisionResults = ray.intersectObjects(this.backgroundEl.getObject3D('mesh').children, true);
@@ -127,6 +134,7 @@ AFRAME.registerComponent('bullet', {
           return;
         }
       });
+*/
     };
   })()
 });

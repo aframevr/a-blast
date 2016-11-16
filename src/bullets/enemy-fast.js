@@ -12,14 +12,14 @@ ASHOOTER.registerBullet(
         acceleration: 0.1
       },
       'collision-helper': {
-        debug: false,
+        debug: true,
         radius: 0.08
       },
       'json-model': {
         src: 'url(https://feiss.github.io/a-shooter-assets/models/enemy-bullet.json)'
       }
     },
-    poolSize: 1
+    poolSize: 10
   },
   // implementation
   {
