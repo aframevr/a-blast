@@ -154,7 +154,7 @@ AFRAME.registerComponent('curve-movement', {
         if (data.type === 'single') {
           this.end = true;
         } else {
-          this.currentPointIndex = 0;
+          this.currentPointIndex = this.data.loopStart;
           if (data.type === 'pingpong') {
             spline.points.reverse();
           }
