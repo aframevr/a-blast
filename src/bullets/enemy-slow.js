@@ -20,7 +20,7 @@ ASHOOTER.registerBullet(
         src: 'url(https://feiss.github.io/a-shooter-assets/models/enemy-bullet.json)'
       }
     },
-    poolSize: 1
+    poolSize: 15
   },
   // implementation
   {
