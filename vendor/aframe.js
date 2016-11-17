@@ -63290,7 +63290,8 @@ function buildData (el, name, attrName, schema, elData, silent) {
   } else {
     data = {};
     Object.keys(schema).forEach(function applyDefault (key) {
-      data[key] = schema[key].default;
+      var defaultValue = schema[key].default;
+      data[key] = typeof defaultValue === 'object' ? utils.extend({}, defaultValue) : defaultValue;
     });
   }
 
@@ -66577,7 +66578,7 @@ module.exports = function bind (fn, ctx/* , arg1, arg2 */) {
 
 },{}],117:[function(_dereq_,module,exports){
 /* global THREE */
-
+var extend = _dereq_('object-assign');
 // Coordinate string regex. Handles negative, positive, and decimals.
 var regex = /\s*(-?\d*\.{0,1}\d+)\s+(-?\d*\.{0,1}\d+)\s+(-?\d*\.{0,1}\d+)\s*/;
 module.exports.regex = regex;
@@ -66599,7 +66600,7 @@ function parse (value, defaultVec) {
   }
 
   if (typeof value !== 'string' || value === null) {
-    return defaultVec;
+    return typeof defaultVec === 'object' ? extend({}, defaultVec) : defaultVec;
   }
 
   coordinate = value.trim().replace(/\s+/g, ' ').split(' ');
@@ -66649,7 +66650,7 @@ module.exports.toVector3 = function (vec3) {
   return new THREE.Vector3(vec3.x, vec3.y, vec3.z);
 };
 
-},{}],118:[function(_dereq_,module,exports){
+},{"object-assign":8}],118:[function(_dereq_,module,exports){
 (function (process){
 var debugLib = _dereq_('debug');
 var extend = _dereq_('object-assign');

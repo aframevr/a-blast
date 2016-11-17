@@ -7,6 +7,7 @@ AFRAME.registerComponent('bullet', {
     initialSpeed: { default: 5.0 },
     position: { type: 'vec3' },
     acceleration: { default: 0.5 },
+    destroyable: { default: false },
     owner: {default: 'player', oneOf: ['enemy', 'player']}
   },
 
@@ -22,7 +23,6 @@ AFRAME.registerComponent('bullet', {
     var data = this.data;
     this.owner = this.data.owner;
     this.direction.set(data.direction.x, data.direction.y, data.direction.z);
-    console.error('>>>',this.direction);
     this.currentAcceleration = data.acceleration;
     this.speed = data.initialSpeed;
     this.startPosition = data.position;
@@ -33,6 +33,10 @@ AFRAME.registerComponent('bullet', {
     this.hit = true;
     if (this.data.owner === 'enemy') {
       this.el.emit('player-hit');
+    }
+    if (type === 'bullet') {
+      // data is the bullet entity collided
+      data.components.bullet.resetBullet();
     }
     if (type === 'background') {
       this.el.sceneEl.systems.decals.addDecal(data.point, data.face.normal);
@@ -45,7 +49,6 @@ AFRAME.registerComponent('bullet', {
     this.bullet.definition.reset.call(this);
 
     this.direction.set(this.data.direction.x, this.data.direction.y, this.data.direction.z);
-    console.log('>>>2',this.direction);
 
     this.currentAcceleration = this.data.acceleration;
     this.speed = this.data.initialSpeed;
@@ -75,14 +78,11 @@ AFRAME.registerComponent('bullet', {
       // Update speed based on acceleration
       this.speed += this.currentAcceleration;
       if (this.speed > this.data.maxSpeed) { this.speed = this.data.maxSpeed; }
-      console.log(this.speed);
 
       // Set new position
       direction.copy(this.direction);
       var newBulletPosition = position.add(direction.multiplyScalar(this.speed));
       this.el.setAttribute('position', newBulletPosition);
-
-      console.log(this.speed, this.direction, newBulletPosition);
 
       // Check if the bullet is lost in the sky
       if (position.length() >= 80) {
@@ -110,6 +110,19 @@ AFRAME.registerComponent('bullet', {
             if (newBulletPosition.distanceTo(enemies[i].object3D.position) < radius + bulletRadius) {
               enemy.emit('hit');
               this.hitObject('enemy', enemy);
+              return;
+            }
+          }
+
+          var bullets = this.system.activeBullets;
+          for (var i = 0; i < bullets.length; i++) {
+            var bullet = bullets[i];
+            var data = bullet.components['bullet'].data;
+            if (data.owner === 'player' || !data.destroyable) { continue; }
+
+            var enemyBulletRadius = bullet.components['collision-helper'].data.radius;
+            if (newBulletPosition.distanceTo(bullet.getAttribute('position')) < enemyBulletRadius + bulletRadius) {
+              this.hitObject('bullet', bullet);
               return;
             }
           }

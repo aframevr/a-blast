@@ -9,7 +9,8 @@ ASHOOTER.registerBullet(
         name: 'enemy-slow',
         maxSpeed: 0.5,
         initialSpeed: 0.1,
-        acceleration: 0.03
+        acceleration: 0.03,
+        destroyable: true
       },
       'collision-helper': {
         debug: false,
@@ -44,7 +45,6 @@ ASHOOTER.registerBullet(
       }
     },
     tick: function (time, delta) {
-      console.log('tick');
       //stretch trail
       if (this.trail && this.trail.scale.y < 1) {
         var trailScale = this.trail.scale.y + delta/1000;

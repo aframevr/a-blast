@@ -30,7 +30,6 @@ AFRAME.registerComponent('enemy', {
   },
   play: function () {
     var self = this;
-    console.log('play',self.data.shootingDelay);
     this.shootInterval = setInterval(function () {
       self.shoot();
     }, this.data.shootingDelay);
@@ -99,7 +98,6 @@ AFRAME.registerComponent('enemy', {
   },
 
   shoot: function () {
-    console.log('>>>> shooting');
     var el = this.el;
     var data = this.data;
     var position = el.object3D.position.clone(); // el.getAttribute('position');
@@ -113,8 +111,6 @@ AFRAME.registerComponent('enemy', {
       direction: direction,
       owner: 'enemy'
     });
-    console.log('>>>> shooting', bulletEntity.getAttribute('bullet'));
-
     bulletEntity.setAttribute('position', position);
     bulletEntity.setAttribute('visible', true);
     bulletEntity.play();
