@@ -21,13 +21,17 @@ ASHOOTER.registerBullet = function (name, data, definition) {
 AFRAME.registerSystem('bullet', {
   init: function () {
     this.poolHelper = new PoolHelper('bullet', ASHOOTER.BULLETS, this.sceneEl);
+    this.activeBullets = [];
   },
 
   returnBullet: function (name, entity) {
+    this.activeBullets.splice(this.activeBullets.indexOf(entity), 1);
     this.poolHelper.returnEntity(name, entity);
   },
 
   getBullet: function (name) {
-    return this.poolHelper.requestEntity(name);
+    var bullet = this.poolHelper.requestEntity(name);
+    this.activeBullets.push(bullet);
+    return bullet;
   }
 });

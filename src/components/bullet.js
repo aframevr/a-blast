@@ -7,6 +7,7 @@ AFRAME.registerComponent('bullet', {
     initialSpeed: { default: 5.0 },
     position: { type: 'vec3' },
     acceleration: { default: 0.5 },
+    destroyable: { default: false },
     owner: {default: 'player', oneOf: ['enemy', 'player']}
   },
 
@@ -20,6 +21,7 @@ AFRAME.registerComponent('bullet', {
 
   update: function (oldData) {
     var data = this.data;
+    this.owner = this.data.owner;
     this.direction.set(data.direction.x, data.direction.y, data.direction.z);
     this.currentAcceleration = data.acceleration;
     this.speed = data.initialSpeed;
@@ -32,6 +34,10 @@ AFRAME.registerComponent('bullet', {
     if (this.data.owner === 'enemy') {
       this.el.emit('player-hit');
     }
+    if (type === 'bullet') {
+      // data is the bullet entity collided
+      data.components.bullet.resetBullet();
+    }
     if (type === 'background') {
       this.el.sceneEl.systems.decals.addDecal(data.point, data.face.normal);
     }
@@ -43,6 +49,7 @@ AFRAME.registerComponent('bullet', {
     this.bullet.definition.reset.call(this);
 
     this.direction.set(this.data.direction.x, this.data.direction.y, this.data.direction.z);
+
     this.currentAcceleration = this.data.acceleration;
     this.speed = this.data.initialSpeed;
     this.startPosition = this.data.position;
@@ -106,6 +113,19 @@ AFRAME.registerComponent('bullet', {
               return;
             }
           }
+
+          var bullets = this.system.activeBullets;
+          for (var i = 0; i < bullets.length; i++) {
+            var bullet = bullets[i];
+            var data = bullet.components['bullet'].data;
+            if (data.owner === 'player' || !data.destroyable) { continue; }
+
+            var enemyBulletRadius = bullet.components['collision-helper'].data.radius;
+            if (newBulletPosition.distanceTo(bullet.getAttribute('position')) < enemyBulletRadius + bulletRadius) {
+              this.hitObject('bullet', bullet);
+              return;
+            }
+          }
         }
       } else {
         // @hack Any better way to get the head position ?
@@ -115,7 +135,7 @@ AFRAME.registerComponent('bullet', {
           return;
         }
       }
-
+/*
       // Detect collission aginst the background
       var ray = new THREE.Raycaster(position, direction.clone().normalize());
       var collisionResults = ray.intersectObjects(this.backgroundEl.getObject3D('mesh').children, true);
@@ -127,6 +147,7 @@ AFRAME.registerComponent('bullet', {
           return;
         }
       });
+*/
     };
   })()
 });

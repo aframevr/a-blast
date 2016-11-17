@@ -9,7 +9,8 @@ ASHOOTER.registerBullet(
         name: 'enemy-slow',
         maxSpeed: 0.5,
         initialSpeed: 0.1,
-        acceleration: 0.03
+        acceleration: 0.03,
+        destroyable: true
       },
       'collision-helper': {
         debug: false,
@@ -19,7 +20,7 @@ ASHOOTER.registerBullet(
         src: 'url(https://feiss.github.io/a-shooter-assets/models/enemy-bullet.json)'
       }
     },
-    poolSize: 10
+    poolSize: 15
   },
   // implementation
   {
