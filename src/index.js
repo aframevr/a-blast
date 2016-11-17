@@ -42,3 +42,6 @@ require('./components/explosion.js');
 // Movement Patterns.
 require('./movement-patterns/random.js');
 require('./movement-patterns/toEntity.js');
+
+// Custom enemy face
+require('./face-widget.js');
