@@ -15,6 +15,29 @@ AFRAME.registerComponent('enemy', {
         self.el.components['json-model'].playAnimation('fly', true);
     });
 
+    // gun glow
+    this.gunGlowMaterial = new THREE.MeshBasicMaterial({
+      color: '#ff0000',
+      side: THREE.DoubleSide,
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      depthTest: true,
+      depthWrite: false,
+      visible: false
+    });
+    var src = document.querySelector('#fx2').getAttribute('src');
+    this.el.sceneEl.systems.material.loadTexture(src, {src: src}, setMap.bind(this));
+    
+    function setMap (texture) {
+      this.gunGlowMaterial.alphaMap = texture;
+      this.gunGlowMaterial.needsUpdate = true;
+      this.gunGlowMaterial.visible = true;
+    }
+
+
+    this.gunGlow = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), this.gunGlowMaterial);
+    this.el.setObject3D('glow', this.gunGlow);
+
     this.exploding = false;
     this.explodingDuration = 500 + Math.floor(Math.random()*300);
     this.el.addEventListener('hit', this.collided.bind(this));
@@ -58,7 +81,8 @@ AFRAME.registerComponent('enemy', {
     }
     */
     this.exploding = true;
-    this.el.setAttribute('explosion','duration: ' + this.explodingDuration+ '; color: #4dd3ff');
+    
+    /*this.el.setAttribute('explosion','duration: ' + this.explodingDuration+ '; color: #4dd3ff');
 
     // Play sound
     this.el.setAttribute('sound', {
@@ -67,7 +91,8 @@ AFRAME.registerComponent('enemy', {
       poolSize: 15,
       autoplay: true
     });
-    
+    */
+
     var mesh = this.el.getObject3D('mesh');
     this.whiteMaterial = new THREE.MeshBasicMaterial({color: 16777215, transparent: true });
     mesh.normalMaterial = mesh.material;
@@ -84,7 +109,7 @@ AFRAME.registerComponent('enemy', {
 
   reset: function () {
     //if it has exploded before, reset explosion properties
-    if (this.el.hasAttribute('explosion')) {
+    /*if (this.el.hasAttribute('explosion')) {
       var mesh = this.el.getObject3D('mesh');
       mesh.material.opacity = 1;
       this.el.removeObject3D('explosion');
@@ -92,8 +117,15 @@ AFRAME.registerComponent('enemy', {
       mesh.scale.set(1, 1, 1);
       this.el.setAttribute('scale', '1 1 1');
       mesh.material = mesh.normalMaterial;
+    }*/
+    var mesh = this.el.getObject3D('mesh');
+    if (mesh) {
+      mesh.material.opacity = 1;
+      mesh.scale.set(1, 1, 1);
+      mesh.material = mesh.normalMaterial;
     }
-
+    
+    this.el.setAttribute('scale', '1 1 1');
     this.explodingTime = null;
 
     clearInterval(this.shootInterval);

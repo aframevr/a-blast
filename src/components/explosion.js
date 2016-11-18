@@ -40,7 +40,7 @@ AFRAME.registerComponent('explosion', {
         this.data.duration = 300;
         parts = [
           {textureIdx: 1, billboard: true,  color: '#24CAFF', scale: .3, grow: 3, dispersion: 0, copies: 1, speed: 0 },
-          {textureIdx: 0, billboard: true,  color: '#24CAFF', scale: 0.03, grow: 1, dispersion: 0.3, copies: 8, speed: 1.6 }
+          {textureIdx: 0, billboard: true,  color: '#24CAFF', scale: 0.03, grow: 1, dispersion: 0.3, copies: 8, speed: 1.6, noFade: true }
         ];
       break;
     }
@@ -55,7 +55,8 @@ AFRAME.registerComponent('explosion', {
         blending: THREE.AdditiveBlending,
         depthTest: true,
         depthWrite: false,
-        visible: false
+        visible: false,
+        noFade: part['noFade'] === true
       });
 
       this.materials.push(material);
@@ -104,7 +105,10 @@ AFRAME.registerComponent('explosion', {
     }
     this.life = (time - this.starttime) / this.data.duration;
 
-    if (this.life > 1) return;
+    if (this.life > 1) {
+      this.el.parentNode.removeChild(this.el);
+      return;
+    }
 
     var t =  this.life * ( 2 - this.life ); //out easing
 
@@ -117,6 +121,9 @@ AFRAME.registerComponent('explosion', {
       }
     }
     for (var i in this.materials) {
+      if (this.materials[i].noFade) {
+        continue;
+      } 
       this.materials[i].opacity = 1 - t;
     }
   }

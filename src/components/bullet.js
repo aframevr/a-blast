@@ -61,10 +61,13 @@ AFRAME.registerComponent('bullet', {
         data.components.bullet.resetBullet();
         this.createExplosion(type, data.object3D.position);
       }
-      else if (type === 'background' ) {
+      else if (type === 'background') {
         this.el.sceneEl.systems.decals.addDecal(data.point, data.face.normal);
         var posOffset = data.point.clone().sub(this.direction.clone().multiplyScalar(0.2));
         this.createExplosion(type, posOffset);
+      }
+      else if (type === 'enemy') {
+        this.createExplosion(type, data.object3D.position);
       }
     }
     this.resetBullet();
@@ -164,15 +167,18 @@ AFRAME.registerComponent('bullet', {
 
       // Detect collission aginst the background
       var ray = new THREE.Raycaster(position, direction.clone().normalize());
-      var collisionResults = ray.intersectObjects(this.backgroundEl.getObject3D('mesh').children, true);
-      var self = this;
-      collisionResults.forEach(function (collision) {
-        if (collision.distance < position.length()) {
-          if (!collision.object.el) { return; }
-          self.hitObject('background', collision);
-          return;
-        }
-      });
+      var background = this.backgroundEl.getObject3D('mesh');
+      if (background) {
+        var collisionResults = ray.intersectObjects(background.children, true);
+        var self = this;
+        collisionResults.forEach(function (collision) {
+          if (collision.distance < position.length()) {
+            if (!collision.object.el) { return; }
+            self.hitObject('background', collision);
+            return;
+          }
+        });
+      }
     };
   })()
 });
