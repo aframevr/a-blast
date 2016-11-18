@@ -109,6 +109,9 @@ AFRAME.registerComponent('enemy', {
     var head = el.sceneEl.camera.el.components['look-controls'].dolly.position.clone();
     var direction = head.sub(el.object3D.position).normalize();
 
+    var offset = new THREE.Vector3(0.0, 0.44, 0.5);
+    position.add(offset);
+
     // Ask system for bullet and set bullet position to starting point.
     var bulletEntity = el.sceneEl.systems.bullet.getBullet(data.bulletName);
     bulletEntity.setAttribute('bullet', {
