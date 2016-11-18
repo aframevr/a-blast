@@ -6,7 +6,7 @@
   color: #8cf;
   position: absolute;
   z-index: 999;
-  bottom: -370px;
+  bottom: -450px;
   left: calc(50% - 250px);
   width: 500px;
   height: 410px;
@@ -18,8 +18,10 @@
   cursor: pointer;
   transition: bottom 0.1s ease-out;
 }
+#a-shooter-footer.shown{
+  bottom: -370px;
+}
 #a-shooter-footer:hover{
-  bottom: -325px;
   bottom: -320px;
 }
 #a-shooter-footer h1{
