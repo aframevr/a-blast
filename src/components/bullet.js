@@ -41,7 +41,7 @@ AFRAME.registerComponent('bullet', {
     
     explosion.setAttribute('sound', {
       src: this.sounds[Math.floor(Math.random() * this.sounds.length)].src,
-      volume: 1.0,
+      volume: 1,
       poolSize: 15,
       autoplay: true
     });
@@ -53,6 +53,8 @@ AFRAME.registerComponent('bullet', {
     this.bullet.definition.onHit.call(this);
     this.hit = true;
     if (this.data.owner === 'enemy') {
+      //var hurtMaterial = document.getElementById('hurt').getAttribute('material');
+      //hurtMaterial.opacity = 1.0;
       this.el.emit('player-hit');
     }
     else {
@@ -149,7 +151,9 @@ AFRAME.registerComponent('bullet', {
             var data = bullet.components['bullet'].data;
             if (data.owner === 'player' || !data.destroyable) { continue; }
 
-            var enemyBulletRadius = bullet.components['collision-helper'].data.radius;
+            var colhelper = bullet.components['collision-helper'];
+            if (!colhelper) continue;
+            var enemyBulletRadius = colhelper.data.radius;
             if (newBulletPosition.distanceTo(bullet.getAttribute('position')) < enemyBulletRadius + bulletRadius) {
               this.hitObject('bullet', bullet);
               return;

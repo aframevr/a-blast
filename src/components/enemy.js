@@ -7,12 +7,17 @@ AFRAME.registerComponent('enemy', {
   },
   init: function () {
     this.alive = true;
+    this.gunOffset = new THREE.Vector3(0.0, 0.44, 0.5);
+    this.hipBone = null;
     this.definition = ASHOOTER.ENEMIES[this.data.name].definition;
     this.definition.init.call(this);
+    this.lastShootTime = undefined;
+    this.paused = false;
 
     var self = this;
     this.el.addEventListener('model-loaded', function(event) {
         self.el.components['json-model'].playAnimation('fly', true);
+        self.hipBone = self.el.object3D.children[3].children[0];
     });
 
     // gun glow
@@ -25,17 +30,17 @@ AFRAME.registerComponent('enemy', {
       depthWrite: false,
       visible: false
     });
-    var src = document.querySelector('#fx2').getAttribute('src');
+    var src = document.querySelector('#fx3').getAttribute('src');
     this.el.sceneEl.systems.material.loadTexture(src, {src: src}, setMap.bind(this));
-    
+
     function setMap (texture) {
       this.gunGlowMaterial.alphaMap = texture;
       this.gunGlowMaterial.needsUpdate = true;
       this.gunGlowMaterial.visible = true;
     }
-
-
     this.gunGlow = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), this.gunGlowMaterial);
+    this.gunGlow.position.copy(this.gunOffset);
+    this.gunGlow.rotation.set(0.0, 0.0, 0.0);
     this.el.setObject3D('glow', this.gunGlow);
 
     this.exploding = false;
@@ -52,13 +57,10 @@ AFRAME.registerComponent('enemy', {
   update: function (oldData) {
   },
   play: function () {
-    var self = this;
-    this.shootInterval = setInterval(function () {
-      self.shoot();
-    }, this.data.shootingDelay);
+    this.paused = false;
   },
   pause: function () {
-    clearInterval(this.shootInterval);
+    this.paused = true;
   },
   collided: function () {
     if (this.exploding) {
@@ -82,21 +84,12 @@ AFRAME.registerComponent('enemy', {
     */
     this.exploding = true;
     
-    /*this.el.setAttribute('explosion','duration: ' + this.explodingDuration+ '; color: #4dd3ff');
-
-    // Play sound
-    this.el.setAttribute('sound', {
-      src: this.sounds[Math.floor(Math.random()*3)].src,
-      volume: 1.0,
-      poolSize: 15,
-      autoplay: true
-    });
-    */
-
     var mesh = this.el.getObject3D('mesh');
     this.whiteMaterial = new THREE.MeshBasicMaterial({color: 16777215, transparent: true });
     mesh.normalMaterial = mesh.material;
     mesh.material = this.whiteMaterial;
+
+    this.gunGlow.visible = false;
 
     this.system.activeEnemies.splice(this.system.activeEnemies.indexOf(this.el), 1);
   },
@@ -123,12 +116,15 @@ AFRAME.registerComponent('enemy', {
       mesh.material.opacity = 1;
       mesh.scale.set(1, 1, 1);
       mesh.material = mesh.normalMaterial;
+      this.gunGlow.visible = true;
+      this.gunGlow.scale.set(1, 1, 1);
+      this.gunGlowMaterial.opacity = 0.3;
     }
     
     this.el.setAttribute('scale', '1 1 1');
-    this.explodingTime = null;
+    this.explodingTime = undefined;  
+    this.lastShootTime = undefined;
 
-    clearInterval(this.shootInterval);
     this.alive = true;
     this.exploding = false;
     this.definition.reset.call(this);
@@ -137,12 +133,12 @@ AFRAME.registerComponent('enemy', {
   shoot: function () {
     var el = this.el;
     var data = this.data;
-    var position = el.object3D.position.clone(); // el.getAttribute('position');
+    var position = el.object3D.position.clone().add(this.gunOffset);
+    if (this.hipBone) {
+      //position.y += this.hipBone.position.y;
+    }
     var head = el.sceneEl.camera.el.components['look-controls'].dolly.position.clone();
     var direction = head.sub(el.object3D.position).normalize();
-
-    var offset = new THREE.Vector3(0.0, 0.44, 0.5);
-    position.add(offset);
 
     // Ask system for bullet and set bullet position to starting point.
     var bulletEntity = el.sceneEl.systems.bullet.getBullet(data.bulletName);
@@ -155,12 +151,38 @@ AFRAME.registerComponent('enemy', {
     bulletEntity.setAttribute('visible', true);
     bulletEntity.play();
   },
+
   tick: function (time, delta) {
-    if (!this.alive) {
+    if (!this.alive || this.paused) {
       return;
+    }
+    if (this.lastShootTime === undefined) {
+      this.lastShootTime = time;
+    }
+    else {
+      var elapsedShootTime = time - this.lastShootTime;
+      if (elapsedShootTime > this.data.shootingDelay) {
+        this.lastShootTime = time;
+        this.gunGlow.scale.set(1, 1, 1);
+        this.gunGlowMaterial.opacity = 0.3;
+        this.shoot();
+      }
+      else if (this.data.shootingDelay - elapsedShootTime < 1000) {
+        this.gunGlowMaterial.opacity = elapsedShootTime / this.data.shootingDelay;
+      }
     }
 
     if (!this.exploding) {
+      var glowScale = 1.0 + Math.abs(Math.sin(time/50));
+      this.gunGlow.scale.set(glowScale, glowScale, glowScale);
+      this.gunGlow.position.copy(this.gunOffset);
+      if (this.hipBone) {
+        this.gunGlow.position.y += this.hipBone.position.y;
+      }
+      // Make the droid to look the headset
+      var head = this.el.sceneEl.camera.el.components['look-controls'].dolly.position.clone();
+      this.el.object3D.lookAt(head);
+
       this.definition.tick.call(this, time, delta);
     }
     else {
@@ -177,8 +199,6 @@ AFRAME.registerComponent('enemy', {
       if (t0 >= 1) {
         this.die();
       }
-
-      return;
 /*
       if (!this.explodingTime) {
         this.explodingTime = time;
@@ -202,8 +222,5 @@ AFRAME.registerComponent('enemy', {
 */
     }
 
-    // Make the droid to look the headset
-    var head = this.el.sceneEl.camera.el.components['look-controls'].dolly.position.clone();
-    this.el.object3D.lookAt(head);
   }
 });

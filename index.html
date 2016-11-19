@@ -12,6 +12,7 @@
     <a-scene debug="true" gamestate="health: 50; wave: 1" decals="maxDecals: 30; src: #bulletDecal; size: 0.3">
       <a-assets>
         <img id="bulletDecal" src="https://feiss.github.io/a-shooter-assets/images/decal0.png" crossOrigin="anonymous">
+        <img id="hurtImg" src="https://feiss.github.io/a-shooter-assets/images/damage.png" crossOrigin="anonymous">
         <audio id="backgroundMusic" src="https://fernandojsg.github.io/a-shooter-assets/sounds/music0.ogg" loop crossorigin="anonymous"></audio>
         <img id="fx1" src="https://feiss.github.io/a-shooter-assets/images/fx1.png" crossOrigin="anonymous">
         <img id="fx2" src="https://feiss.github.io/a-shooter-assets/images/fx2.png" crossOrigin="anonymous">
@@ -20,6 +21,7 @@
         <img id="fx5" src="https://feiss.github.io/a-shooter-assets/images/fx5.png" crossOrigin="anonymous">
         <img id="fx6" src="https://feiss.github.io/a-shooter-assets/images/fx6.png" crossOrigin="anonymous">
         <img id="fx7" src="https://feiss.github.io/a-shooter-assets/images/fx7.png" crossOrigin="anonymous">
+        <img id="fx8" src="https://feiss.github.io/a-shooter-assets/images/fx8.png" crossOrigin="anonymous">
         <audio id="backgroundMusicOgg" src="https://feiss.github.io/a-shooter-assets/sounds/music0.ogg"  crossorigin="anonymous"></audio>
         <audio id="explosion0" src="https://feiss.github.io/a-shooter-assets/sounds/explosion0.ogg"  crossorigin="anonymous"></audio>
         <audio id="explosion1" src="https://feiss.github.io/a-shooter-assets/sounds/explosion1.ogg"  crossorigin="anonymous"></audio>
@@ -42,16 +44,14 @@
         shoot="direction: 0 0 -1; spaceKeyEnabled: true">
         <!-- sound="src: url(https://fernandojsg.github.io/a-shooter-assets/sounds/hit0.ogg); on: player-hit" -->
 
-        <a-entity id="gameover"
-          gamestate-bind="isGameOver: visible"
-          visible="false"
-        ></a-entity>
+        <a-entity id="gameover" gamestate-bind="isGameOver: visible" visible="false"></a-entity>
 
         <a-entity id="hurt"
-          geometry="primitive: sphere; radius: 1"
-          material="shader: flat; side: back; color: #f00; transparent: true; opacity: 0.0"
+          geometry="primitive:sphere;radius:0.5;phiLength:180;phiStart:180;segmentsHeight:6;segmentsWidth:7"
+          position="0 0 -0.2"
+          material="shader: flat; side: back; transparent: true; opacity: 0.0; src: #hurtImg"
           visible="false">
-          <a-animation id="player-hit-anim" attribute="material.opacity" to="0.8" from="0" begin="player-hit" direction="alternate" dur="300" repeat="1"></a-animation>
+          <a-animation id="player-hit-anim" attribute="material.opacity" to="1" from="0" begin="player-hit" direction="alternate" dur="500" repeat="1"></a-animation>
         </a-entity>
       </a-entity>
 

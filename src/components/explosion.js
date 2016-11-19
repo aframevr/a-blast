@@ -14,9 +14,10 @@ AFRAME.registerComponent('explosion', {
     this.life = 0;
     this.starttime = null;
     this.meshes = new THREE.Group();
+    //this.el.id = 'explosion' + Math.floor(Math.random()*9999);
 
     this.materials = [];
-    var textureSrcs = new Array('#fx1', '#fx2', '#fx3', '#fx4');
+    var textureSrcs = new Array('#fx1', '#fx2', '#fx3', '#fx4', '#fx8');
 
     var parts;
     switch(this.data.type) {
@@ -32,14 +33,15 @@ AFRAME.registerComponent('explosion', {
       case 'bullet':
         this.data.color = '#FF0000';
         parts = [
-          {textureIdx: 1, billboard: true,  color: '#24CAFF', scale: .6, grow: 4, dispersion: 0, copies: 1, speed: 0 },
+          {textureIdx: 2, billboard: true,  color: this.data.color, scale: .5, grow: 3, dispersion: 0, copies: 1, speed: 0 },
+          {textureIdx: 4, billboard: true,  color: '#24CAFF', scale: .3, grow: 4, dispersion: 0, copies: 1, speed: 0 },
           {textureIdx: 0, billboard: true,  color: this.data.color, scale: 0.04, grow: 2, dispersion: 1.5, copies: 8, speed: 1 }
         ];
       break;
       case 'background':
         this.data.duration = 300;
         parts = [
-          {textureIdx: 1, billboard: true,  color: '#24CAFF', scale: .3, grow: 3, dispersion: 0, copies: 1, speed: 0 },
+          {textureIdx: 4, billboard: true,  color: '#24CAFF', scale: .3, grow: 3, dispersion: 0, copies: 1, speed: 0 },
           {textureIdx: 0, billboard: true,  color: '#24CAFF', scale: 0.03, grow: 1, dispersion: 0.3, copies: 8, speed: 1.6, noFade: true }
         ];
       break;
@@ -55,9 +57,9 @@ AFRAME.registerComponent('explosion', {
         blending: THREE.AdditiveBlending,
         depthTest: true,
         depthWrite: false,
-        visible: false,
-        noFade: part['noFade'] === true
+        visible: false
       });
+      material['noFade'] = part['noFade'] === true;
 
       this.materials.push(material);
       var src = document.querySelector(textureSrcs[part.textureIdx]).getAttribute('src');

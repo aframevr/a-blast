@@ -11,6 +11,7 @@ ASHOOTER.registerBullet = function (name, data, definition) {
   }
 
   ASHOOTER.BULLETS[name] = {
+    poolSize: data.poolSize,
     components: data.components,
     definition: definition
   };

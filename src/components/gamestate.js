@@ -2,7 +2,7 @@
 
 AFRAME.registerComponent('gamestate', {
   schema: {
-    health: {default: 50},
+    health: {default: 5},
     numEnemies: {default: 0},
     numSequences: {default: 0},
     points: {default: 0},
