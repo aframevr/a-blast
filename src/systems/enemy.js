@@ -91,7 +91,32 @@ AFRAME.registerSystem('enemy', {
     this.sceneEl.emit('wave-created', {wave: this.currentWave});
   },
 
+  createEnemy2: function (enemyType, enemyDefinition, timeOffset) {
+    var entity = this.getEnemy(enemyType);
+    // entity.setAttribute('enemy', {shootingDelay: Math.random() * 57000 + 6000});
+    entity.setAttribute('enemy', {shootingDelay: 3000});
+    entity.setAttribute('curve-movement', {
+      type: enemyDefinition.movement,
+      loopStart: enemyDefinition.loopStart || 0,
+      timeOffset: timeOffset || 0
+    });
+    entity.components['curve-movement'].addPoints(enemyDefinition.points);
+    entity.play();
+    this.activeEnemies.push(entity);
+    this.sceneEl.emit('enemy-spawn', {enemy: entity});
+  },
+
   createEnemy: function (enemyDefinition) {
+    if (Array.isArray(enemyDefinition.type)) {
+      for (var i = 0; i < enemyDefinition.type.length; i++) {
+        var type = enemyDefinition.type[i];
+        var timeOffset = (enemyDefinition.enemyTimeOffset || 0) * i;
+        this.createEnemy2(type, enemyDefinition, timeOffset);
+      }
+    } else {
+      this.createEnemy2(enemyDefinition.type, enemyDefinition);
+    }
+    /*
     var entity = this.getEnemy(enemyDefinition.type);
     // entity.setAttribute('enemy', {shootingDelay: Math.random() * 57000 + 6000});
     entity.setAttribute('enemy', {shootingDelay: 3000});
@@ -100,6 +125,7 @@ AFRAME.registerSystem('enemy', {
     entity.play();
     this.activeEnemies.push(entity);
     this.sceneEl.emit('enemy-spawn', {enemy: entity});
+    */
   },
 
   reset: function (entity) {

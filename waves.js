@@ -6,25 +6,27 @@ var WAVES = [
         start: 400,
         random: 0,
         enemies:[
+          /*
           {
             type: "enemy0",
             points: [[-0.000,-2.580,-9.183],[-0.000,4.689,-8.000]],
             movement: "single",
             random: 0,
-          },
+          },*/
           {
-            type: "enemy0",
+            type: ["enemy0", "enemy0", "enemy0", "enemy0"],
+            enemyTimeOffset: -800,
             points: [[5.002,1.591,-6.192],[1.470,2.528,-6.134],[1.857,3.830,-5.698],[1.273,4.929,-5.336],[-0.148,5.192,-5.281],[-1.403,4.676,-5.482],[-1.699,3.503,-5.803],[-1.310,2.668,-6.039],[0.464,2.217,-6.077]],
             movement: "loop",
             loopStart: 3,
             random: 0,
-          },
+          },/*
           {
             type: "enemy0",
             points: [[-7.451,2.581,-5.694],[-6.214,7.088,-4.903]],
             movement: "pingpong",
             random: 0,
-          }
+          }*/
         ]
       },
       {
