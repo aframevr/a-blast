@@ -20,9 +20,10 @@ AFRAME.registerComponent('enemy', {
         self.hipBone = self.el.object3D.children[3].children[0];
     });
 
+
     // gun glow
     this.gunGlowMaterial = new THREE.MeshBasicMaterial({
-      color: this.data.bulletName == 'enemy-slow' ? '#ff0000' : '#FFBE34',
+      color: {'enemy-slow': '#F00', 'enemy-fat':'#F70', 'enemy-fast': '#FFBE34'}[this.data.bulletName],
       side: THREE.DoubleSide,
       transparent: true,
       blending: THREE.AdditiveBlending,

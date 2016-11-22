@@ -7,7 +7,7 @@ var WAVES = [
         random: 0,
         enemies:[
           {
-            type: "enemy0",
+            type: "enemy3",
             points: [[-0.000,-2.580,-9.183],[-0.000,4.689,-8.000]],
             movement: "single",
             random: 0,
@@ -25,7 +25,7 @@ var WAVES = [
             random: 0,
           },
           {
-            type: "enemy2",
+            type: "enemy0",
             points: [[-7.451,2.581,-5.694],[-6.214,7.088,-4.903]],
             movement: "pingpong",
             random: 0,

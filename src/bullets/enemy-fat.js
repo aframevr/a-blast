@@ -1,20 +1,20 @@
 /* globals ASHOOTER */
 ASHOOTER.registerBullet(
   // name
-  'enemy-slow',
+  'enemy-fat',
   // data
   {
     components: {
       bullet: {
-        name: 'enemy-slow',
-        maxSpeed: 0.5,
+        name: 'enemy-fat',
+        maxSpeed: 0.3,
         initialSpeed: 0.1,
-        acceleration: 0.03,
+        acceleration: 0.04,
         destroyable: true
       },
       'collision-helper': {
         debug: false,
-        radius: 0.25
+        radius: 1.1
       },
       'json-model': {
         src: 'url(https://feiss.github.io/a-shooter-assets/models/enemy-bullet.json)'
@@ -26,14 +26,14 @@ ASHOOTER.registerBullet(
   {
     init: function () {
       var el = this.el;
-      el.setAttribute('material', 'color', '#F00');
-      el.setAttribute('scale', {x: 0.25, y: 0.25, z: 0.25});
+      el.setAttribute('material', 'color', '#F70');
+      el.setAttribute('scale', {x: 1, y: 1, z: 1});
       this.trail = null;
       this.glow = null;
       var self = this;
       el.addEventListener('model-loaded', function(event) {
         // @todo Do it outside
-        event.detail.model.children[0].material.color.setRGB(1,0,0);
+        event.detail.model.children[0].material.color.setHex(0xFF7700);
         self.trail = self.el.getObject3D('mesh').getObjectByName('trail');
         self.trail.scale.setY(0.001);
         self.glow = self.el.getObject3D('mesh').getObjectByName('glow');
@@ -41,7 +41,7 @@ ASHOOTER.registerBullet(
     },
     reset: function () {
       var el = this.el;
-      el.setAttribute('scale', {x: 0.25, y: 0.25, z: 0.25});
+      el.setAttribute('scale', {x: 1, y: 1, z: 1});
       if (this.trail) {
         this.trail.scale.setY(0.001);
       }
@@ -54,7 +54,7 @@ ASHOOTER.registerBullet(
         this.trail.scale.setY(trailScale);
       }
       if (this.glow) {
-        var sc = 1 + Math.sin(time / 20.0) * 0.1;
+        var sc = 1 + Math.abs(Math.sin(time / 80.0) * 0.4);
         this.glow.scale.set(sc, sc, sc);
       }
     },

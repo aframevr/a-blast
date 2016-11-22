@@ -9,10 +9,11 @@ ASHOOTER.registerBullet(
         name: 'enemy-fast',
         maxSpeed: 0.1,
         initialSpeed: 0.1,
-        acceleration: 0.1
+        acceleration: 0.1,
+        destroyable: true
       },
       'collision-helper': {
-        debug: true,
+        debug: false,
         radius: 0.08
       },
       'json-model': {
