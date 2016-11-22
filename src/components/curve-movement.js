@@ -9,7 +9,8 @@ AFRAME.registerComponent('curve-movement', {
     type: {default: 'single'},
     restTime: {default: 150},  // ms.
     speed: {default: 3},  // meters per second.
-    loopStart: {default: 0}
+    loopStart: {default: 0},
+    timeOffset: {default: 0}
   },
 
   init: function () {
@@ -25,12 +26,12 @@ AFRAME.registerComponent('curve-movement', {
     var data = this.data;
     var el = this.el;
     var i;
-    var points;
     var spline;
     var chunkLengths;
 
     // Set waypoints.
     if (data.type === 'loop') {
+      points = points.slice(0); // clone array as we'll need to modify it
       points.push(points[this.data.loopStart]);
     }
 
@@ -49,7 +50,8 @@ AFRAME.registerComponent('curve-movement', {
     }).filter(function (length) { return length !== null; });
 
     // Keep a local time to reset at each point, for separate easing from point to point.
-    this.time = 0;
+    this.time = this.data.timeOffset;
+    this.initTime = null;
     this.restTime = 0;
     this.direction = 1;
     this.end = false;
@@ -66,8 +68,11 @@ AFRAME.registerComponent('curve-movement', {
       el.removeAttribute('spline-line');
     }
   },
-
-  tick: function (t, dt) {
+  play: function () {
+    console.info("Playing", this.data.timeOffset);
+    this.time = this.data.timeOffset;
+  },
+  tick: function (time, delta) {
     var cycleTime;
     var data = this.data;
     var el = this.el;
@@ -77,6 +82,13 @@ AFRAME.registerComponent('curve-movement', {
     var restTime = this.restTime;
     var spline = this.spline;
 
+
+/*
+    time = time/2;
+    if (!this.initTime) {
+      this.initTime = time;
+    }
+*/
     // If not closed and reached the end, just stop (for now).
     if (this.end) {return;}
     if (!this.isClosed() && this.currentPointIndex === spline.points.length - 1) { return; }
@@ -93,6 +105,8 @@ AFRAME.registerComponent('curve-movement', {
 
     // Mod the current time to get the current cycle time and divide by total time.
     cycleTime = this.cycleTimes[this.currentPointIndex];
+    //console.log(time);
+    //this.time = time - this.initTime;
     var t = 0;
     var jump = false;
     if (data.type === 'single' || data.type === 'pingpong' || true) {
@@ -144,7 +158,10 @@ AFRAME.registerComponent('curve-movement', {
 
     // Get next point in the spline using interpolation method.
     // `getPoint/getPointFrom` takes a percentage which can be used for easing.
-    this.time += dt;
+
+    this.time += delta;
+    if (this.time < 0) { return; }
+
     point = spline.getPointFrom(percent, this.currentPointIndex);
     el.setAttribute('position', {x: point.x, y: point.y, z: point.z});
     this.lastPercent = percent;
@@ -163,6 +180,7 @@ AFRAME.registerComponent('curve-movement', {
         this.currentPointIndex ++;
       }
       this.time = 0;
+      //this.initTime = time;
     }
   }
 });
