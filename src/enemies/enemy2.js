@@ -26,7 +26,9 @@ ASHOOTER.registerEnemy(
   // implementation
   {
     init: function () { this.reset(); },
-    reset: function () {},
+    reset: function () {
+      this.el.setAttribute('scale', {x: 2, y: 2, z: 2});
+    },
     tick: function (time, delta) {},
     onHit: function (type) {}
   }

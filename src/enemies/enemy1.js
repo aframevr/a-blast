@@ -9,7 +9,7 @@ ASHOOTER.registerEnemy(
     components: {
       enemy: {
         name: 'enemy1',
-        bulletName: 'enemy-slow'
+        bulletName: 'enemy-fast'
       },
       'collision-helper': {
         debug: false,
@@ -26,7 +26,9 @@ ASHOOTER.registerEnemy(
   // implementation
   {
     init: function () { this.reset(); },
-    reset: function () {},
+    reset: function () {
+      this.el.setAttribute('scale', {x: 0.8, y: 0.8, z: 0.8});
+    },
     tick: function (time, delta) {},
     onHit: function (type) {}
   }

@@ -116,7 +116,7 @@ AFRAME.registerComponent('bullet', {
       this.el.setAttribute('position', newBulletPosition);
 
       // Check if the bullet is lost in the sky
-      if (position.length() >= 80) {
+      if (position.length() >= 50) {
         this.resetBullet();
         return;
       }

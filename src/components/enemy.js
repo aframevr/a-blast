@@ -22,7 +22,7 @@ AFRAME.registerComponent('enemy', {
 
     // gun glow
     this.gunGlowMaterial = new THREE.MeshBasicMaterial({
-      color: '#ff0000',
+      color: this.data.bulletName == 'enemy-slow' ? '#ff0000' : '#FFBE34',
       side: THREE.DoubleSide,
       transparent: true,
       blending: THREE.AdditiveBlending,
