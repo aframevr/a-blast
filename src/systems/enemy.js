@@ -17,7 +17,7 @@ ASHOOTER.registerEnemy = function (name, data, definition) {
     name: name
   };
 
-  console.info(`Enemy registered '${name}'`);
+  console.info('Enemy registered ', name);
 };
 
 AFRAME.registerSystem('enemy', {

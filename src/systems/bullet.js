@@ -16,7 +16,7 @@ ASHOOTER.registerBullet = function (name, data, definition) {
     definition: definition
   };
 
-  console.info(`Bullet registered '${name}'`);
+  console.info('Bullet registered ', name);
 };
 
 AFRAME.registerSystem('bullet', {
