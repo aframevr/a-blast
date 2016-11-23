@@ -59,7 +59,7 @@ AFRAME.registerComponent('bullet', {
     }
     else {
       if (type === 'bullet') {
-        // data is the bullet entity collided
+        // data is the bullet entity collided with
         data.components.bullet.resetBullet();
         this.createExplosion(type, data.object3D.position);
       }

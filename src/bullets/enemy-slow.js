@@ -48,9 +48,9 @@ ASHOOTER.registerBullet(
     },
     tick: function (time, delta) {
       //stretch trail
-      if (this.trail && this.trail.scale.y < 1) {
+      if (this.trail && this.trail.scale.y < 0.3) {
         var trailScale = this.trail.scale.y + delta/1000;
-        if (trailScale > 1) { trailScale = 1; }
+        if (trailScale > 0.3) { trailScale = 0.3; }
         this.trail.scale.setY(trailScale);
       }
       if (this.glow) {
