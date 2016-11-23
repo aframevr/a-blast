@@ -2,7 +2,7 @@
 
 AFRAME.registerComponent('gamestate', {
   schema: {
-    health: {default: 50},
+    health: {default: 5},
     numEnemies: {default: 0},
     numSequences: {default: 0},
     points: {default: 0},
@@ -78,6 +78,7 @@ AFRAME.registerComponent('gamestate', {
 
     function publishState (event, newState) {
       var oldState = AFRAME.utils.extend({}, state);
+      //console.log(oldState, newState);
       el.setAttribute('gamestate', newState);
       state = newState;
       el.emit('gamestate-changed', {
@@ -85,7 +86,7 @@ AFRAME.registerComponent('gamestate', {
         diff: AFRAME.utils.diff(oldState, newState),
         state: newState
       });
-      console.log(event, newState);
+      //console.log(event, newState);
     }
   }
 });

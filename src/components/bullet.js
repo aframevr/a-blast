@@ -17,6 +17,12 @@ AFRAME.registerComponent('bullet', {
     this.bullet.definition.init.call(this);
     this.hit = false;
     this.direction = new THREE.Vector3();
+
+    this.sounds = [
+      document.getElementById('explosion0'),
+      document.getElementById('explosion1'),
+      document.getElementById('explosion2')
+    ];
   },
 
   update: function (oldData) {
@@ -28,18 +34,43 @@ AFRAME.registerComponent('bullet', {
     this.startPosition = data.position;
   },
 
+  createExplosion: function (type, position) {
+    var explosion = document.createElement('a-entity');
+    explosion.setAttribute('position', position || this.el.getAttribute('position'));
+    explosion.setAttribute('explosion', 'type: '+type+'; lookAt:' + this.direction.x+' '+this.direction.y+' '+this.direction.z);
+    
+    explosion.setAttribute('sound', {
+      src: this.sounds[Math.floor(Math.random() * this.sounds.length)].src,
+      volume: 1,
+      poolSize: 15,
+      autoplay: true
+    });
+
+    this.el.sceneEl.appendChild(explosion);
+  },
+
   hitObject: function (type, data) {
     this.bullet.definition.onHit.call(this);
     this.hit = true;
     if (this.data.owner === 'enemy') {
+      //var hurtMaterial = document.getElementById('hurt').getAttribute('material');
+      //hurtMaterial.opacity = 1.0;
       this.el.emit('player-hit');
     }
-    if (type === 'bullet') {
-      // data is the bullet entity collided
-      data.components.bullet.resetBullet();
-    }
-    if (type === 'background') {
-      this.el.sceneEl.systems.decals.addDecal(data.point, data.face.normal);
+    else {
+      if (type === 'bullet') {
+        // data is the bullet entity collided
+        data.components.bullet.resetBullet();
+        this.createExplosion(type, data.object3D.position);
+      }
+      else if (type === 'background') {
+        this.el.sceneEl.systems.decals.addDecal(data.point, data.face.normal);
+        var posOffset = data.point.clone().sub(this.direction.clone().multiplyScalar(0.2));
+        this.createExplosion(type, posOffset);
+      }
+      else if (type === 'enemy') {
+        this.createExplosion(type, data.object3D.position);
+      }
     }
     this.resetBullet();
   },
@@ -107,7 +138,7 @@ AFRAME.registerComponent('bullet', {
             var helper = enemy.getAttribute('collision-helper');
             if (!helper) continue;
             var radius = helper.radius;
-            if (newBulletPosition.distanceTo(enemies[i].object3D.position) < radius + bulletRadius) {
+            if (newBulletPosition.distanceTo(enemy.object3D.position) < radius + bulletRadius) {
               enemy.emit('hit');
               this.hitObject('enemy', enemy);
               return;
@@ -120,7 +151,9 @@ AFRAME.registerComponent('bullet', {
             var data = bullet.components['bullet'].data;
             if (data.owner === 'player' || !data.destroyable) { continue; }
 
-            var enemyBulletRadius = bullet.components['collision-helper'].data.radius;
+            var colhelper = bullet.components['collision-helper'];
+            if (!colhelper) continue;
+            var enemyBulletRadius = colhelper.data.radius;
             if (newBulletPosition.distanceTo(bullet.getAttribute('position')) < enemyBulletRadius + bulletRadius) {
               this.hitObject('bullet', bullet);
               return;
@@ -135,19 +168,21 @@ AFRAME.registerComponent('bullet', {
           return;
         }
       }
-/*
+
       // Detect collission aginst the background
       var ray = new THREE.Raycaster(position, direction.clone().normalize());
-      var collisionResults = ray.intersectObjects(this.backgroundEl.getObject3D('mesh').children, true);
-      var self = this;
-      collisionResults.forEach(function (collision) {
-        if (collision.distance < position.length()) {
-          if (!collision.object.el) { return; }
-          self.hitObject('background', collision);
-          return;
-        }
-      });
-*/
+      var background = this.backgroundEl.getObject3D('mesh');
+      if (background) {
+        var collisionResults = ray.intersectObjects(background.children, true);
+        var self = this;
+        collisionResults.forEach(function (collision) {
+          if (collision.distance < position.length()) {
+            if (!collision.object.el) { return; }
+            self.hitObject('background', collision);
+            return;
+          }
+        });
+      }
     };
   })()
 });

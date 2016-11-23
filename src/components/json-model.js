@@ -1,9 +1,9 @@
 /* globals AFRAME THREE */
 AFRAME.registerComponent('json-model', {
   schema: {
-    src: {type: 'src'},
+    src: {type: 'asset'},
     singleModel: {default: false},
-    texturePath: {type: 'src', default: ''},
+    texturePath: {type: 'asset', default: ''},
     debugNormals: {default: false},
     debugNormalsLength: {default: 0.2},
     debugBones: {default: false}

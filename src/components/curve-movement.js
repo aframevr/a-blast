@@ -8,7 +8,7 @@ AFRAME.registerComponent('curve-movement', {
     debug: {default: false},
     type: {default: 'single'},
     restTime: {default: 150},  // ms.
-    speed: {default: 3},  // meters per second.
+    speed: {default: 4},  // meters per second.
     loopStart: {default: 0},
     timeOffset: {default: 0}
   },
@@ -123,8 +123,13 @@ AFRAME.registerComponent('curve-movement', {
     if (this.direction === -1) {
       t = 1 - t;
     }
-    percent = t;
-    percent = inOutCubic(t);
+    
+    if (data.type === 'single') {
+      percent = inOutSine(t);
+    }
+    else {
+      percent = t;
+    }
 
     // Check if next point reached. If so, then update state and start resting.
 /*
@@ -184,6 +189,11 @@ AFRAME.registerComponent('curve-movement', {
     }
   }
 });
+
+function inOutSine(k) {
+  return .5 * (1 - Math.cos(Math.PI * k));
+
+}
 
 function inOutCubic (k) {
   if ((k *= 2) < 1) {

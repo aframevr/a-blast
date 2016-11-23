@@ -11,6 +11,7 @@ ASHOOTER.registerEnemy = function (name, data, definition) {
   }
 
   ASHOOTER.ENEMIES[name] = {
+    poolSize: data.poolSize,
     components: data.components,
     definition: definition,
     name: name

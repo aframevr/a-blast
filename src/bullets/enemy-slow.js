@@ -14,7 +14,7 @@ ASHOOTER.registerBullet(
       },
       'collision-helper': {
         debug: false,
-        radius: 0.15
+        radius: 0.25
       },
       'json-model': {
         src: 'url(https://feiss.github.io/a-shooter-assets/models/enemy-bullet.json)'
@@ -27,19 +27,21 @@ ASHOOTER.registerBullet(
     init: function () {
       var el = this.el;
       el.setAttribute('material', 'color', '#F00');
-      el.setAttribute('scale', {x: 0.11, y: 0.11, z: 0.11});
+      el.setAttribute('scale', {x: 0.25, y: 0.25, z: 0.25});
       this.trail = null;
+      this.glow = null;
       var self = this;
       el.addEventListener('model-loaded', function(event) {
         // @todo Do it outside
         event.detail.model.children[0].material.color.setRGB(1,0,0);
         self.trail = self.el.getObject3D('mesh').getObjectByName('trail');
         self.trail.scale.setY(0.001);
+        self.glow = self.el.getObject3D('mesh').getObjectByName('glow');
       });
     },
     reset: function () {
       var el = this.el;
-      el.setAttribute('scale', {x: 0.11, y: 0.11, z: 0.11});
+      el.setAttribute('scale', {x: 0.25, y: 0.25, z: 0.25});
       if (this.trail) {
         this.trail.scale.setY(0.001);
       }
@@ -50,6 +52,10 @@ ASHOOTER.registerBullet(
         var trailScale = this.trail.scale.y + delta/1000;
         if (trailScale > 1) { trailScale = 1; }
         this.trail.scale.setY(trailScale);
+      }
+      if (this.glow) {
+        var sc = 1 + Math.sin(time / 20.0) * 0.1;
+        this.glow.scale.set(sc, sc, sc);
       }
     },
     onHit: function (type) {

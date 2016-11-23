@@ -8,10 +8,11 @@ ASHOOTER.registerEnemy(
   {
     components: {
       enemy: {
-        name: 'enemy3'
+        name: 'enemy3',
+        bulletName: 'enemy-slow'
       },
       'collision-helper': {
-        debug: true,
+        debug: false,
         radius: 0.65
       },
       'json-model': {
@@ -25,26 +26,8 @@ ASHOOTER.registerEnemy(
   // implementation
   {
     init: function () { this.reset(); },
-    reset: function () {
-      var el = this.el;
-      var position = randomPointInSphere(5, 10);
-      el.setAttribute('position', position);
-    },
-    tick: function (time, delta) {
-      var el = this.el;
-
-      var position = el.getAttribute('position');
-
-      if (position.x > 5) { this.direction = -1; }
-      if (position.x < -5) { this.direction = 1; }
-      position.x += this.direction * delta / 500;
-      el.setAttribute('position', position);
-
-      var scale = (Math.sin(time / 50) + 1) / 2;
-      var scaley = scale * 0.2 + 0.8;
-      var scalex = (1 - scale) * 0.2 + 0.8;
-      el.setAttribute('scale', {x: scalex, y: scaley, z: 1});
-    },
+    reset: function () {},
+    tick: function (time, delta) {},
     onHit: function (type) {}
   }
 );
