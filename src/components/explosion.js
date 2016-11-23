@@ -44,6 +44,7 @@ AFRAME.registerComponent('explosion', {
           {textureIdx: 4, billboard: true,  color: '#24CAFF', scale: .3, grow: 3, dispersion: 0, copies: 1, speed: 0 },
           {textureIdx: 0, billboard: true,  color: '#24CAFF', scale: 0.03, grow: 1, dispersion: 0.3, copies: 8, speed: 1.6, noFade: true }
         ];
+      break;
       case 'enemygun':
         this.data.duration = 500;
         parts = [
