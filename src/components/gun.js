@@ -85,7 +85,7 @@ AFRAME.registerComponent('weapon', {
   },
 
   tick: function (time, delta) {
-    if (this.lightObj.intensity > 0.0) {
+    if (this.lightObj && this.lightObj.intensity > 0.0) {
       this.light.visible = true;
       this.lightObj.intensity -= delta / 1000 * 10;
       if (this.lightObj.intensity < 0.0) {
