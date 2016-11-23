@@ -13,12 +13,8 @@ var WAVES = [
             random: 0,
           },
           {
-<<<<<<< HEAD
-            type: ["enemy0", "enemy0", "enemy0", "enemy0"],
+            type: ["enemy1", "enemy1", "enemy1", "enemy1"],
             enemyTimeOffset: -800,
-=======
-            type: "enemy1",
->>>>>>> improved explosions, fixed pool warnings
             points: [[5.002,1.591,-6.192],[1.470,2.528,-6.134],[1.857,3.830,-5.698],[1.273,4.929,-5.336],[-0.148,5.192,-5.281],[-1.403,4.676,-5.482],[-1.699,3.503,-5.803],[-1.310,2.668,-6.039],[0.464,2.217,-6.077]],
             movement: "loop",
             loopStart: 3,
