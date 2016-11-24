@@ -43,22 +43,10 @@
         look-controls
         shoot="direction: 0 0 -1; spaceKeyEnabled: true">
         <!-- sound="src: url(https://fernandojsg.github.io/a-shooter-assets/sounds/hit0.ogg); on: player-hit" -->
-
-        <a-entity id="gameover" gamestate-bind="isGameOver: visible" visible="false">
-  <!--        <a-entity id="hurt"
-            geometry="primitive:sphere; radius:1.5; phiLength:180; phiStart:180; segmentsHeight:6; segmentsWidth:7"
-            material="side:double"
-            position="0 0 -0.2">
-          </a-entity>
--->
-          <a-entity id="gameover" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/gameover.json)"></a-entity>
-          <!--<a-entity id="welldone" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/welldone.json)"></a-entity>-->
-        </a-entity>
-
         <a-entity id="hurt"
           geometry="primitive:sphere;radius:0.5;phiLength:180;phiStart:180;segmentsHeight:6;segmentsWidth:7"
           position="0 0 -0.2"
-          material="shader: flat; side: back; transparent: true; opacity: 0.0; src: #hurtImg"
+          material="shader: flat; side: back; transparent: true; opacity: 0.0; depthTest: false; src: #hurtImg"
           visible="false">
           <a-animation id="player-hit-anim" attribute="material.opacity" to="1" from="0" begin="player-hit" direction="alternate" dur="500" repeat="1"></a-animation>
         </a-entity>
@@ -97,6 +85,14 @@
         geometry="primitive: sphere; radius: 600;"
         material="shader: flat; color: #1a4d5f; fog: false; side: double; src: url(https://fernandojsg.github.io/a-shooter-assets/images/sky.jpg)"
       ></a-entity>-->
+
+      <a-entity id="gameover" gamestate-bind="isGameOver: visible" visible="false">
+        <a-entity id="gameover" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/gameover.json)"></a-entity>
+      </a-entity>
+
+      <a-entity id="welldone" gamestate-bind="isGameWin: visible" visible="false">
+        <a-entity id="welldone" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/welldone.json)"></a-entity>
+      </a-entity>
 
       <a-entity id="mainmenu">
         <a-entity id="logo" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/logo.json)" mainmenu></a-entity>

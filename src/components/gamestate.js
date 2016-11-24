@@ -7,7 +7,8 @@ AFRAME.registerComponent('gamestate', {
     numSequences: {default: 0},
     points: {default: 0},
     isGameOver: {default: false},
-    state: {default: 'STATE_MAIN_MENU', oneOf: ['STATE_MAIN_MENU', 'STATE_PLAYING', 'STATE_GAME_OVER']},
+    isGameWin: {default: false},
+    state: {default: 'STATE_MAIN_MENU', oneOf: ['STATE_MAIN_MENU', 'STATE_PLAYING', 'STATE_GAME_OVER', 'STATE_GAME_WIN']},
     wave: {default: 0},
     waveSequence: {default: 0}
   },
@@ -24,6 +25,11 @@ AFRAME.registerComponent('gamestate', {
 
     registerHandler('enemy-death', function (newState) {
       newState.points += 1;
+      if (newState.points > 3) {
+        newState.state = 'STATE_GAME_WIN';
+        newState.isGameWin = true;
+      }
+
       newState.numEnemies--;
       // All enemies killed, advance wave.
       if (newState.numEnemies === 0) {
@@ -51,6 +57,7 @@ AFRAME.registerComponent('gamestate', {
 
     registerHandler('start-game', function (newState) {
       newState.isGameOver = false;
+      newState.isGameWin = false;
       newState.state = 'STATE_PLAYING';
       return newState;
     });
@@ -61,12 +68,6 @@ AFRAME.registerComponent('gamestate', {
         newState.isGameOver = true;
         newState.numEnemies = 0;
         newState.state = 'STATE_GAME_OVER';
-
-        // TEMPORARY: Reset the game after a few seconds.
-        // Later be on explicit action.
-        setTimeout(function () {
-          publishState(initialState);
-        }, 5000);
       }
       return newState;
     });

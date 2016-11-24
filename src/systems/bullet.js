@@ -21,8 +21,25 @@ ASHOOTER.registerBullet = function (name, data, definition) {
 
 AFRAME.registerSystem('bullet', {
   init: function () {
+    var self = this;
     this.poolHelper = new PoolHelper('bullet', ASHOOTER.BULLETS, this.sceneEl);
     this.activeBullets = [];
+
+    this.sceneEl.addEventListener('gamestate-changed', function (evt) {
+      if ('state' in evt.detail.diff) {
+        if (evt.detail.state.state === 'STATE_GAME_OVER' || evt.detail.state.state === 'STATE_GAME_WIN') {
+          self.reset();
+        }
+      }
+    });
+  },
+
+  reset: function (entity) {
+    var self = this;
+    console.log(this.activeBullets);
+    this.activeBullets.forEach(function (bullet) {
+      self.returnBullet(bullet.getAttribute('bullet').name, bullet);
+    });
   },
 
   returnBullet: function (name, entity) {

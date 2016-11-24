@@ -46,7 +46,7 @@ AFRAME.registerSystem('enemy', {
             self.createWave(0);
           }, 1000);
         }
-        if (evt.detail.state.state === 'STATE_GAME_OVER') {
+        if (evt.detail.state.state === 'STATE_GAME_OVER' || evt.detail.state.state === 'STATE_GAME_WIN') {
           self.reset();
         }
       }
