@@ -3,7 +3,8 @@ AFRAME.registerComponent('enemy', {
   schema: {
     name: {default: 'enemy0'},
     bulletName: {default: 'enemy-slow'},
-    shootingDelay: {default: 200} // ms
+    shootingDelay: {default: 200}, // ms
+    color: {default: '#fff'}
   },
   init: function () {
     this.alive = true;
@@ -11,6 +12,7 @@ AFRAME.registerComponent('enemy', {
     this.hipBone = null;
     this.definition = ASHOOTER.ENEMIES[this.data.name].definition;
     this.definition.init.call(this);
+    this.color = ASHOOTER.ENEMIES[this.data.name].components.enemy.color;
     this.lastShootTime = undefined;
     this.shootAt = 0;
     this.warmUpTime = 1000;
@@ -24,7 +26,7 @@ AFRAME.registerComponent('enemy', {
 
     // gun glow
     this.gunGlowMaterial = new THREE.MeshBasicMaterial({
-      color: {'enemy-slow': '#F00', 'enemy-fat':'#F70', 'enemy-fast': '#FFBE34'}[this.data.bulletName],
+      color: this.color,
       side: THREE.DoubleSide,
       transparent: true,
       blending: THREE.AdditiveBlending,
@@ -127,7 +129,7 @@ AFRAME.registerComponent('enemy', {
     var explosion = document.createElement('a-entity');
     explosion.setAttribute('position', gunPosition);
     explosion.setAttribute('scale', scale);
-    explosion.setAttribute('explosion', 'type: enemygun; color: #'+this.gunGlowMaterial.color.getHexString()+'; lookAt:' + direction.x+' '+direction.y+' '+direction.z);
+    explosion.setAttribute('explosion', 'type: enemygun; color: '+this.color+'; lookAt:' + direction.x+' '+direction.y+' '+direction.z);
     this.el.sceneEl.appendChild(explosion);
 
     // Ask system for bullet and set bullet position to starting point.

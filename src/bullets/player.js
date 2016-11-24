@@ -9,7 +9,8 @@ ASHOOTER.registerBullet(
         name: 'default',
         maxSpeed: 1,
         initialSpeed: 0.1,
-        acceleration: 0.4
+        acceleration: 0.4,
+        color: '#24CAFF'
       },
       'collision-helper': {
         debug: false,
@@ -25,7 +26,8 @@ ASHOOTER.registerBullet(
   {
     init: function () {
       var el = this.el;
-      el.setAttribute('material', 'color', '#24CAFF');
+      var color = this.bullet.components.bullet.color;
+      el.setAttribute('material', 'color', color);
       el.setAttribute('scale', {x: 0.2, y: 0.2, z: 0.2});
       this.trail = null;
       var self = this;

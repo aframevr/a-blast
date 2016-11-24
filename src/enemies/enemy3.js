@@ -9,7 +9,8 @@ ASHOOTER.registerEnemy(
     components: {
       enemy: {
         name: 'enemy3',
-        bulletName: 'enemy-fat'
+        bulletName: 'enemy-fat',
+        color: '#8762FF'
       },
       'collision-helper': {
         debug: false,
@@ -26,8 +27,8 @@ ASHOOTER.registerEnemy(
   // implementation
   {
     init: function () { 
-      this.shootingDelay = 1900;
-      this.warmUpTime = 500;
+      this.shootingDelay = 5000;
+      this.warmUpTime = 1000;
       this.reset(); 
     },
     reset: function () {

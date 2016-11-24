@@ -10,7 +10,8 @@ ASHOOTER.registerBullet(
         maxSpeed: 0.1,
         initialSpeed: 0.1,
         acceleration: 0.1,
-        destroyable: true
+        destroyable: true,
+        color: '#FF7F00'
       },
       'collision-helper': {
         debug: false,
@@ -26,13 +27,14 @@ ASHOOTER.registerBullet(
   {
     init: function () {
       var el = this.el;
-      el.setAttribute('material', 'color', '#FFBE34');
+      var color = this.bullet.components.bullet.color;
+      el.setAttribute('material', 'color', color);
       el.setAttribute('scale', {x: 0.06, y: 0.06, z: 0.06});
       this.trail = null;
       var self = this;
       el.addEventListener('model-loaded', function(event) {
         // @todo Do it outside
-        event.detail.model.children[0].material.color.setHex(0xFFBE34);
+        event.detail.model.children[0].material.color.setStyle(color);
         self.trail = self.el.getObject3D('mesh').getObjectByName('trail');
         self.trail.scale.setY(0.001);
       });

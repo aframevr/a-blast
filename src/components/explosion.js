@@ -31,7 +31,6 @@ AFRAME.registerComponent('explosion', {
         ];
       break;
       case 'bullet':
-        this.data.color = '#FF0000';
         parts = [
           {textureIdx: 2, billboard: true,  color: this.data.color, scale: .5, grow: 3, dispersion: 0, copies: 1, speed: 0 },
           {textureIdx: 4, billboard: true,  color: '#24CAFF', scale: .3, grow: 4, dispersion: 0, copies: 1, speed: 0 },

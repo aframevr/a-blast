@@ -9,7 +9,8 @@ ASHOOTER.registerEnemy(
     components: {
       enemy: {
         name: 'enemy1',
-        bulletName: 'enemy-fast'
+        bulletName: 'enemy-fast',
+        color: '#FF7D00'
       },
       'collision-helper': {
         debug: false,

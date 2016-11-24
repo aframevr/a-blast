@@ -8,7 +8,8 @@ ASHOOTER.registerEnemy(
   {
     components: {
       'enemy': {
-        name: 'enemy_static'
+        name: 'enemy_static',
+        color: '#FFF'
       },
       'collision-helper': {
         debug: true,
