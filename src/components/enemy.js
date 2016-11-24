@@ -3,15 +3,23 @@ AFRAME.registerComponent('enemy', {
   schema: {
     name: {default: 'enemy0'},
     bulletName: {default: 'enemy-slow'},
-    shootingDelay: {default: 200} // ms
+    shootingDelay: {default: 200}, // ms
+    color: {default: '#fff'},
+    scale: {default: 1}
   },
   init: function () {
     this.alive = true;
-    this.gunOffset = new THREE.Vector3(0.0, 0.44, 0.5);
     this.hipBone = null;
     this.definition = ASHOOTER.ENEMIES[this.data.name].definition;
     this.definition.init.call(this);
+    var comp = ASHOOTER.ENEMIES[this.data.name].components.enemy;
+    this.maxhealth = this.health = comp.health; 
+    this.color = comp.color;
+    this.scale = comp.scale;
+    this.gunOffset = new THREE.Vector3(0.0, 0.44, 0.5).multiplyScalar(this.scale);
     this.lastShootTime = undefined;
+    this.shootAt = 0;
+    this.warmUpTime = 1000;
     this.paused = false;
 
     var self = this;
@@ -22,7 +30,7 @@ AFRAME.registerComponent('enemy', {
 
     // gun glow
     this.gunGlowMaterial = new THREE.MeshBasicMaterial({
-      color: '#ff0000',
+      color: this.color,
       side: THREE.DoubleSide,
       transparent: true,
       blending: THREE.AdditiveBlending,
@@ -38,9 +46,8 @@ AFRAME.registerComponent('enemy', {
       this.gunGlowMaterial.needsUpdate = true;
       this.gunGlowMaterial.visible = true;
     }
-    this.gunGlow = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), this.gunGlowMaterial);
+    this.gunGlow = new THREE.Mesh(new THREE.PlaneGeometry(this.scale, this.scale), this.gunGlowMaterial);
     this.gunGlow.position.copy(this.gunOffset);
-    this.gunGlow.rotation.set(0.0, 0.0, 0.0);
     this.el.setObject3D('glow', this.gunGlow);
 
     this.exploding = false;
@@ -67,31 +74,21 @@ AFRAME.registerComponent('enemy', {
       return;
     }
 
-    this.el.emit('enemy-hit');
+    this.health--;
 
-    // this.shoot(); // Add as a parameter to shoot back when dead
+    if (this.health <= 0) {
+      this.el.emit('enemy-hit');
+      this.exploding = true;
 
-    /*
-    var children = this.el.getObject3D('mesh').children;
-    for (var i = 0; i < children.length; i++) {
-      children[i].explodingDirection = new THREE.Vector3(
-        2 * Math.random() - 1,
-        2 * Math.random() - 1,
-        2 * Math.random() - 1);
-      children[i].startPosition = children[i].position.clone();
-      children[i].endPosition = children[i].position.clone().add(children[i].explodingDirection.clone().multiplyScalar(3));
+      var mesh = this.el.getObject3D('mesh');
+      this.whiteMaterial = new THREE.MeshBasicMaterial({color: this.color, transparent: true });
+      mesh.normalMaterial = mesh.material;
+      mesh.material = this.whiteMaterial;
+
+      this.gunGlow.visible = false;
+
+      this.system.activeEnemies.splice(this.system.activeEnemies.indexOf(this.el), 1);
     }
-    */
-    this.exploding = true;
-    
-    var mesh = this.el.getObject3D('mesh');
-    this.whiteMaterial = new THREE.MeshBasicMaterial({color: 16777215, transparent: true });
-    mesh.normalMaterial = mesh.material;
-    mesh.material = this.whiteMaterial;
-
-    this.gunGlow.visible = false;
-
-    this.system.activeEnemies.splice(this.system.activeEnemies.indexOf(this.el), 1);
   },
 
   die: function () {
@@ -101,80 +98,90 @@ AFRAME.registerComponent('enemy', {
   },
 
   reset: function () {
-    //if it has exploded before, reset explosion properties
-    /*if (this.el.hasAttribute('explosion')) {
-      var mesh = this.el.getObject3D('mesh');
-      mesh.material.opacity = 1;
-      this.el.removeObject3D('explosion');
-      this.el.removeAttribute('explosion');
-      mesh.scale.set(1, 1, 1);
-      this.el.setAttribute('scale', '1 1 1');
-      mesh.material = mesh.normalMaterial;
-    }*/
     var mesh = this.el.getObject3D('mesh');
     if (mesh) {
       mesh.material.opacity = 1;
-      mesh.scale.set(1, 1, 1);
+      mesh.scale.set(this.scale, this.scale, this.scale);
       mesh.material = mesh.normalMaterial;
       this.gunGlow.visible = true;
       this.gunGlow.scale.set(1, 1, 1);
       this.gunGlowMaterial.opacity = 0.3;
     }
-    
+
     this.el.setAttribute('scale', '1 1 1');
     this.explodingTime = undefined;  
     this.lastShootTime = undefined;
+    this.shootAt = 0;
+    this.warmUpTime = 1000;
 
+    this.health = this.maxhealth;
     this.alive = true;
     this.exploding = false;
     this.definition.reset.call(this);
   },
 
-  shoot: function () {
+  shoot: function (time, delta) {
     var el = this.el;
+    if (!el) return;
     var data = this.data;
-    var position = el.object3D.position.clone().add(this.gunOffset);
-    if (this.hipBone) {
-      //position.y += this.hipBone.position.y;
-    }
+    var mesh = el.object3D;
+    var gunPosition = mesh.localToWorld(this.gunGlow.position.clone());
     var head = el.sceneEl.camera.el.components['look-controls'].dolly.position.clone();
-    var direction = head.sub(el.object3D.position).normalize();
+    var direction = head.sub(mesh.position).normalize();
+
+    this.lastShootTime = time;
+
+    this.gunGlow.scale.set(3, 3, 3);
+    this.gunGlowMaterial.opacity = 1;
+
+    var explosion = document.createElement('a-entity');
+    explosion.setAttribute('position', gunPosition);
+    explosion.setAttribute('explosion', {
+      type: 'enemygun',
+      color: this.color,
+      scale: this.scale,
+      lookAt: direction
+    });
+    this.el.sceneEl.appendChild(explosion);
 
     // Ask system for bullet and set bullet position to starting point.
     var bulletEntity = el.sceneEl.systems.bullet.getBullet(data.bulletName);
     bulletEntity.setAttribute('bullet', {
-      position: position,
+      position: gunPosition,
       direction: direction,
       owner: 'enemy'
     });
-    bulletEntity.setAttribute('position', position);
+    bulletEntity.setAttribute('position', gunPosition);
     bulletEntity.setAttribute('visible', true);
     bulletEntity.play();
+  },
+
+  willShoot: function (time, delta, warmUpTime) {
+    this.shootAt = time + warmUpTime; 
+    this.warmUpTime = warmUpTime;
   },
 
   tick: function (time, delta) {
     if (!this.alive || this.paused) {
       return;
     }
-    if (this.lastShootTime === undefined) {
-      this.lastShootTime = time;
-    }
-    else {
-      var elapsedShootTime = time - this.lastShootTime;
-      if (elapsedShootTime > this.data.shootingDelay) {
-        this.lastShootTime = time;
-        this.gunGlow.scale.set(1, 1, 1);
-        this.gunGlowMaterial.opacity = 0.3;
-        this.shoot();
-      }
-      else if (this.data.shootingDelay - elapsedShootTime < 1000) {
-        this.gunGlowMaterial.opacity = elapsedShootTime / this.data.shootingDelay;
-      }
-    }
 
     if (!this.exploding) {
-      var glowScale = 1.0 + Math.abs(Math.sin(time/50));
-      this.gunGlow.scale.set(glowScale, glowScale, glowScale);
+      //gun glow
+      var glowFadeOutTime = 700;
+      if (this.lastShootTime === undefined) {
+        this.lastShootTime = time;
+      }
+      else {
+        if (this.shootAt - time < this.warmUpTime) {
+          this.gunGlowMaterial.opacity = (this.shootAt - time) / this.warmUpTime;
+          var glowScale = 1.0 + Math.abs(Math.sin(time / 50));
+          this.gunGlow.scale.set(glowScale, glowScale, glowScale);
+        }
+        else if (time - this.lastShootTime < glowFadeOutTime) {
+          this.gunGlowMaterial.opacity = 1 - (time - this.lastShootTime) / glowFadeOutTime;
+        }
+      }
       this.gunGlow.position.copy(this.gunOffset);
       if (this.hipBone) {
         this.gunGlow.position.y += this.hipBone.position.y;
@@ -191,7 +198,7 @@ AFRAME.registerComponent('enemy', {
       }
       var t0 = (time - this.explodingTime) / this.explodingDuration;
 
-      var scale = 1 + t0 * ( 2 - t0 ); //out easing
+      var scale = this.scale + t0 * ( 2 - t0 ); //out easing
 
       var mesh = this.el.getObject3D('mesh');
       mesh.scale.set(scale, scale, scale);
@@ -199,27 +206,6 @@ AFRAME.registerComponent('enemy', {
       if (t0 >= 1) {
         this.die();
       }
-/*
-      if (!this.explodingTime) {
-        this.explodingTime = time;
-      }
-      var duration = 3000;
-      var t0 = (time - this.explodingTime) / duration;
-      var children = this.el.getObject3D('mesh').children;
-      var t = TWEEN.Easing.Exponential.Out(t0);
-
-      for (var i = 0; i < children.length; i++) {
-        children[i].position.copy(children[i].startPosition.clone().lerp(children[i].endPosition, t));
-        var dur = 1 - t;
-        children[i].scale.set(dur, dur, dur);
-        children[i].material.opacity = (1 - t0);
-        children[i].material.transparent = true;
-      }
-      if (t0 >= 1) {
-        this.die();
-      }
-      return;
-*/
     }
 
   }

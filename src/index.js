@@ -13,6 +13,7 @@ require('./systems/enemy.js');
 require('./bullets/player.js');
 require('./bullets/enemy-slow.js');
 require('./bullets/enemy-fast.js');
+require('./bullets/enemy-fat.js');
 
 // Enemies.
 require('./enemies/enemy0.js');

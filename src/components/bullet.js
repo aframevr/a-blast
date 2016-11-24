@@ -8,7 +8,8 @@ AFRAME.registerComponent('bullet', {
     position: { type: 'vec3' },
     acceleration: { default: 0.5 },
     destroyable: { default: false },
-    owner: {default: 'player', oneOf: ['enemy', 'player']}
+    owner: {default: 'player', oneOf: ['enemy', 'player']},
+    color: {default: '#fff'}
   },
 
   init: function () {
@@ -34,10 +35,15 @@ AFRAME.registerComponent('bullet', {
     this.startPosition = data.position;
   },
 
-  createExplosion: function (type, position) {
+  createExplosion: function (type, position, color, scale) {
     var explosion = document.createElement('a-entity');
     explosion.setAttribute('position', position || this.el.getAttribute('position'));
-    explosion.setAttribute('explosion', 'type: '+type+'; lookAt:' + this.direction.x+' '+this.direction.y+' '+this.direction.z);
+    explosion.setAttribute('explosion', {
+        type: type,
+        lookAt: this.direction,
+        color: color || '#FFF',
+        scale: scale || 1.0
+    });
     
     explosion.setAttribute('sound', {
       src: this.sounds[Math.floor(Math.random() * this.sounds.length)].src,
@@ -59,9 +65,9 @@ AFRAME.registerComponent('bullet', {
     }
     else {
       if (type === 'bullet') {
-        // data is the bullet entity collided
+        // data is the bullet entity collided with
         data.components.bullet.resetBullet();
-        this.createExplosion(type, data.object3D.position);
+        this.createExplosion(type, data.object3D.position, data.getAttribute('bullet').color);
       }
       else if (type === 'background') {
         this.el.sceneEl.systems.decals.addDecal(data.point, data.face.normal);
@@ -69,7 +75,13 @@ AFRAME.registerComponent('bullet', {
         this.createExplosion(type, posOffset);
       }
       else if (type === 'enemy') {
-        this.createExplosion(type, data.object3D.position);
+        var enemy = data.getAttribute('enemy');
+        if (data.components['enemy'].health <= 0) {
+          this.createExplosion('ememy', data.object3D.position, enemy.color, enemy.scale);
+        }
+        else {
+          this.createExplosion('bullet', this.el.object3D.position, enemy.color, enemy.scale);
+        }
       }
     }
     this.resetBullet();
@@ -116,7 +128,7 @@ AFRAME.registerComponent('bullet', {
       this.el.setAttribute('position', newBulletPosition);
 
       // Check if the bullet is lost in the sky
-      if (position.length() >= 80) {
+      if (position.length() >= 50) {
         this.resetBullet();
         return;
       }
