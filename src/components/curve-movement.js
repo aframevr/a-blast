@@ -69,7 +69,6 @@ AFRAME.registerComponent('curve-movement', {
     }
   },
   play: function () {
-    console.info("Playing", this.data.timeOffset);
     this.time = this.data.timeOffset;
   },
   tick: function (time, delta) {
@@ -123,7 +122,7 @@ AFRAME.registerComponent('curve-movement', {
     if (this.direction === -1) {
       t = 1 - t;
     }
-    
+
     if (data.type === 'single') {
       percent = inOutSine(t);
     }

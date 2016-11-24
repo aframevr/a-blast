@@ -7,7 +7,7 @@ AFRAME.registerComponent('gamestate', {
     numSequences: {default: 0},
     points: {default: 0},
     isGameOver: {default: false},
-    state: {default: 'STATE_START'},
+    state: {default: 'STATE_MAIN_MENU', oneOf: ['STATE_MAIN_MENU', 'STATE_START', 'STATE_GAME_OVER']},
     wave: {default: 0},
     waveSequence: {default: 0}
   },
@@ -46,6 +46,12 @@ AFRAME.registerComponent('gamestate', {
 
     registerHandler('enemy-spawn', function (newState) {
       newState.numEnemies++;
+      return newState;
+    });
+
+    registerHandler('start-game', function (newState) {
+      newState.isGameOver = false;
+      newState.state = 'STATE_START';
       return newState;
     });
 

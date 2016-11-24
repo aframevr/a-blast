@@ -13,6 +13,7 @@ AFRAME.registerComponent('bullet', {
   },
 
   init: function () {
+    this.startEnemy = document.getElementById('start_enemy');
     this.backgroundEl = document.getElementById('border');
     this.bullet = ASHOOTER.BULLETS[this.data.name];
     this.bullet.definition.init.call(this);
@@ -44,7 +45,7 @@ AFRAME.registerComponent('bullet', {
         color: color || '#FFF',
         scale: scale || 1.0
     });
-    
+
     explosion.setAttribute('sound', {
       src: this.sounds[Math.floor(Math.random() * this.sounds.length)].src,
       volume: 1,
@@ -144,16 +145,30 @@ AFRAME.registerComponent('bullet', {
 
         // Detect collision against enemies
         if (this.data.owner === 'player') {
-          var enemies = this.el.sceneEl.systems.enemy.activeEnemies;
-          for (var i = 0; i < enemies.length; i++) {
-            var enemy = enemies[i];
+          // Detect collision with the start game enemy
+          if (this.el.sceneEl.getAttribute('gamestate').state === 'STATE_MAIN_MENU') {
+            var enemy = this.startEnemy;
             var helper = enemy.getAttribute('collision-helper');
-            if (!helper) continue;
+            // if (!helper) continue;
             var radius = helper.radius;
             if (newBulletPosition.distanceTo(enemy.object3D.position) < radius + bulletRadius) {
               enemy.emit('hit');
               this.hitObject('enemy', enemy);
               return;
+            }
+          } else {
+            // Detect collisions with all the active enemies
+            var enemies = this.el.sceneEl.systems.enemy.activeEnemies;
+            for (var i = 0; i < enemies.length; i++) {
+              var enemy = enemies[i];
+              var helper = enemy.getAttribute('collision-helper');
+              if (!helper) continue;
+              var radius = helper.radius;
+              if (newBulletPosition.distanceTo(enemy.object3D.position) < radius + bulletRadius) {
+                enemy.emit('hit');
+                this.hitObject('enemy', enemy);
+                return;
+              }
             }
           }
 

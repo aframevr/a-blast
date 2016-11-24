@@ -39,11 +39,12 @@ AFRAME.registerSystem('enemy', {
     this.activeEnemies = [];
 
     // TODO: Enable A-Frame `System.update()` to decouple from gamestate.
-    this.createWave(0);
     sceneEl.addEventListener('gamestate-changed', function (evt) {
       if ('state' in evt.detail.diff) {
         if (evt.detail.state.state === 'STATE_START') {
-          self.createWave(0);
+          setTimeout(function(){
+            self.createWave(0);
+          }, 1000);
         }
         if (evt.detail.state.state === 'STATE_GAME_OVER') {
           self.reset();
@@ -65,8 +66,13 @@ AFRAME.registerSystem('enemy', {
   },
 
   onEnemyDeath: function (name, entity) {
-    this.poolHelper.returnEntity(name, entity);
-    this.sceneEl.emit('enemy-death');
+    if (this.sceneEl.getAttribute('gamestate').state === 'STATE_MAIN_MENU') {
+      document.getElementById('mainmenu').setAttribute('visible', false);
+      this.sceneEl.emit('start-game');
+    } else {
+      this.poolHelper.returnEntity(name, entity);
+      this.sceneEl.emit('enemy-death');
+    }
   },
 
   createSequence: function (sequenceNumber) {

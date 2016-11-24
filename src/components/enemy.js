@@ -5,7 +5,8 @@ AFRAME.registerComponent('enemy', {
     bulletName: {default: 'enemy-slow'},
     shootingDelay: {default: 200}, // ms
     color: {default: '#fff'},
-    scale: {default: 1}
+    scale: {default: 1},
+    canShoot: {default: true}
   },
   init: function () {
     this.alive = true;
@@ -13,7 +14,7 @@ AFRAME.registerComponent('enemy', {
     this.definition = ASHOOTER.ENEMIES[this.data.name].definition;
     this.definition.init.call(this);
     var comp = ASHOOTER.ENEMIES[this.data.name].components.enemy;
-    this.maxhealth = this.health = comp.health; 
+    this.maxhealth = this.health = comp.health;
     this.color = comp.color;
     this.scale = comp.scale;
     this.gunOffset = new THREE.Vector3(0.0, 0.44, 0.5).multiplyScalar(this.scale);
@@ -109,7 +110,7 @@ AFRAME.registerComponent('enemy', {
     }
 
     this.el.setAttribute('scale', '1 1 1');
-    this.explodingTime = undefined;  
+    this.explodingTime = undefined;
     this.lastShootTime = undefined;
     this.shootAt = 0;
     this.warmUpTime = 1000;
@@ -157,7 +158,7 @@ AFRAME.registerComponent('enemy', {
   },
 
   willShoot: function (time, delta, warmUpTime) {
-    this.shootAt = time + warmUpTime; 
+    this.shootAt = time + warmUpTime;
     this.warmUpTime = warmUpTime;
   },
 
@@ -165,6 +166,7 @@ AFRAME.registerComponent('enemy', {
     if (!this.alive || this.paused) {
       return;
     }
+    // if (this.data.canShoot) {
 
     if (!this.exploding) {
       //gun glow
@@ -180,6 +182,18 @@ AFRAME.registerComponent('enemy', {
         }
         else if (time - this.lastShootTime < glowFadeOutTime) {
           this.gunGlowMaterial.opacity = 1 - (time - this.lastShootTime) / glowFadeOutTime;
+/*=======
+        var elapsedShootTime = time - this.lastShootTime;
+        if (elapsedShootTime > this.data.shootingDelay) {
+          this.lastShootTime = time;
+          this.gunGlow.scale.set(1, 1, 1);
+          this.gunGlowMaterial.opacity = 0.3;
+          this.shoot();
+        }
+        else if (this.data.shootingDelay - elapsedShootTime < 1000) {
+          this.gunGlowMaterial.opacity = elapsedShootTime / this.data.shootingDelay;
+>>>>>>> Main menu state
+*/
         }
       }
       this.gunGlow.position.copy(this.gunOffset);
@@ -191,8 +205,7 @@ AFRAME.registerComponent('enemy', {
       this.el.object3D.lookAt(head);
 
       this.definition.tick.call(this, time, delta);
-    }
-    else {
+    } else {
       if (!this.explodingTime) {
         this.explodingTime = time;
       }
