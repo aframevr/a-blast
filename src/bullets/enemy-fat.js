@@ -15,7 +15,7 @@ ASHOOTER.registerBullet(
       },
       'collision-helper': {
         debug: false,
-        radius: 1.1
+        radius: 0.5
       },
       'json-model': {
         src: 'url(https://feiss.github.io/a-shooter-assets/models/enemy-bullet.json)'
@@ -29,7 +29,7 @@ ASHOOTER.registerBullet(
       var el = this.el;
       var color = this.bullet.components.bullet.color;
       el.setAttribute('material', 'color', color);
-      el.setAttribute('scale', {x: 1, y: 1, z: 1});
+      el.setAttribute('scale', {x: 0.5, y: 0.5, z: 0.5});
       this.trail = null;
       this.glow = null;
       var self = this;
@@ -43,7 +43,7 @@ ASHOOTER.registerBullet(
     },
     reset: function () {
       var el = this.el;
-      el.setAttribute('scale', {x: 1, y: 1, z: 1});
+      el.setAttribute('scale', {x: 0.5, y: 0.5, z: 0.5});
       if (this.trail) {
         this.trail.scale.setY(0.001);
       }

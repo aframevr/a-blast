@@ -4,15 +4,19 @@ AFRAME.registerComponent('enemy', {
     name: {default: 'enemy0'},
     bulletName: {default: 'enemy-slow'},
     shootingDelay: {default: 200}, // ms
-    color: {default: '#fff'}
+    color: {default: '#fff'},
+    scale: {default: 1}
   },
   init: function () {
     this.alive = true;
-    this.gunOffset = new THREE.Vector3(0.0, 0.44, 0.5);
     this.hipBone = null;
     this.definition = ASHOOTER.ENEMIES[this.data.name].definition;
     this.definition.init.call(this);
-    this.color = ASHOOTER.ENEMIES[this.data.name].components.enemy.color;
+    var comp = ASHOOTER.ENEMIES[this.data.name].components.enemy;
+    this.maxhealth = this.health = comp.health; 
+    this.color = comp.color;
+    this.scale = comp.scale;
+    this.gunOffset = new THREE.Vector3(0.0, 0.44, 0.5).multiplyScalar(this.scale);
     this.lastShootTime = undefined;
     this.shootAt = 0;
     this.warmUpTime = 1000;
@@ -42,7 +46,7 @@ AFRAME.registerComponent('enemy', {
       this.gunGlowMaterial.needsUpdate = true;
       this.gunGlowMaterial.visible = true;
     }
-    this.gunGlow = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), this.gunGlowMaterial);
+    this.gunGlow = new THREE.Mesh(new THREE.PlaneGeometry(this.scale, this.scale), this.gunGlowMaterial);
     this.gunGlow.position.copy(this.gunOffset);
     this.el.setObject3D('glow', this.gunGlow);
 
@@ -70,17 +74,21 @@ AFRAME.registerComponent('enemy', {
       return;
     }
 
-    this.el.emit('enemy-hit');
-    this.exploding = true;
-    
-    var mesh = this.el.getObject3D('mesh');
-    this.whiteMaterial = new THREE.MeshBasicMaterial({color: 16777215, transparent: true });
-    mesh.normalMaterial = mesh.material;
-    mesh.material = this.whiteMaterial;
+    this.health--;
 
-    this.gunGlow.visible = false;
+    if (this.health <= 0) {
+      this.el.emit('enemy-hit');
+      this.exploding = true;
 
-    this.system.activeEnemies.splice(this.system.activeEnemies.indexOf(this.el), 1);
+      var mesh = this.el.getObject3D('mesh');
+      this.whiteMaterial = new THREE.MeshBasicMaterial({color: this.color, transparent: true });
+      mesh.normalMaterial = mesh.material;
+      mesh.material = this.whiteMaterial;
+
+      this.gunGlow.visible = false;
+
+      this.system.activeEnemies.splice(this.system.activeEnemies.indexOf(this.el), 1);
+    }
   },
 
   die: function () {
@@ -93,19 +101,20 @@ AFRAME.registerComponent('enemy', {
     var mesh = this.el.getObject3D('mesh');
     if (mesh) {
       mesh.material.opacity = 1;
-      mesh.scale.set(1, 1, 1);
+      mesh.scale.set(this.scale, this.scale, this.scale);
       mesh.material = mesh.normalMaterial;
       this.gunGlow.visible = true;
       this.gunGlow.scale.set(1, 1, 1);
       this.gunGlowMaterial.opacity = 0.3;
     }
-    
+
     this.el.setAttribute('scale', '1 1 1');
     this.explodingTime = undefined;  
     this.lastShootTime = undefined;
     this.shootAt = 0;
     this.warmUpTime = 1000;
 
+    this.health = this.maxhealth;
     this.alive = true;
     this.exploding = false;
     this.definition.reset.call(this);
@@ -115,7 +124,6 @@ AFRAME.registerComponent('enemy', {
     var el = this.el;
     if (!el) return;
     var data = this.data;
-    var scale = el.getAttribute('scale');
     var mesh = el.object3D;
     var gunPosition = mesh.localToWorld(this.gunGlow.position.clone());
     var head = el.sceneEl.camera.el.components['look-controls'].dolly.position.clone();
@@ -128,8 +136,12 @@ AFRAME.registerComponent('enemy', {
 
     var explosion = document.createElement('a-entity');
     explosion.setAttribute('position', gunPosition);
-    explosion.setAttribute('scale', scale);
-    explosion.setAttribute('explosion', 'type: enemygun; color: '+this.color+'; lookAt:' + direction.x+' '+direction.y+' '+direction.z);
+    explosion.setAttribute('explosion', {
+      type: 'enemygun',
+      color: this.color,
+      scale: this.scale,
+      lookAt: direction
+    });
     this.el.sceneEl.appendChild(explosion);
 
     // Ask system for bullet and set bullet position to starting point.
@@ -186,7 +198,7 @@ AFRAME.registerComponent('enemy', {
       }
       var t0 = (time - this.explodingTime) / this.explodingDuration;
 
-      var scale = 1 + t0 * ( 2 - t0 ); //out easing
+      var scale = this.scale + t0 * ( 2 - t0 ); //out easing
 
       var mesh = this.el.getObject3D('mesh');
       mesh.scale.set(scale, scale, scale);

@@ -10,11 +10,13 @@ ASHOOTER.registerEnemy(
       enemy: {
         name: 'enemy0',
         bulletName: 'enemy-slow',
-        color: '#FFB911'
+        color: '#FFB911',
+        scale: 0.9,
+        health: 2
       },
       'collision-helper': {
         debug: false,
-        radius: 0.65
+        radius: 0.4
       },
       'json-model': {
         src: 'url(https://feiss.github.io/a-shooter-assets/models/enemy0.json)',
@@ -32,7 +34,11 @@ ASHOOTER.registerEnemy(
       this.reset(); 
     },
     reset: function () {
-      this.el.setAttribute('scale', {x: 2, y: 2, z: 2});
+      var el = this.el;
+      var sc = this.data.scale;
+      el.addEventListener('model-loaded', function(event) {
+        el.getObject3D('mesh').scale.set(sc, sc, sc);
+      });
       this.lastShoot = undefined;
       this.willShootEmited = false;
     },

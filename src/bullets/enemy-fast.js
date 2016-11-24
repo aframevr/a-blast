@@ -29,7 +29,7 @@ ASHOOTER.registerBullet(
       var el = this.el;
       var color = this.bullet.components.bullet.color;
       el.setAttribute('material', 'color', color);
-      el.setAttribute('scale', {x: 0.06, y: 0.06, z: 0.06});
+      el.setAttribute('scale', {x: 0.09, y: 0.09, z: 0.09});
       this.trail = null;
       var self = this;
       el.addEventListener('model-loaded', function(event) {
@@ -41,7 +41,7 @@ ASHOOTER.registerBullet(
     },
     reset: function () {
       var el = this.el;
-      el.setAttribute('scale', {x: 0.06, y: 0.06, z: 0.06});
+      el.setAttribute('scale', {x: 0.09, y: 0.09, z: 0.09});
       if (this.trail) {
         this.trail.scale.setY(0.001);
       }

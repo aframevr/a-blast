@@ -5,16 +5,17 @@ AFRAME.registerComponent('explosion', {
     type: { default: 'enemy' },
     duration: { default: 500 },
     color: { type: 'color', default: '#FFFFFF' },
-    lookAt: { type: 'vec3', default: null}
+    lookAt: { type: 'vec3', default: null},
+    scale: { default: 1 }
   },
 
   init: function () {
     var self = this;
-    this.scale = 0;
     this.life = 0;
     this.starttime = null;
     this.meshes = new THREE.Group();
     //this.el.id = 'explosion' + Math.floor(Math.random()*9999);
+
 
     this.materials = [];
     var textureSrcs = new Array('#fx1', '#fx2', '#fx3', '#fx4', '#fx8');
@@ -31,6 +32,7 @@ AFRAME.registerComponent('explosion', {
         ];
       break;
       case 'bullet':
+        this.data.scale = this.data.scale * 0.5;
         parts = [
           {textureIdx: 2, billboard: true,  color: this.data.color, scale: .5, grow: 3, dispersion: 0, copies: 1, speed: 0 },
           {textureIdx: 4, billboard: true,  color: '#24CAFF', scale: .3, grow: 4, dispersion: 0, copies: 1, speed: 0 },
@@ -51,6 +53,8 @@ AFRAME.registerComponent('explosion', {
         ];
       break;
     }
+
+    this.el.setAttribute('scale', {x: this.data.scale, y: this.data.scale, z: this.data.scale });
 
     for (var i in parts) {
       var part = parts[i];
@@ -101,9 +105,6 @@ AFRAME.registerComponent('explosion', {
     }
 
     this.el.setObject3D('explosion', this.meshes);
-  },
-
-  update: function (oldData) {
   },
 
   tick: function (time, delta) {

@@ -35,15 +35,15 @@ AFRAME.registerComponent('bullet', {
     this.startPosition = data.position;
   },
 
-  createExplosion: function (type, position, color) {
+  createExplosion: function (type, position, color, scale) {
     var explosion = document.createElement('a-entity');
-    var lookAtStr = this.direction.x + ' ' + this.direction.y + ' ' + this.direction.z;
-    var colorStr = '';
-    if (color !== undefined){
-      colorStr = 'color: ' + color;
-    }
     explosion.setAttribute('position', position || this.el.getAttribute('position'));
-    explosion.setAttribute('explosion', 'type: ' + type + '; lookAt:' + lookAtStr + ';' + colorStr);
+    explosion.setAttribute('explosion', {
+        type: type,
+        lookAt: this.direction,
+        color: color || '#FFF',
+        scale: scale || 1.0
+    });
     
     explosion.setAttribute('sound', {
       src: this.sounds[Math.floor(Math.random() * this.sounds.length)].src,
@@ -75,7 +75,13 @@ AFRAME.registerComponent('bullet', {
         this.createExplosion(type, posOffset);
       }
       else if (type === 'enemy') {
-        this.createExplosion(type, data.object3D.position, data.getAttribute('enemy').color);
+        var enemy = data.getAttribute('enemy');
+        if (data.components['enemy'].health <= 0) {
+          this.createExplosion('ememy', data.object3D.position, enemy.color, enemy.scale);
+        }
+        else {
+          this.createExplosion('bullet', this.el.object3D.position, enemy.color, enemy.scale);
+        }
       }
     }
     this.resetBullet();

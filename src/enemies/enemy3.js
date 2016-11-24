@@ -10,11 +10,13 @@ ASHOOTER.registerEnemy(
       enemy: {
         name: 'enemy3',
         bulletName: 'enemy-fat',
-        color: '#8762FF'
+        color: '#8762FF',
+        scale: 2.5,
+        health: 10
       },
       'collision-helper': {
         debug: false,
-        radius: 4
+        radius: 1.2
       },
       'json-model': {
         src: 'url(https://feiss.github.io/a-shooter-assets/models/enemy3.json)',
@@ -32,7 +34,11 @@ ASHOOTER.registerEnemy(
       this.reset(); 
     },
     reset: function () {
-      this.el.setAttribute('scale', {x: 4, y: 4, z: 4});
+      var el = this.el;
+      var sc = this.data.scale;
+      el.addEventListener('model-loaded', function(event) {
+        el.getObject3D('mesh').scale.set(sc, sc, sc);
+      });
       this.lastShoot = undefined;
       this.willShootEmited = false;
     },
