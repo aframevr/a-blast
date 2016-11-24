@@ -4,6 +4,7 @@ AFRAME.registerComponent('enemy', {
     name: {default: 'enemy0'},
     bulletName: {default: 'enemy-slow'},
     shootingDelay: {default: 200}, // ms
+    health: {default: 1},
     color: {default: '#fff'},
     scale: {default: 1},
     canShoot: {default: true}
@@ -166,8 +167,6 @@ AFRAME.registerComponent('enemy', {
     if (!this.alive || this.paused) {
       return;
     }
-    // if (this.data.canShoot) {
-
     if (!this.exploding) {
       //gun glow
       var glowFadeOutTime = 700;
@@ -182,18 +181,6 @@ AFRAME.registerComponent('enemy', {
         }
         else if (time - this.lastShootTime < glowFadeOutTime) {
           this.gunGlowMaterial.opacity = 1 - (time - this.lastShootTime) / glowFadeOutTime;
-/*=======
-        var elapsedShootTime = time - this.lastShootTime;
-        if (elapsedShootTime > this.data.shootingDelay) {
-          this.lastShootTime = time;
-          this.gunGlow.scale.set(1, 1, 1);
-          this.gunGlowMaterial.opacity = 0.3;
-          this.shoot();
-        }
-        else if (this.data.shootingDelay - elapsedShootTime < 1000) {
-          this.gunGlowMaterial.opacity = elapsedShootTime / this.data.shootingDelay;
->>>>>>> Main menu state
-*/
         }
       }
       this.gunGlow.position.copy(this.gunOffset);

@@ -2,12 +2,12 @@
 
 AFRAME.registerComponent('gamestate', {
   schema: {
-    health: {default: 5}, 
+    health: {default: 5},
     numEnemies: {default: 0},
     numSequences: {default: 0},
     points: {default: 0},
     isGameOver: {default: false},
-    state: {default: 'STATE_MAIN_MENU', oneOf: ['STATE_MAIN_MENU', 'STATE_START', 'STATE_GAME_OVER']},
+    state: {default: 'STATE_MAIN_MENU', oneOf: ['STATE_MAIN_MENU', 'STATE_PLAYING', 'STATE_GAME_OVER']},
     wave: {default: 0},
     waveSequence: {default: 0}
   },
@@ -51,7 +51,7 @@ AFRAME.registerComponent('gamestate', {
 
     registerHandler('start-game', function (newState) {
       newState.isGameOver = false;
-      newState.state = 'STATE_START';
+      newState.state = 'STATE_PLAYING';
       return newState;
     });
 

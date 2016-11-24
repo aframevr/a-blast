@@ -16,6 +16,7 @@ require('./bullets/enemy-fast.js');
 require('./bullets/enemy-fat.js');
 
 // Enemies.
+require('./enemies/enemy_start.js');
 require('./enemies/enemy0.js');
 require('./enemies/enemy1.js');
 require('./enemies/enemy2.js');

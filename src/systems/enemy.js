@@ -41,7 +41,7 @@ AFRAME.registerSystem('enemy', {
     // TODO: Enable A-Frame `System.update()` to decouple from gamestate.
     sceneEl.addEventListener('gamestate-changed', function (evt) {
       if ('state' in evt.detail.diff) {
-        if (evt.detail.state.state === 'STATE_START') {
+        if (evt.detail.state.state === 'STATE_PLAYING') {
           setTimeout(function(){
             self.createWave(0);
           }, 1000);
@@ -67,7 +67,6 @@ AFRAME.registerSystem('enemy', {
 
   onEnemyDeath: function (name, entity) {
     if (this.sceneEl.getAttribute('gamestate').state === 'STATE_MAIN_MENU') {
-      document.getElementById('mainmenu').setAttribute('visible', false);
       this.sceneEl.emit('start-game');
     } else {
       this.poolHelper.returnEntity(name, entity);
@@ -123,16 +122,6 @@ AFRAME.registerSystem('enemy', {
     } else {
       this.createEnemy2(enemyDefinition.type, enemyDefinition);
     }
-    /*
-    var entity = this.getEnemy(enemyDefinition.type);
-    // entity.setAttribute('enemy', {shootingDelay: Math.random() * 57000 + 6000});
-    entity.setAttribute('enemy', {shootingDelay: 3000});
-    entity.setAttribute('curve-movement', {type: enemyDefinition.movement, loopStart: enemyDefinition.loopStart || 0});
-    entity.components['curve-movement'].addPoints(enemyDefinition.points);
-    entity.play();
-    this.activeEnemies.push(entity);
-    this.sceneEl.emit('enemy-spawn', {enemy: entity});
-    */
   },
 
   reset: function (entity) {
