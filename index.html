@@ -44,7 +44,13 @@
         shoot="direction: 0 0 -1; spaceKeyEnabled: true">
         <!-- sound="src: url(https://fernandojsg.github.io/a-shooter-assets/sounds/hit0.ogg); on: player-hit" -->
 
-        <a-entity id="gameover" gamestate-bind="isGameOver: visible" visible="false"></a-entity>
+        <a-entity id="gameover" gamestate-bind="isGameOver: visible" visible="false">
+          <a-entity id="hurt"
+            geometry="primitive:sphere; radius:1.5; phiLength:180; phiStart:180; segmentsHeight:6; segmentsWidth:7"
+            material="side:double"
+            position="0 0 -0.2">
+          </a-entity>
+        </a-entity>
 
         <a-entity id="hurt"
           geometry="primitive:sphere;radius:0.5;phiLength:180;phiStart:180;segmentsHeight:6;segmentsWidth:7"
