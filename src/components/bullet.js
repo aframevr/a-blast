@@ -150,7 +150,6 @@ AFRAME.registerComponent('bullet', {
           if (state === 'STATE_MAIN_MENU') {
             var enemy = this.startEnemy;
             var helper = enemy.getAttribute('collision-helper');
-            // if (!helper) continue;
             var radius = helper.radius;
             if (newBulletPosition.distanceTo(enemy.object3D.position) < radius + bulletRadius) {
               enemy.emit('hit');
@@ -160,9 +159,9 @@ AFRAME.registerComponent('bullet', {
           } else if (state === 'STATE_GAME_WIN' || state === 'STATE_GAME_OVER') {
             var enemy = document.getElementById('reset');
             var helper = enemy.getAttribute('collision-helper');
-            // if (!helper) continue;
             var radius = helper.radius;
             if (newBulletPosition.distanceTo(enemy.object3D.position) < radius * 2 + bulletRadius * 2) {
+              console.log('collision!');
               this.el.sceneEl.emit('reset');
               return;
             }

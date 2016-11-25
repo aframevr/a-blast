@@ -40,7 +40,8 @@ require('./components/movement-pattern.js');
 require('./components/spline-line.js');
 require('./components/wave-text.js');
 require('./components/explosion.js');
-require('./components/mainmenu.js');
+require('./components/animate-message.js');
+require('./components/gamestate-visuals.js');
 
 // Movement Patterns.
 require('./movement-patterns/random.js');
