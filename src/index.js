@@ -16,6 +16,7 @@ require('./bullets/enemy-fast.js');
 require('./bullets/enemy-fat.js');
 
 // Enemies.
+require('./enemies/enemy_start.js');
 require('./enemies/enemy0.js');
 require('./enemies/enemy1.js');
 require('./enemies/enemy2.js');
@@ -39,7 +40,8 @@ require('./components/movement-pattern.js');
 require('./components/spline-line.js');
 require('./components/wave-text.js');
 require('./components/explosion.js');
-require('./components/mainmenu.js');
+require('./components/animate-message.js');
+require('./components/gamestate-visuals.js');
 
 // Movement Patterns.
 require('./movement-patterns/random.js');

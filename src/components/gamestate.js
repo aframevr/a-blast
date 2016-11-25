@@ -2,12 +2,13 @@
 
 AFRAME.registerComponent('gamestate', {
   schema: {
-    health: {default: 5}, 
+    health: {default: 5},
     numEnemies: {default: 0},
     numSequences: {default: 0},
     points: {default: 0},
     isGameOver: {default: false},
-    state: {default: 'STATE_START'},
+    isGameWin: {default: false},
+    state: {default: 'STATE_MAIN_MENU', oneOf: ['STATE_MAIN_MENU', 'STATE_PLAYING', 'STATE_GAME_OVER', 'STATE_GAME_WIN']},
     wave: {default: 0},
     waveSequence: {default: 0}
   },
@@ -24,6 +25,11 @@ AFRAME.registerComponent('gamestate', {
 
     registerHandler('enemy-death', function (newState) {
       newState.points += 1;
+      if (newState.points > 1) {
+        newState.state = 'STATE_GAME_WIN';
+        newState.isGameWin = true;
+      }
+
       newState.numEnemies--;
       // All enemies killed, advance wave.
       if (newState.numEnemies === 0) {
@@ -49,18 +55,21 @@ AFRAME.registerComponent('gamestate', {
       return newState;
     });
 
-    registerHandler('player-hit', function (newState) {
-      newState.health -= 1;
-      if (newState.health <= 0) {
-        newState.isGameOver = true;
-        newState.numEnemies = 0;
-        newState.state = 'STATE_GAME_OVER';
+    registerHandler('start-game', function (newState) {
+      newState.isGameOver = false;
+      newState.isGameWin = false;
+      newState.state = 'STATE_PLAYING';
+      return newState;
+    });
 
-        // TEMPORARY: Reset the game after a few seconds.
-        // Later be on explicit action.
-        setTimeout(function () {
-          publishState(initialState);
-        }, 5000);
+    registerHandler('player-hit', function (newState) {
+      if (newState.state === 'STATE_PLAYING') {
+        newState.health -= 1;
+        if (newState.health <= 0) {
+          newState.isGameOver = true;
+          newState.numEnemies = 0;
+          newState.state = 'STATE_GAME_OVER';
+        }
       }
       return newState;
     });

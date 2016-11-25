@@ -39,13 +39,14 @@ AFRAME.registerSystem('enemy', {
     this.activeEnemies = [];
 
     // TODO: Enable A-Frame `System.update()` to decouple from gamestate.
-    this.createWave(0);
     sceneEl.addEventListener('gamestate-changed', function (evt) {
       if ('state' in evt.detail.diff) {
-        if (evt.detail.state.state === 'STATE_START') {
-          self.createWave(0);
+        if (evt.detail.state.state === 'STATE_PLAYING') {
+          setTimeout(function(){
+            self.createWave(0);
+          }, 1000);
         }
-        if (evt.detail.state.state === 'STATE_GAME_OVER') {
+        if (evt.detail.state.state === 'STATE_GAME_OVER' || evt.detail.state.state === 'STATE_GAME_WIN') {
           self.reset();
         }
       }
@@ -65,8 +66,12 @@ AFRAME.registerSystem('enemy', {
   },
 
   onEnemyDeath: function (name, entity) {
-    this.poolHelper.returnEntity(name, entity);
-    this.sceneEl.emit('enemy-death');
+    if (this.sceneEl.getAttribute('gamestate').state === 'STATE_MAIN_MENU') {
+      this.sceneEl.emit('start-game');
+    } else {
+      this.poolHelper.returnEntity(name, entity);
+      this.sceneEl.emit('enemy-death');
+    }
   },
 
   createSequence: function (sequenceNumber) {
@@ -117,16 +122,6 @@ AFRAME.registerSystem('enemy', {
     } else {
       this.createEnemy2(enemyDefinition.type, enemyDefinition);
     }
-    /*
-    var entity = this.getEnemy(enemyDefinition.type);
-    // entity.setAttribute('enemy', {shootingDelay: Math.random() * 57000 + 6000});
-    entity.setAttribute('enemy', {shootingDelay: 3000});
-    entity.setAttribute('curve-movement', {type: enemyDefinition.movement, loopStart: enemyDefinition.loopStart || 0});
-    entity.components['curve-movement'].addPoints(enemyDefinition.points);
-    entity.play();
-    this.activeEnemies.push(entity);
-    this.sceneEl.emit('enemy-spawn', {enemy: entity});
-    */
   },
 
   reset: function (entity) {

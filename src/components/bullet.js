@@ -13,6 +13,7 @@ AFRAME.registerComponent('bullet', {
   },
 
   init: function () {
+    this.startEnemy = document.getElementById('start_enemy');
     this.backgroundEl = document.getElementById('border');
     this.bullet = ASHOOTER.BULLETS[this.data.name];
     this.bullet.definition.init.call(this);
@@ -44,7 +45,7 @@ AFRAME.registerComponent('bullet', {
         color: color || '#FFF',
         scale: scale || 1.0
     });
-    
+
     explosion.setAttribute('sound', {
       src: this.sounds[Math.floor(Math.random() * this.sounds.length)].src,
       volume: 1,
@@ -144,16 +145,38 @@ AFRAME.registerComponent('bullet', {
 
         // Detect collision against enemies
         if (this.data.owner === 'player') {
-          var enemies = this.el.sceneEl.systems.enemy.activeEnemies;
-          for (var i = 0; i < enemies.length; i++) {
-            var enemy = enemies[i];
+          // Detect collision with the start game enemy
+          var state = this.el.sceneEl.getAttribute('gamestate').state;
+          if (state === 'STATE_MAIN_MENU') {
+            var enemy = this.startEnemy;
             var helper = enemy.getAttribute('collision-helper');
-            if (!helper) continue;
             var radius = helper.radius;
             if (newBulletPosition.distanceTo(enemy.object3D.position) < radius + bulletRadius) {
               enemy.emit('hit');
               this.hitObject('enemy', enemy);
               return;
+            }
+          } else if (state === 'STATE_GAME_WIN' || state === 'STATE_GAME_OVER') {
+            var enemy = document.getElementById('reset');
+            var helper = enemy.getAttribute('collision-helper');
+            var radius = helper.radius;
+            if (newBulletPosition.distanceTo(enemy.object3D.position) < radius * 2 + bulletRadius * 2) {
+              this.el.sceneEl.emit('reset');
+              return;
+            }
+          } else {
+            // Detect collisions with all the active enemies
+            var enemies = this.el.sceneEl.systems.enemy.activeEnemies;
+            for (var i = 0; i < enemies.length; i++) {
+              var enemy = enemies[i];
+              var helper = enemy.getAttribute('collision-helper');
+              if (!helper) continue;
+              var radius = helper.radius;
+              if (newBulletPosition.distanceTo(enemy.object3D.position) < radius + bulletRadius) {
+                enemy.emit('hit');
+                this.hitObject('enemy', enemy);
+                return;
+              }
             }
           }
 

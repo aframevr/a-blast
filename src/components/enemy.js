@@ -4,8 +4,10 @@ AFRAME.registerComponent('enemy', {
     name: {default: 'enemy0'},
     bulletName: {default: 'enemy-slow'},
     shootingDelay: {default: 200}, // ms
+    health: {default: 1},
     color: {default: '#fff'},
-    scale: {default: 1}
+    scale: {default: 1},
+    canShoot: {default: true}
   },
   init: function () {
     this.alive = true;
@@ -13,7 +15,7 @@ AFRAME.registerComponent('enemy', {
     this.definition = ASHOOTER.ENEMIES[this.data.name].definition;
     this.definition.init.call(this);
     var comp = ASHOOTER.ENEMIES[this.data.name].components.enemy;
-    this.maxhealth = this.health = comp.health; 
+    this.maxhealth = this.health = comp.health;
     this.color = comp.color;
     this.scale = comp.scale;
     this.gunOffset = new THREE.Vector3(0.0, 0.44, 0.5).multiplyScalar(this.scale);
@@ -109,7 +111,7 @@ AFRAME.registerComponent('enemy', {
     }
 
     this.el.setAttribute('scale', '1 1 1');
-    this.explodingTime = undefined;  
+    this.explodingTime = undefined;
     this.lastShootTime = undefined;
     this.shootAt = 0;
     this.warmUpTime = 1000;
@@ -157,7 +159,7 @@ AFRAME.registerComponent('enemy', {
   },
 
   willShoot: function (time, delta, warmUpTime) {
-    this.shootAt = time + warmUpTime; 
+    this.shootAt = time + warmUpTime;
     this.warmUpTime = warmUpTime;
   },
 
@@ -165,7 +167,6 @@ AFRAME.registerComponent('enemy', {
     if (!this.alive || this.paused) {
       return;
     }
-
     if (!this.exploding) {
       //gun glow
       var glowFadeOutTime = 700;
@@ -191,8 +192,7 @@ AFRAME.registerComponent('enemy', {
       this.el.object3D.lookAt(head);
 
       this.definition.tick.call(this, time, delta);
-    }
-    else {
+    } else {
       if (!this.explodingTime) {
         this.explodingTime = time;
       }
