@@ -2,6 +2,31 @@
 AFRAME.registerComponent('gamestate-visuals', {
   schema: {
   },
+  init: function () {
+    this.logo = document.getElementById('logo');
+    this.startEnemy = document.getElementById('start_enemy');
+    this.mainMenuGroup = document.getElementById('mainmenu');
+    this.messageGroup = document.getElementById('message-group');
+    this.gameover = document.getElementById('gameover-model');
+    this.welldone = document.getElementById('welldone-model');
+    this.reset = document.getElementById('reset');
+
+    var self = this;
+    this.el.sceneEl.addEventListener('gamestate-changed', function (evt) {
+      if ('state' in evt.detail.diff) {
+        if (evt.detail.state.state === 'STATE_PLAYING') {
+          self.startPlaying();
+        } else if (evt.detail.state.state === 'STATE_GAME_OVER') {
+          self.finishPlaying('GAME_OVER');
+        } else if (evt.detail.state.state === 'STATE_GAME_WIN') {
+          self.finishPlaying('GAME_WIN');
+        } else if (evt.detail.state.state === 'STATE_MAIN_MENU') {
+          self.mainMenu();
+        }
+      }
+    }.bind(this));
+  },
+
   startPlaying: function () {
     var self = this;
     var rotation = { x: 0.0 };
@@ -19,24 +44,38 @@ AFRAME.registerComponent('gamestate-visuals', {
   },
 
   finishPlaying: function (type) {
+    var self = this;
     var gameover = type === 'GAME_OVER';
 
     var group = document.getElementById('finished');
 
     this.gameover.setAttribute('visible', gameover);
     this.welldone.setAttribute('visible', !gameover);
-    group.setAttribute('visible', true);
 
+    // Move the text info
+    group.setAttribute('visible', true);
     group.object3D.position.y = -5;
 
-    var object = { positionY: -5 };
-    var tween = new AFRAME.TWEEN.Tween(object)
-      .to({positionY: 1}, 1000)
+    var groupPosition = { y: -5 };
+    var tweenGroup = new AFRAME.TWEEN.Tween(groupPosition)
+      .to({y: 1}, 1000)
       .easing(AFRAME.TWEEN.Easing.Elastic.Out)
       .onUpdate(function () {
-        group.object3D.position.y = object.positionY;
-      });
-    tween.start();
+        group.object3D.position.y = groupPosition.y;
+      })
+    .start();
+
+    // Move the reset buttom
+    this.reset.object3D.position.y = -5;
+    var resetPosition = { y: -5 };
+    var tweenReset = new AFRAME.TWEEN.Tween(resetPosition)
+      .to({y: 0}, 1000)
+      .delay(3000)
+      .easing(AFRAME.TWEEN.Easing.Elastic.Out)
+      .onUpdate(function () {
+        self.reset.object3D.position.y = resetPosition.y;
+      })
+      .start();
   },
 
   mainMenu: function () {
@@ -82,30 +121,5 @@ AFRAME.registerComponent('gamestate-visuals', {
       .onUpdate(function () {
         self.logo.object3D.rotation.x = Math.PI * 0.6 - logoRotation.x;
       }).start();
-  },
-
-  init: function () {
-    this.logo = document.getElementById('logo');
-    this.startEnemy = document.getElementById('start_enemy');
-    this.mainMenuGroup = document.getElementById('mainmenu');
-    this.messageGroup = document.getElementById('message-group');
-    this.gameover = document.getElementById('gameover-model');
-    this.welldone = document.getElementById('welldone-model');
-
-    var self = this;
-    this.el.sceneEl.addEventListener('gamestate-changed', function (evt) {
-      if ('state' in evt.detail.diff) {
-        console.log(evt.detail.state.state);
-        if (evt.detail.state.state === 'STATE_PLAYING') {
-          self.startPlaying();
-        } else if (evt.detail.state.state === 'STATE_GAME_OVER') {
-          self.finishPlaying('GAME_OVER');
-        } else if (evt.detail.state.state === 'STATE_GAME_WIN') {
-          self.finishPlaying('GAME_WIN');
-        } else if (evt.detail.state.state === 'STATE_MAIN_MENU') {
-          self.mainMenu();
-        }
-      }
-    }.bind(this));
   }
 });
