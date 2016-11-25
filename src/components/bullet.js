@@ -161,7 +161,6 @@ AFRAME.registerComponent('bullet', {
             var helper = enemy.getAttribute('collision-helper');
             var radius = helper.radius;
             if (newBulletPosition.distanceTo(enemy.object3D.position) < radius * 2 + bulletRadius * 2) {
-              console.log('collision!');
               this.el.sceneEl.emit('reset');
               return;
             }
