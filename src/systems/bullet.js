@@ -36,7 +36,6 @@ AFRAME.registerSystem('bullet', {
 
   reset: function (entity) {
     var self = this;
-    console.log(this.activeBullets);
     this.activeBullets.forEach(function (bullet) {
       self.returnBullet(bullet.getAttribute('bullet').name, bullet);
     });

@@ -9,7 +9,7 @@
     <script src="waves.js"></script>
   </head>
   <body>
-    <a-scene debug="true" gamestate="health: 2; wave: 1" decals="maxDecals: 30; src: #bulletDecal; size: 0.3" fog="color:#0c2e3a;density:0;far:250;near:0">
+    <a-scene debug="true" gamestate="health: 2; wave: 1" gamestate-visuals="" decals="maxDecals: 30; src: #bulletDecal; size: 0.3" fog="color:#0c2e3a;density:0;far:250;near:0">
       <a-assets>
         <img id="bulletDecal" src="https://feiss.github.io/a-shooter-assets/images/decal0.png" crossOrigin="anonymous">
         <img id="hurtImg" src="https://feiss.github.io/a-shooter-assets/images/damage.png" crossOrigin="anonymous">
@@ -86,12 +86,15 @@
         material="shader: flat; color: #1a4d5f; fog: false; side: double; src: url(https://fernandojsg.github.io/a-shooter-assets/images/sky.jpg)"
       ></a-entity>-->
 
-      <a-entity id="gameover" gamestate-bind="isGameOver: visible" visible="false">
-        <a-entity id="gameover" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/gameover.json)"></a-entity>
-      </a-entity>
-
-      <a-entity id="welldone" gamestate-bind="isGameWin: visible" visible="false">
-        <a-entity id="welldone" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/welldone.json)"></a-entity>
+      <a-entity id="finished" gameover="" visible="false">
+        <a-entity id="gameover-model" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/gameover.json)"></a-entity>
+        <a-entity id="welldone-model" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/welldone.json)"></a-entity>
+        <a-entity id="reset"
+          collision-helper="debug: false; radius: 0.9"
+          geometry="primitive:icosahedron; radius:0.5; detail: 1"
+          material="color: #f00; flatShading: true"
+          position="0 0.5 -6">
+        </a-entity>
       </a-entity>
 
       <a-entity id="mainmenu">

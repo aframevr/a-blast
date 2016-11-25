@@ -25,7 +25,7 @@ AFRAME.registerComponent('gamestate', {
 
     registerHandler('enemy-death', function (newState) {
       newState.points += 1;
-      if (newState.points > 3) {
+      if (newState.points > 1) {
         newState.state = 'STATE_GAME_WIN';
         newState.isGameWin = true;
       }
@@ -63,11 +63,13 @@ AFRAME.registerComponent('gamestate', {
     });
 
     registerHandler('player-hit', function (newState) {
-      newState.health -= 1;
-      if (newState.health <= 0) {
-        newState.isGameOver = true;
-        newState.numEnemies = 0;
-        newState.state = 'STATE_GAME_OVER';
+      if (newState.state === 'STATE_PLAYING') {
+        newState.health -= 1;
+        if (newState.health <= 0) {
+          newState.isGameOver = true;
+          newState.numEnemies = 0;
+          newState.state = 'STATE_GAME_OVER';
+        }
       }
       return newState;
     });

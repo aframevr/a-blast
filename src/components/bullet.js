@@ -146,7 +146,8 @@ AFRAME.registerComponent('bullet', {
         // Detect collision against enemies
         if (this.data.owner === 'player') {
           // Detect collision with the start game enemy
-          if (this.el.sceneEl.getAttribute('gamestate').state === 'STATE_MAIN_MENU') {
+          var state = this.el.sceneEl.getAttribute('gamestate').state;
+          if (state === 'STATE_MAIN_MENU') {
             var enemy = this.startEnemy;
             var helper = enemy.getAttribute('collision-helper');
             // if (!helper) continue;
@@ -154,6 +155,15 @@ AFRAME.registerComponent('bullet', {
             if (newBulletPosition.distanceTo(enemy.object3D.position) < radius + bulletRadius) {
               enemy.emit('hit');
               this.hitObject('enemy', enemy);
+              return;
+            }
+          } else if (state === 'STATE_GAME_WIN' || state === 'STATE_GAME_OVER') {
+            var enemy = document.getElementById('reset');
+            var helper = enemy.getAttribute('collision-helper');
+            // if (!helper) continue;
+            var radius = helper.radius;
+            if (newBulletPosition.distanceTo(enemy.object3D.position) < radius * 2 + bulletRadius * 2) {
+              this.el.sceneEl.emit('reset');
               return;
             }
           } else {
