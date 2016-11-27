@@ -60,8 +60,6 @@ AFRAME.registerComponent('bullet', {
     this.bullet.definition.onHit.call(this);
     this.hit = true;
     if (this.data.owner === 'enemy') {
-      //var hurtMaterial = document.getElementById('hurt').getAttribute('material');
-      //hurtMaterial.opacity = 1.0;
       this.el.emit('player-hit');
     }
     else {
