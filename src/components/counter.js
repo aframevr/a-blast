@@ -31,7 +31,7 @@ AFRAME.registerComponent('counter', {
 AFRAME.registerComponent('lifes-counter', {
   schema: {
     width: {default: 0.9},
-    value: {default: '00000'},
+    value: {default: '      '},
     numSegments: {default: 6},
     height: {default: 0.2},
     color: {default: 0xff0000}
@@ -45,7 +45,7 @@ AFRAME.registerComponent('lifes-counter', {
 
   update: function () {
     var value = this.data.value;
-    var computed = [0,0,0,0,0].map(function(e,i) {return i >= value ? '0': '1'}).reverse().join('');
+    var computed = [0,0,0,0,0].map(function(e,i) {return i >= value ? ' ': '*'}).reverse().join('');
     this.letterPanel.update(computed);
   },
 });

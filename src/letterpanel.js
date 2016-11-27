@@ -1,4 +1,4 @@
-var fontText = '0123456789:';
+var fontText = '0123456789:* ';
 
 function LetterPanel (materialSystem, data) {
 
@@ -11,7 +11,8 @@ function LetterPanel (materialSystem, data) {
   materialSystem.loadTexture(src, {src: src}, setMap.bind(this));
   this.material = new THREE.MeshBasicMaterial({
     side: THREE.DoubleSide,
-    color: data.color
+    color: data.color,
+    transparent: true
   });
 
   function setMap (texture) {
