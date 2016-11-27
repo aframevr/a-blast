@@ -1,12 +1,30 @@
 AFRAME.registerComponent('countdown', {
   schema: {
     start: {default: '01:00'},
-    value: {default: '00:00'}
+    value: {default: '00:00'},
+    autostart: {default: false}
   },
 
   init: function () {
     this.timeinterval = null;
-    this.restart();
+    if (this.data.autostart) {
+      this.restart();
+    }
+
+    var self = this;
+    this.el.sceneEl.addEventListener('gamestate-changed', function (evt) {
+      if ('state' in evt.detail.diff) {
+        switch (evt.detail.state.state) {
+          case 'STATE_PLAYING':
+            self.restart();
+            break;
+          case 'STATE_GAME_OVER':
+          case 'STATE_GAME_WIN':
+          case 'STATE_MAIN_MENU':
+            self.stop();
+        }
+      }
+    });
   },
 
   initializeClock: function (endtime) {

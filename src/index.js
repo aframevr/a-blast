@@ -25,6 +25,7 @@ require('./enemies/enemy3.js');
 require('./enemies/enemy_static.js');
 
 // Components
+require('./components/proxy_event.js');
 require('./components/countdown.js');
 require('./components/decals.js');
 require('./components/curve-movement.js');

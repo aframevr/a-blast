@@ -5,11 +5,13 @@ AFRAME.registerComponent('counter', {
   schema: {
     width: {default: 0.9},
     value: {default: ''},
-    numSegments: {default: 5}
+    numSegments: {default: 5},
+    height: {default: 0.35},
+    color: {default: 0x024caff}
   },
 
   init: function () {
-    this.letterPanel = new LetterPanel(this.el.sceneEl.systems.material, this.data.numSegments, this.data.width);
+    this.letterPanel = new LetterPanel(this.el.sceneEl.systems.material, this.data);
     this.el.setObject3D('mesh', this.letterPanel.group);
     var self = this;
     this.el.sceneEl.addEventListener('countdown-update', function(event) {
@@ -25,13 +27,42 @@ AFRAME.registerComponent('counter', {
   },
 });
 
-AFRAME.registerComponent('points', {
+/* global THREE AFRAME */
+AFRAME.registerComponent('lifes-counter', {
   schema: {
-    value: {default: 0},
+    width: {default: 0.9},
+    value: {default: '00000'},
+    numSegments: {default: 6},
+    height: {default: 0.2},
+    color: {default: 0xff0000}
   },
 
   init: function () {
-    this.letterPanel = new LetterPanel(this.el.sceneEl.systems.material, 3, 0.9);
+    this.letterPanel = new LetterPanel(this.el.sceneEl.systems.material, this.data);
+    this.el.setObject3D('mesh', this.letterPanel.group);
+    var self = this;
+  },
+
+  update: function () {
+    var value = this.data.value;
+    var computed = [0,0,0,0,0].map(function(e,i) {return i >= value ? '0': '1'}).reverse().join('');
+    this.letterPanel.update(computed);
+  },
+});
+
+
+
+AFRAME.registerComponent('points', {
+  schema: {
+    value: {default: 0},
+    height: {default: 0.7},
+    numSegments: {default: 3},
+    width: {default: 0.9},
+    color: {default: 0x024caff}
+  },
+
+  init: function () {
+    this.letterPanel = new LetterPanel(this.el.sceneEl.systems.material, this.data);
     this.el.setObject3D('mesh', this.letterPanel.group);
   },
 

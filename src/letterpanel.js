@@ -1,15 +1,17 @@
 var fontText = '0123456789:';
 
-function LetterPanel (materialSystem, numSegments, width) {
-  this.width = width;
-  this.numSegments = numSegments;
+function LetterPanel (materialSystem, data) {
+
+  this.width = data.width;
+  this.height = data.height;
+  this.numSegments = data.numSegments;
 
   var src = 'https://feiss.github.io/a-shooter-assets/images/font.png';
 
   materialSystem.loadTexture(src, {src: src}, setMap.bind(this));
   this.material = new THREE.MeshBasicMaterial({
     side: THREE.DoubleSide,
-    color: 0x024caff
+    color: data.color
   });
 
   function setMap (texture) {
@@ -18,10 +20,10 @@ function LetterPanel (materialSystem, numSegments, width) {
   }
 
   this.group = new THREE.Group();
-  var segmentWidth = width / numSegments;
+  var segmentWidth = this.width / this.numSegments;
   this.numLetters = fontText.length;
-  for (var i = 0; i < numSegments; i++) {
-    plane = new THREE.Mesh(new THREE.PlaneBufferGeometry(segmentWidth, 0.5), this.material);
+  for (var i = 0; i < this.numSegments; i++) {
+    plane = new THREE.Mesh(new THREE.PlaneBufferGeometry(segmentWidth, this.height), this.material);
     plane.position.x = i * segmentWidth;
     this.group.add(plane);
   }
