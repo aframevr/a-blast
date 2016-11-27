@@ -4,6 +4,7 @@ window.ASHOOTER = {};
 require('../vendor/aframe-bmfont-text-component.min.js');
 
 require('./utils.js');
+require('./letterpanel.js');
 
 // Systems.
 require('./systems/bullet.js');
@@ -24,6 +25,7 @@ require('./enemies/enemy3.js');
 require('./enemies/enemy_static.js');
 
 // Components
+require('./components/countdown.js');
 require('./components/decals.js');
 require('./components/curve-movement.js');
 require('./components/collision-helper.js');

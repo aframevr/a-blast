@@ -9,10 +9,11 @@
     <script src="waves.js"></script>
   </head>
   <body>
-    <a-scene debug="true" gamestate="health: 1; wave: 1" gamestate-visuals="" decals="maxDecals: 30; src: #bulletDecal; size: 0.3" fog="color:#0c2e3a;density:0;far:250;near:0">
+    <a-scene debug="true" countdown="start: 00:20; value: 00:00" gamestate="health: 50; wave: 1" gamestate-visuals="" decals="maxDecals: 30; src: #bulletDecal; size: 0.3" fog="color:#0c2e3a;density:0;far:250;near:0">
       <a-assets>
         <img id="bulletDecal" src="https://feiss.github.io/a-shooter-assets/images/decal0.png" crossOrigin="anonymous">
         <img id="hurtImg" src="https://feiss.github.io/a-shooter-assets/images/damage.png" crossOrigin="anonymous">
+        <img id="counterFont" src="https://feiss.github.io/a-shooter-assets/images/font.png" crossOrigin="anonymous">
         <audio id="backgroundMusic" src="https://fernandojsg.github.io/a-shooter-assets/sounds/music0.ogg" loop crossorigin="anonymous"></audio>
         <img id="fx1" src="https://feiss.github.io/a-shooter-assets/images/fx1.png" crossOrigin="anonymous">
         <img id="fx2" src="https://feiss.github.io/a-shooter-assets/images/fx2.png" crossOrigin="anonymous">
@@ -114,14 +115,22 @@
         ></a-entity>
       </a-entity>
 
-      <a-entity id="scoreboard"
-        counter
-        gamestate-bind="health: counter.health; points: counter.points"
-        scale="0.05 0.05 0.05"
-        rotation="0 40 0"
-        obj-model="obj: url(https://fernandojsg.github.io/a-shooter-assets/models/counter.obj)"
-        material="color: #fff"
-      ></a-entity>
+      <a-entity
+        position="-2.04 -0.32 -3.81"
+        rotation="-14.54 25 0">
+        <a-entity id="scoreboard2"
+          counter="value: 00:00">
+        </a-entity>
+      </a-entity>
+
+      <a-entity
+        position="1.5 -0.32 -4"
+        rotation="-14.54 -25 0">
+        <a-entity id="counter234"
+          points="value: 000"
+          gamestate-bind="points: points.value">
+        </a-entity>
+      </a-entity>
     </a-scene>
   </body>
 </html>
