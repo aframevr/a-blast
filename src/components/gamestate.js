@@ -6,6 +6,7 @@ AFRAME.registerComponent('gamestate', {
     numEnemies: {default: 0},
     numSequences: {default: 0},
     points: {default: 0},
+    numEnemiesToWin: {default: 100},
     isGameOver: {default: false},
     isGameWin: {default: false},
     state: {default: 'STATE_MAIN_MENU', oneOf: ['STATE_MAIN_MENU', 'STATE_PLAYING', 'STATE_GAME_OVER', 'STATE_GAME_WIN']},
@@ -14,6 +15,7 @@ AFRAME.registerComponent('gamestate', {
   },
 
   init: function () {
+    var self = this;
     var el = this.el;
     var initialState = this.initialState;
     var state = this.data;
@@ -22,10 +24,9 @@ AFRAME.registerComponent('gamestate', {
     if (!initialState) { initialState = state; }
 
     el.emit('gamestate-initialized', {state: initialState});
-
     registerHandler('enemy-death', function (newState) {
       newState.points += 1;
-      if (newState.points > 1) {
+      if (newState.points >= self.data.numEnemiesToWin) {
         newState.state = 'STATE_GAME_WIN';
         newState.isGameWin = true;
       }

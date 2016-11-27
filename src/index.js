@@ -4,6 +4,7 @@ window.ASHOOTER = {};
 require('../vendor/aframe-bmfont-text-component.min.js');
 
 require('./utils.js');
+require('./letterpanel.js');
 
 // Systems.
 require('./systems/bullet.js');
@@ -24,6 +25,8 @@ require('./enemies/enemy3.js');
 require('./enemies/enemy_static.js');
 
 // Components
+require('./components/proxy_event.js');
+require('./components/countdown.js');
 require('./components/decals.js');
 require('./components/curve-movement.js');
 require('./components/collision-helper.js');
@@ -31,7 +34,9 @@ require('./components/gamestate.js');
 require('./components/gamestate-debug.js');
 require('./components/shoot-controls.js');
 require('./components/bullet.js');
-require('./components/counter.js');
+require('./components/lifes-counter.js');
+require('./components/points-counter.js');
+require('./components/timer-counter.js');
 require('./components/enemy.js');
 require('./components/gun.js');
 require('./components/headset.js');

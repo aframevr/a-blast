@@ -40,6 +40,10 @@ function randomPointInSphere (minRadius, maxRadius) {
   return point;
 }
 
+Number.prototype.padLeft = function (n,str) {
+    return Array(n-String(this).length+1).join(str||'0')+this;
+}
+
 module.exports = {
   createMixin: createMixin,
   randomPointInSphere: randomPointInSphere
