@@ -44,12 +44,6 @@ Number.prototype.padLeft = function (n,str) {
     return Array(n-String(this).length+1).join(str||'0')+this;
 }
 
-
-String.prototype.pad = function (n,left, str) {
-  var empty = Array(n-String(this).length+1).join(str||' ');
-  return left ? empty + this : this + empty;
-}
-
 module.exports = {
   createMixin: createMixin,
   randomPointInSphere: randomPointInSphere

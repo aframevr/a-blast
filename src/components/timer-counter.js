@@ -18,7 +18,7 @@ AFRAME.registerComponent('timer-counter', {
       var t = event.detail;
       var value = t.minutes.padLeft(2) + ':' + t.seconds.padLeft(2);
       self.letterPanel.material.color.set(t.total <= 10000 ? 0xff0000 : 0x24caff);
-      self.el.setAttribute('counter', {value: value});
+      self.el.setAttribute('timer-counter', {value: value});
     });
   },
 
