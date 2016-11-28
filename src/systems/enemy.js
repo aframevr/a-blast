@@ -1,5 +1,5 @@
 /* globals ASHOOTER AFRAME */
-var PoolHelper = require('../poolhelper.js');
+var PoolHelper = require('../lib/poolhelper.js');
 
 ASHOOTER.ENEMIES = {};
 

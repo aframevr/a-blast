@@ -3,8 +3,9 @@ window.ASHOOTER = {};
 // Vendor.
 require('../vendor/aframe-bmfont-text-component.min.js');
 
-require('./utils.js');
-require('./letterpanel.js');
+require('./lib/utils.js');
+require('./lib/letterpanel.js');
+require('./lib/highscores.js');
 
 // Systems.
 require('./systems/bullet.js');
@@ -25,6 +26,7 @@ require('./enemies/enemy3.js');
 require('./enemies/enemy_static.js');
 
 // Components
+require('./components/highscores.js');
 require('./components/proxy_event.js');
 require('./components/countdown.js');
 require('./components/decals.js');

@@ -1,5 +1,5 @@
 /* global AFRAME ASHOOTER */
-var PoolHelper = require('../poolhelper.js');
+var PoolHelper = require('../lib/poolhelper.js');
 
 ASHOOTER.BULLETS = {};
 
