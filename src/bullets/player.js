@@ -17,7 +17,7 @@ ASHOOTER.registerBullet(
         radius: 0.2
       },
       'json-model': {
-        src: 'url(https://feiss.github.io/a-shooter-assets/models/player-bullet.json)'
+        src: '#playerBullet'
       }
     },
     poolSize: 10

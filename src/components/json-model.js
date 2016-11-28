@@ -65,17 +65,17 @@ AFRAME.registerComponent('json-model', {
       }
       this.mixers.push(mixer);
     }
-    
+
     self.addNormalHelpers(mesh);
 
     this.helpers.visible = this.data.debugNormals;
     this.el.setObject3D('helpers', this.helpers);
-    
+
     this.skeletonHelper = new THREE.SkeletonHelper( mesh );
     this.skeletonHelper.material.linewidth = 2;
     this.el.setObject3D('skelhelper', this.skeletonHelper );
     this.skeletonHelper.visible = this.data.debugBones;
-    
+
     this.el.setObject3D('mesh', mesh);
     this.el.emit('model-loaded', {format: 'json', model: mesh, src: this.data.src});
   },
@@ -89,7 +89,7 @@ AFRAME.registerComponent('json-model', {
         var anim = group.animations[i];
         var clip = mixer.mixer.clipAction(anim).stop();
         mixer.clips[anim.name] = clip;
-      } 
+      }
       this.mixers.push(mixer);
     }
     var self = this;
@@ -155,6 +155,6 @@ AFRAME.registerComponent('json-model', {
     }
     if (this.skeletonHelper) {
       this.skeletonHelper.update();
-    } 
+    }
   }
 });
