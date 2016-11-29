@@ -19,7 +19,7 @@ ASHOOTER.registerEnemy(
         radius: 1.2
       },
       'json-model': {
-        src: 'url(https://feiss.github.io/a-shooter-assets/models/enemy3.json)',
+        src: '#enemy3',
         texturePath: 'url(https://feiss.github.io/a-shooter-assets/images/)',
         singleModel: true
       }
@@ -28,10 +28,10 @@ ASHOOTER.registerEnemy(
   },
   // implementation
   {
-    init: function () { 
+    init: function () {
       this.shootingDelay = 5000;
       this.warmUpTime = 1000;
-      this.reset(); 
+      this.reset();
     },
     reset: function () {
       var el = this.el;
