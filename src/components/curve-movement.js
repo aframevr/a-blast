@@ -130,39 +130,6 @@ AFRAME.registerComponent('curve-movement', {
       percent = t;
     }
 
-    // Check if next point reached. If so, then update state and start resting.
-/*
-    reachedPoint = (this.lastPercent <= 1 && percent >= 0 && percent < this.lastPercent) || t === 1;
-    if (reachedPoint) {
-      el.emit('waypointreached', {
-        index: this.currentPointIndex,
-        position: el.getAttribute('position')
-      });
-
-      // If not closed and reached the end, just stop (for now).
-      console.log(this.currentPointIndex, spline.points.length);
-      if (!this.isClosed() && this.currentPointIndex === spline.points.length - 1) { return; }
-
-      // Reset state.
-      this.lastPercent = 0;
-      this.time = 0;
-      this.restTime = 1;
-
-      // Subtract 2 because it's a closed spline, the first and last points are the same.
-      if (this.currentPointIndex === spline.points.length - 2) {
-        if (data.type !== 'single') {
-          this.currentPointIndex = 0;
-        }
-      } else {
-        this.currentPointIndex++;
-      }
-      return;
-    }
-*/
-
-    // Get next point in the spline using interpolation method.
-    // `getPoint/getPointFrom` takes a percentage which can be used for easing.
-
     this.time += delta;
     if (this.time < 0) { return; }
 
@@ -171,20 +138,26 @@ AFRAME.registerComponent('curve-movement', {
     this.lastPercent = percent;
 
     if (jump) {
-      if (this.currentPointIndex === spline.points.length - 2) {
-        if (data.type === 'single') {
-          this.end = true;
-        } else {
-          this.currentPointIndex = this.data.loopStart;
-          if (data.type === 'pingpong') {
-            spline.points.reverse();
+      if (this.direction === 1) {
+        if (this.currentPointIndex === spline.points.length - 2) {
+          if (data.type === 'single') {
+            this.end = true;
+          } else if (data.type === 'loop') {
+            this.currentPointIndex = this.data.loopStart;
+          } else {
+            this.direction = -1;
           }
+        } else {
+          this.currentPointIndex ++;
         }
       } else {
-        this.currentPointIndex ++;
+        this.currentPointIndex --;
+        if (this.currentPointIndex < this.data.loopStart) {
+          this.currentPointIndex = this.data.loopStart;
+          this.direction = 1;
+        }
       }
       this.time = 0;
-      //this.initTime = time;
     }
   }
 });

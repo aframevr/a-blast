@@ -37,7 +37,7 @@ AFRAME.registerSystem('enemy', {
     this.poolHelper = new PoolHelper('enemy', ASHOOTER.ENEMIES, this.sceneEl);
 
     this.activeEnemies = [];
-
+            self.createWave(0);
     // TODO: Enable A-Frame `System.update()` to decouple from gamestate.
     sceneEl.addEventListener('gamestate-changed', function (evt) {
       if ('state' in evt.detail.diff) {
