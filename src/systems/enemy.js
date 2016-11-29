@@ -103,7 +103,7 @@ AFRAME.registerSystem('enemy', {
     entity.setAttribute('enemy', {shootingDelay: 3000});
     entity.setAttribute('curve-movement', {
       type: enemyDefinition.movement,
-      loopStart: enemyDefinition.loopStart || 0,
+      loopStart: enemyDefinition.loopStart || 1,
       timeOffset: timeOffset || 0
     });
     entity.components['curve-movement'].addPoints(enemyDefinition.points);

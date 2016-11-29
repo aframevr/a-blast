@@ -9,7 +9,11 @@
     <script src="waves.js"></script>
   </head>
   <body>
+<<<<<<< HEAD
     <a-scene debug="true" countdown="start: 00:20; value: 00:00" gamestate="health: 5; wave: 0" gamestate-visuals="" decals="maxDecals: 30; src: #bulletDecal; size: 0.3" fog="color:#0c2e3a;density:0;far:250;near:0">
+=======
+    <a-scene debug="true" countdown="start: 05:00; value: 00:00" gamestate="health: 5000; wave: 1" gamestate-visuals="" decals="maxDecals: 30; src: #bulletDecal; size: 0.3" fog="color:#0c2e3a;density:0;far:250;near:0">
+>>>>>>> added randomness to enemy shooting rate and other minor tweaks
       <a-assets>
         <a-asset-item id="enemy0" src="https://feiss.github.io/a-shooter-assets/models/enemy0.json"></a-asset-item>
         <a-asset-item id="enemy1" src="https://feiss.github.io/a-shooter-assets/models/enemy1.json"></a-asset-item>
@@ -52,10 +56,10 @@
         <!-- sound="src: url(https://fernandojsg.github.io/a-shooter-assets/sounds/hit0.ogg); on: player-hit" -->
         <a-entity id="hurt"
           proxy_event="event: player-hit; dst:#hurt"
-          geometry="primitive:sphere;radius:0.5;phiLength:180;phiStart:180;segmentsHeight:6;segmentsWidth:7"
+          geometry="primitive:sphere;radius:0.5;segmentsHeight:6;segmentsWidth:7"
           position="0 0 -0.2"
-          material="shader: flat; side: back; transparent: true; opacity: 0; depthTest: false; src: #hurtImg"
-          visible="true">
+          rotation="0 90 0"
+          material="shader: flat; side: back; transparent: true; opacity: 0; depthTest: false; src: #hurtImg">
           <a-animation id="player-hit-anim" attribute="material.opacity" to="1" from="0" begin="player-hit" direction="alternate" dur="200" repeat="1"></a-animation>
         </a-entity>
       </a-entity>
@@ -78,6 +82,7 @@
 
       <a-entity id="highscores"
         highscores
+        visible = "false"
         position="3 1 -4"
         rotation="0 -65 0"></a-entity>
 
@@ -121,7 +126,7 @@
           src: url(https://feiss.github.io/a-shooter-assets/models/enemy0.json);
           texturePath: url(https://feiss.github.io/a-shooter-assets/images/);
           singleModel: true"
-          position="0 1.2 -4"
+          position="0 1.2 -7"
           scale="1.3 1.3 1.3">
         </a-entity>
       </a-entity>
@@ -142,7 +147,7 @@
       <a-entity
         position="1.5 -0.38 -4"
         rotation="-14.54 -25 0">
-        <a-entity
+        <a-entity id="points-counter"
           points-counter="value: 000"
           gamestate-bind="points: points.value">
         </a-entity>
