@@ -17,7 +17,7 @@ AFRAME.registerComponent('wave-text', {
     el.setAttribute('bmfont-text', {
       color: '#FFF',
       opacity: 0,
-      text: 'WAVE ' + state.wave
+      text: 'WAVE ' + (state.wave + 1)
     });
     el.emit('wavetextchange');
   }
