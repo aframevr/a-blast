@@ -21,19 +21,19 @@ AFRAME.registerComponent('bullet', {
     this.direction = new THREE.Vector3();
 
     this.sounds = {
-      'enemy_start': document.getElementById('explosion0'), 
-      'enemy0': document.getElementById('explosion0'), 
-      'enemy1': document.getElementById('explosion1'), 
-      'enemy2': document.getElementById('explosion2'), 
+      'enemy_start': document.getElementById('explosion0'),
+      'enemy0': document.getElementById('explosion0'),
+      'enemy1': document.getElementById('explosion1'),
+      'enemy2': document.getElementById('explosion2'),
       'enemy3': document.getElementById('explosion3'),
       'bullet': document.getElementById('hitbullet'),
       'background': document.getElementById('hitbullet')
     };
     this.soundVolumes = {
-      'enemy_start': 0.7, 
-      'enemy0': 1, 
-      'enemy1': 1, 
-      'enemy2': 1, 
+      'enemy_start': 0.7,
+      'enemy0': 1,
+      'enemy1': 1,
+      'enemy2': 1,
       'enemy3': 1,
       'bullet': 0.4,
       'background': 0.2
@@ -50,23 +50,24 @@ AFRAME.registerComponent('bullet', {
   },
 
   createExplosion: function (type, position, color, scale) {
-    var explosion = document.createElement('a-entity');
-    explosion.setAttribute('position', position || this.el.getAttribute('position'));
-    explosion.setAttribute('explosion', {
+    var explosionEntity = this.el.sceneEl.systems.explosion.getFromPool(type);
+    explosionEntity.setAttribute('position', position || this.el.getAttribute('position'));
+    explosionEntity.setAttribute('explosion', {
         type: type.substr(0, 5) == 'enemy' ? 'enemy' : type,
         lookAt: this.direction,
         color: color || '#FFF',
         scale: scale || 1.0
     });
-    
+    explosionEntity.setAttribute('visible', true);
+    explosionEntity.play();
+/*
     explosion.setAttribute('sound', {
       src: this.sounds[type].src,
       volume: this.soundVolumes[type],
       poolSize: 15,
       autoplay: true
     });
-
-    this.el.sceneEl.appendChild(explosion);
+*/
   },
 
   hitObject: function (type, data) {
@@ -91,7 +92,7 @@ AFRAME.registerComponent('bullet', {
         var enemy = data.getAttribute('enemy');
         console.log(enemy);
         if (data.components['enemy'].health <= 0) {
-          this.createExplosion(enemy.name, data.object3D.position, enemy.color, enemy.scale);
+          this.createExplosion('enemy', data.object3D.position, enemy.color, enemy.scale, enemy.name);
         }
         else {
           this.createExplosion('bullet', this.el.object3D.position, enemy.color, enemy.scale);
@@ -165,7 +166,7 @@ AFRAME.registerComponent('bullet', {
             var helper = enemy.getAttribute('collision-helper');
             var radius = helper.radius;
             if (newBulletPosition.distanceTo(enemy.object3D.position) < radius + bulletRadius) {
-              this.createExplosion('enemy_start', this.el.getAttribute('position'), '#ffb911', 0.5);
+              this.createExplosion('enemy', this.el.getAttribute('position'), '#ffb911', 0.5, 'enemy_start');
               enemy.emit('hit');
               document.getElementById('introMusic').components.sound.pauseSound();
               document.getElementById('mainThemeMusic').components.sound.playSound();
@@ -176,7 +177,7 @@ AFRAME.registerComponent('bullet', {
             var helper = enemy.getAttribute('collision-helper');
             var radius = helper.radius;
             if (newBulletPosition.distanceTo(enemy.object3D.position) < radius * 2 + bulletRadius * 2) {
-              this.createExplosion('enemy_start', this.el.getAttribute('position'), '#f00', 0.5);
+              this.createExplosion('enemy', this.el.getAttribute('position'), '#f00', 0.5, 'enemy_start');
               this.el.sceneEl.emit('reset');
               return;
             }

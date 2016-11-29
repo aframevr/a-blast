@@ -2,7 +2,7 @@
 
 AFRAME.registerComponent('explosion', {
   schema: {
-    type: { default: 'enemy' },
+    type: { default: 'enemy', oneOf: ['enemy', 'bullet', 'background', 'enemygun'] },
     duration: { default: 500 },
     color: { type: 'color', default: '#FFFFFF' },
     lookAt: { type: 'vec3', default: null},
@@ -14,8 +14,6 @@ AFRAME.registerComponent('explosion', {
     this.life = 0;
     this.starttime = null;
     this.meshes = new THREE.Group();
-    //this.el.id = 'explosion' + Math.floor(Math.random()*9999);
-
 
     this.materials = [];
     var textureSrcs = new Array('#fx1', '#fx2', '#fx3', '#fx4', '#fx8');
@@ -73,7 +71,7 @@ AFRAME.registerComponent('explosion', {
       this.materials.push(material);
       var src = document.querySelector(textureSrcs[part.textureIdx]).getAttribute('src');
       this.el.sceneEl.systems.material.loadTexture(src, {src: src}, setMap.bind(this, i));
-      
+
       function setMap (idx, texture) {
         this.materials[idx].alphaMap = texture;
         this.materials[idx].needsUpdate = true;
@@ -107,14 +105,20 @@ AFRAME.registerComponent('explosion', {
     this.el.setObject3D('explosion', this.meshes);
   },
 
+  reset: function () {
+    this.life = 0;
+    this.starttime = null;
+    this.system.system.returnToPool(this.data.name, this.el);
+  },
+
   tick: function (time, delta) {
-    if (this.starttime === null){
+    if (this.starttime === null) {
       this.starttime = time;
     }
     this.life = (time - this.starttime) / this.data.duration;
 
     if (this.life > 1) {
-      this.el.parentNode.removeChild(this.el);
+      this.system.returnToPool(this.data.type, this.el);
       return;
     }
 
@@ -131,7 +135,7 @@ AFRAME.registerComponent('explosion', {
     for (var i in this.materials) {
       if (this.materials[i].noFade) {
         continue;
-      } 
+      }
       this.materials[i].opacity = 1 - t;
     }
   }

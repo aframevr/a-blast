@@ -13,6 +13,7 @@ require('./lib/highscores.js');
 // Systems.
 require('./systems/bullet.js');
 require('./systems/enemy.js');
+require('./systems/explosion.js');
 
 // Bullets.
 require('./bullets/player.js');
