@@ -9,13 +9,13 @@ ASHOOTER.registerBullet(
         name: 'enemy-medium',
         maxSpeed: 0.5,
         initialSpeed: 0.1,
-        acceleration: 0.03,
+        acceleration: 0.06,
         destroyable: true,
         color: '#FF5533'
       },
       'collision-helper': {
         debug: false,
-        radius: 0.13
+        radius: 0.16
       },
       'json-model': {
         src: 'url(https://feiss.github.io/a-shooter-assets/models/enemy-bullet.json)'
@@ -29,7 +29,7 @@ ASHOOTER.registerBullet(
       var el = this.el;
       var color = this.bullet.components.bullet.color;
       el.setAttribute('material', 'color', color);
-      el.setAttribute('scale', {x: 0.13, y: 0.13, z: 0.13});
+      el.setAttribute('scale', {x: 0.16, y: 0.16, z: 0.16});
       this.trail = null;
       this.glow = null;
       var self = this;

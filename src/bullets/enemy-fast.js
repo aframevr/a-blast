@@ -15,7 +15,7 @@ ASHOOTER.registerBullet(
       },
       'collision-helper': {
         debug: false,
-        radius: 0.08
+        radius: 0.1
       },
       'json-model': {
         src: '#enemyBullet'

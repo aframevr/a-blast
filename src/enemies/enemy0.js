@@ -12,7 +12,7 @@ ASHOOTER.registerEnemy(
         bulletName: 'enemy-slow',
         color: '#FFB911',
         scale: 0.9,
-        health: 2
+        health: 1
       },
       'collision-helper': {
         debug: false,

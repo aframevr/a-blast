@@ -12,7 +12,7 @@ ASHOOTER.registerEnemy(
         bulletName: 'enemy-fat',
         color: '#8762FF',
         scale: 2.5,
-        health: 10
+        health: 30
       },
       'collision-helper': {
         debug: false,
@@ -29,8 +29,8 @@ ASHOOTER.registerEnemy(
   // implementation
   {
     init: function () { 
-      this.shootingDelay = 3000;
-      this.warmUpTime = 1000;
+      this.shootingDelay = 1500;
+      this.warmUpTime = 500;
       this.reset();
     },
     reset: function () {
