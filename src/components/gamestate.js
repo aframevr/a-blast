@@ -36,11 +36,9 @@ AFRAME.registerComponent('gamestate', {
       if (newState.numEnemies === 0) {
         newState.numSequences--;
         newState.waveSequence++;
-        console.log('1',newState);
         if (newState.numSequences === 0) {
           newState.waveSequence = 0;
           newState.wave++;
-          console.log(newState);
         }
       }
       return newState;
