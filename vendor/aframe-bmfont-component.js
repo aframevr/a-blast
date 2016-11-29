@@ -61,19 +61,20 @@
 	AFRAME.registerComponent('bmfont-text', {
 	  schema: {
 	    scale: {default: 0.003},
+	/*    
 	    font: {default: '' },
 	    flipY: {default: true},
 	    tabSize: {default: 4},
 	    anchor: {default: 'left', oneOf: alignments},
 	    baseline: {default: 'bottom', oneOf: alignments},
-
+	*/
 	    text: {type: 'string'},
 	    width: {type: 'number', default: 1000},
 	    align: {type: 'string', default: 'left', oneOf: alignments},
 	    letterSpacing: {type: 'number', default: 0},
 	    lineHeight: {type: 'number', default: 38},
-	    fnt: {type: 'string', default: 'https://raw.githubusercontent.com/fernandojsg/aframe-bmfont-component/master/fonts/mozillavr.fnt?token=AAvwr_00PPNxGDOoDy-H95aKsXZerZQHks5YRW9GwA%3D%3D'},
-	    fntImage: {type: 'string', default: 'https://raw.githubusercontent.com/fernandojsg/aframe-bmfont-component/master/fonts/mozillavr.png?token=AAvwr_8TEV-yG7J4_iBNTBjlztbizW7Cks5YRW9pwA%3D%3D'},
+	    fnt: {type: 'string', default: 'https://cdn.rawgit.com/bryik/aframe-bmfont-text-component/aa0655cf90f646e12c40ab4708ea90b4686cfb45/assets/DejaVu-sdf.fnt'},
+	    fntImage: {type: 'string', default: 'https://cdn.rawgit.com/bryik/aframe-bmfont-text-component/aa0655cf90f646e12c40ab4708ea90b4686cfb45/assets/DejaVu-sdf.png'},
 	    mode: {type: 'string', default: 'normal'},
 	    color: {type: 'color', default: '#000'},
 	    opacity: {type: 'number', default: '1.0'}
