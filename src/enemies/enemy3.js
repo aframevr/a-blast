@@ -28,7 +28,6 @@ ASHOOTER.registerEnemy(
   },
   // implementation
   {
-    init: function () {
     init: function () { 
       this.shootingDelay = 3000;
       this.warmUpTime = 1000;
