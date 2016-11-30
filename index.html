@@ -46,6 +46,13 @@
       <a-entity position="0 50 0" light="intensity: 0.9; type: point"></a-entity>
       <a-entity position="0 -50 0" light="intensity: 0.5; type: point"></a-entity>
 
+      <a-sky color="#0c2e3a"></a-sky>
+      <a-entity id="sky"
+        rotation="0 90 0"
+        geometry="primitive: sphere; radius: 600; segmentsHeight: 32; segmentsWidth: 32"
+        material="shader: flat; fog: false; side: back; src: url(https://feiss.github.io/a-shooter-assets/images/sky.jpg)"
+      ></a-entity>
+
       <a-entity id="player"
         camera="userHeight: 1.6"
         wasd-controls
@@ -74,8 +81,6 @@
         <a-animation id="ring1anim" attribute="rotation" to="90 360 180" repeat="indefinite" dur="30000" easing="linear"></a-animation>
       </a-entity>
 
-      <a-entity id="background" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/background.json);  singleModel:true; texturePath:url(https://feiss.github.io/a-shooter-assets/images/)" position="0 0 0"></a-entity>
-
       <a-entity id="border" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/border.json);" position="0 0 0"></a-entity>
 
       <a-entity id="highscores"
@@ -94,12 +99,6 @@
         wave-text>
         <a-animation attribute="bmfont-text.opacity" direction="alternate" dur="2500" from="0" begin="wavetextchange" to="1" repeat="1"></a-animation>
       </a-entity>
-
-      <a-sky color="#0c2e3a"></a-sky>
-      <!--<a-entity id="sky"
-        geometry="primitive: sphere; radius: 600;"
-        material="shader: flat; color: #1a4d5f; fog: false; side: double; src: url(https://fernandojsg.github.io/a-shooter-assets/images/sky.jpg)"
-      ></a-entity>-->
 
       <a-entity id="finished" visible="false">
         <a-entity id="message-group">
