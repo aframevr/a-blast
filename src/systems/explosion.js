@@ -84,7 +84,7 @@ ASHOOTER.registerExplosion(
         type: 'enemy',
       },
     },
-    poolSize: 10
+    poolSize: 1
   },
   // implementation
   {
@@ -102,7 +102,7 @@ ASHOOTER.registerExplosion(
         type: 'enemygun',
       },
     },
-    poolSize: 10
+    poolSize: 1
   },
   // implementation
   {
@@ -121,7 +121,7 @@ ASHOOTER.registerExplosion(
         type: 'bullet',
       },
     },
-    poolSize: 10
+    poolSize: 1
   },
   // implementation
   {
@@ -139,7 +139,7 @@ ASHOOTER.registerExplosion(
         type: 'background',
       },
     },
-    poolSize: 10
+    poolSize: 1
   },
   // implementation
   {
