@@ -9,7 +9,7 @@
     <script src="waves.js"></script>
   </head>
   <body>
-    <a-scene debug="true" countdown="start: 05:00; value: 00:00" gamestate="health: 5000; wave: 0" gamestate-visuals="" decals="maxDecals: 30; src: #bulletDecal; size: 0.3" fog="color:#0c2e3a;density:0;far:250;near:0">
+    <a-scene debug="true" countdown="start: 05:00; value: 00:00" gamestate="health: 5000; wave: 0" gamestate-visuals="" decals="maxDecals: 30; src: #bulletDecal; size: 0.3">
       <a-assets>
         <a-asset-image src="https://feiss.github.io/a-shooter-assets/images/enemy_emissive0.jpg" crossOrigin="anonymous"> </a-asset-image>
         <a-asset-image src="https://feiss.github.io/a-shooter-assets/images/enemy_emissive1.jpg" crossOrigin="anonymous"></a-asset-image>
@@ -62,7 +62,6 @@
       <a-entity position="0 50 0" light="intensity: 0.9; type: point"></a-entity>
       <a-entity position="0 -50 0" light="intensity: 0.5; type: point"></a-entity>
 
-      <a-sky color="#0c2e3a"></a-sky>
       <a-entity id="sky"
         rotation="0 90 0"
         geometry="primitive: sphere; radius: 600; segmentsHeight: 32; segmentsWidth: 32"
