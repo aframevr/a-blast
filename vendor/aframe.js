@@ -35,7 +35,7 @@ module.exports = {
             var value = attributes[key];
             style.setAttribute('data-' + key, value);
         }
-        
+
         if (style.sheet) { // for jsdom and IE9+
             style.innerHTML = cssText;
             style.sheet.cssText = cssText;
@@ -1839,7 +1839,7 @@ module.exports.normalize = normalize;
 				default: throw new Error( 'index is out of range: ' + index );
 
 			}
-			
+
 			return this;
 
 		},
@@ -2607,7 +2607,7 @@ module.exports.normalize = normalize;
 				default: throw new Error( 'index is out of range: ' + index );
 
 			}
-			
+
 			return this;
 
 		},
@@ -3916,7 +3916,7 @@ module.exports.normalize = normalize;
 				default: throw new Error( 'index is out of range: ' + index );
 
 			}
-			
+
 			return this;
 
 		},
@@ -11826,7 +11826,7 @@ module.exports.normalize = normalize;
 
 		this.userData = {};
 
-		this.onBeforeRender = function(){}; 
+		this.onBeforeRender = function(){};
 		this.onAfterRender = function(){};
 
 	}
@@ -20715,7 +20715,7 @@ module.exports.normalize = normalize;
 			}
 
 			scope.numPlanes = nPlanes;
-			
+
 			return dstArray;
 
 		}
@@ -22433,7 +22433,7 @@ module.exports.normalize = normalize;
 					material.needsUpdate = true;
 
 				} else if ( materialProperties.numClippingPlanes !== undefined &&
-					( materialProperties.numClippingPlanes !== _clipping.numPlanes || 
+					( materialProperties.numClippingPlanes !== _clipping.numPlanes ||
 	 				  materialProperties.numIntersection  !== _clipping.numIntersection ) ) {
 
 					material.needsUpdate = true;
@@ -43615,7 +43615,7 @@ THREE.BlendCharacter = function () {
 		} );
 
 	};
-	
+
 	this.update = function( dt ) {
 
 		this.mixer.update( dt );
@@ -44899,7 +44899,7 @@ THREE.ColladaLoader = function () {
 				if ( num_materials > 1 ) {
 
 					material = new THREE.MultiMaterial( used_materials_array );
-					
+
 					for ( j = 0; j < geom.faces.length; j ++ ) {
 
 						var face = geom.faces[ j ];
@@ -49597,20 +49597,20 @@ THREE.MTLLoader.MaterialCreator.prototype = {
 
 			return baseUrl + url;
 		};
-		
+
 		function setMapForType ( mapType, value ) {
 
 			if ( params[ mapType ] ) return; // Keep the first encountered texture
 
 			var texParams = scope.getTextureParams( value, params );
 			var map = scope.loadTexture( resolveURL( scope.baseUrl, texParams.url ) );
-			
+
 			map.repeat.copy( texParams.scale );
 			map.offset.copy( texParams.offset );
 
 			map.wrapS = scope.wrap;
 			map.wrapT = scope.wrap;
-			
+
 			params[ mapType ] = map;
 		}
 
@@ -49650,7 +49650,7 @@ THREE.MTLLoader.MaterialCreator.prototype = {
 				case 'map_ks':
 
 					// Specular map
-					
+
 					setMapForType( "specularMap", value );
 
 					break;
@@ -49658,8 +49658,8 @@ THREE.MTLLoader.MaterialCreator.prototype = {
 				case 'map_bump':
 				case 'bump':
 
-					// Bump texture map				
-					
+					// Bump texture map
+
 					setMapForType( "bumpMap", value );
 
 					break;
@@ -61387,6 +61387,8 @@ registerElement('a-asset-item', {
       value: function () {
         var self = this;
         var src = this.getAttribute('src');
+        var responseType = this.getAttribute('responseType');
+        if (responseType) { fileLoader.setResponseType(responseType); }
         fileLoader.load(src, function handleOnLoad (textResponse) {
           THREE.Cache.files[src] = textResponse;
           self.data = textResponse;

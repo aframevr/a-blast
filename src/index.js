@@ -1,5 +1,8 @@
 window.ASHOOTER = {};
 
+// Assets managment
+require('./a-asset-image.js')
+
 // Vendor.
 require('../vendor/aframe-bmfont-text-component.min.js');
 
