@@ -58,7 +58,7 @@ AFRAME.registerComponent('explosion', {
       case 'background':
         this.parts = [
           {textureIdx: 4, billboard: true,  color: '#24CAFF', scale: .3, grow: 3, dispersion: 0, copies: 1, speed: 0 },
-          //{textureIdx: 0, billboard: true,  color: '#24CAFF', scale: 0.03, grow: 1, dispersion: 0.3, copies: 8, speed: 1.6, noFade: true }
+          {textureIdx: 0, billboard: true,  color: '#24CAFF', scale: 0.03, grow: 1, dispersion: 0.3, copies: 8, speed: 1.6, noFade: true }
         ];
       break;
       case 'enemygun':
@@ -173,7 +173,7 @@ AFRAME.registerComponent('explosion', {
       var s = 1 + t * mesh.part.grow;
       mesh.scale.set(s, s, s);
       if (mesh.part.speed > 0) {
-        mesh.position.multiplyScalar(1 + delta / 1000);
+        mesh.position.multiplyScalar(1 + delta / 1000 * mesh.speed);
       }
     }
     for (var i in this.materials) {
