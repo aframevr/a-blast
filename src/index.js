@@ -17,6 +17,7 @@ require('./systems/enemy.js');
 // Bullets.
 require('./bullets/player.js');
 require('./bullets/enemy-slow.js');
+require('./bullets/enemy-medium.js');
 require('./bullets/enemy-fast.js');
 require('./bullets/enemy-fat.js');
 

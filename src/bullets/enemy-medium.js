@@ -1,24 +1,24 @@
 /* globals ASHOOTER */
 ASHOOTER.registerBullet(
   // name
-  'enemy-fast',
+  'enemy-medium',
   // data
   {
     components: {
       bullet: {
-        name: 'enemy-fast',
-        maxSpeed: 0.1,
+        name: 'enemy-medium',
+        maxSpeed: 0.5,
         initialSpeed: 0.1,
-        acceleration: 0.1,
+        acceleration: 0.06,
         destroyable: true,
-        color: '#FF7F00'
+        color: '#FF5533'
       },
       'collision-helper': {
         debug: false,
-        radius: 0.1
+        radius: 0.16
       },
       'json-model': {
-        src: '#enemyBullet'
+        src: 'url(https://feiss.github.io/a-shooter-assets/models/enemy-bullet.json)'
       }
     },
     poolSize: 10
@@ -29,7 +29,7 @@ ASHOOTER.registerBullet(
       var el = this.el;
       var color = this.bullet.components.bullet.color;
       el.setAttribute('material', 'color', color);
-      el.setAttribute('scale', {x: 0.09, y: 0.09, z: 0.09});
+      el.setAttribute('scale', {x: 0.16, y: 0.16, z: 0.16});
       this.trail = null;
       this.glow = null;
       var self = this;
@@ -43,20 +43,20 @@ ASHOOTER.registerBullet(
     },
     reset: function () {
       var el = this.el;
-      el.setAttribute('scale', {x: 0.09, y: 0.09, z: 0.09});
+      el.setAttribute('scale', {x: 0.13, y: 0.13, z: 0.13});
       if (this.trail) {
         this.trail.scale.setY(0.001);
       }
     },
     tick: function (time, delta) {
       //stretch trail
-      if (this.trail && this.trail.scale.y < 1) {
+      if (this.trail && this.trail.scale.y < 0.3) {
         var trailScale = this.trail.scale.y + delta/1000;
-        if (trailScale > 1) { trailScale = 1; }
+        if (trailScale > 0.3) { trailScale = 0.3; }
         this.trail.scale.setY(trailScale);
       }
       if (this.glow) {
-        var sc = 1 + Math.sin(time / 10.0) * 0.1;
+        var sc = 1 + Math.sin(time / 20.0) * 0.1;
         this.glow.scale.set(sc, sc, sc);
       }
     },
@@ -64,5 +64,3 @@ ASHOOTER.registerBullet(
     }
   }
 );
-
-

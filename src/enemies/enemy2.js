@@ -9,7 +9,7 @@ ASHOOTER.registerEnemy(
     components: {
       enemy: {
         name: 'enemy2',
-        bulletName: 'enemy-slow',
+        bulletName: 'enemy-medium',
         color: '#FF5533',
         scale: 1.3,
         health: 3
@@ -28,14 +28,16 @@ ASHOOTER.registerEnemy(
   },
   // implementation
   {
-    init: function () {
-      this.shootingDelay = 5000;
-      this.warmUpTime = 1000;
-      this.reset();
+    init: function () { 
+      this.shootingDelay = 2000;
+      this.warmUpTime = 800;
+      this.reset(); 
     },
     reset: function () {
       var el = this.el;
       var sc = this.data.scale;
+      this.actualShootingDelay = this.shootingDelay + Math.floor(this.shootingDelay * Math.random());
+
       el.addEventListener('model-loaded', function(event) {
         el.getObject3D('mesh').scale.set(sc, sc, sc);
       });
@@ -46,12 +48,17 @@ ASHOOTER.registerEnemy(
       if (this.lastShoot == undefined ) {
         this.lastShoot = time;
       }
-      else if (time - this.lastShoot > this.shootingDelay) {
-        this.el.components.enemy.shoot(time, delta);
-        this.lastShoot = time;
-        this.willShootEmited = false;
+      else if (time - this.lastShoot > this.actualShootingDelay) {
+        // don't shoot when behind the player
+        var pos = this.el.getAttribute('position');
+        if (pos.z < 0 && pos.y > 0) { 
+          this.el.components.enemy.shoot(time, delta);
+          this.lastShoot = time;
+          this.willShootEmited = false;
+          this.actualShootingDelay = this.shootingDelay * (Math.random() < 0.2 ? 2 : 1);
+        }
       }
-      else if (!this.willShootEmited && time - this.lastShoot > this.shootingDelay - this.warmUpTime) {
+      else if (!this.willShootEmited && time - this.lastShoot > this.actualShootingDelay - this.warmUpTime) {
         this.el.components.enemy.willShoot(time, delta, this.warmUpTime);
         this.willShootEmited = true;
       }

@@ -8,7 +8,7 @@ AFRAME.registerComponent('curve-movement', {
     debug: {default: false},
     type: {default: 'single'},
     restTime: {default: 150},  // ms.
-    speed: {default: 4},  // meters per second.
+    speed: {default: 3},  // meters per second.
     loopStart: {default: 1},
     timeOffset: {default: 0}
   },
