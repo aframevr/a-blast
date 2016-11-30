@@ -8,6 +8,7 @@ AFRAME.registerComponent('explosion', {
     lookAt: { type: 'vec3', default: null},
     scale: { default: 1 }
   },
+
   update: function (oldData) {
     if (this.data.type === 'enemy') {
       this.materials[2].color.set(this.data.color);
@@ -21,6 +22,13 @@ AFRAME.registerComponent('explosion', {
       this.data.duration = 300;
     } else if (this.data.type === 'background') {
       this.data.duration = 300;
+    }
+
+    for (var i = 0; i < this.meshes.children.length; i++){
+      var mesh = this.meshes.children[i];
+      if (this.data.lookAt) {
+        mesh.lookAt(this.data.lookAt);
+      }
     }
 
     this.el.setAttribute('scale', {x: this.data.scale, y: this.data.scale, z: this.data.scale });
