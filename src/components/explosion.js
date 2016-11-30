@@ -13,7 +13,6 @@ AFRAME.registerComponent('explosion', {
 
     for (var i in this.parts) {
       var part = this.parts[i];
-      //var planeGeometry = new THREE.PlaneGeometry(part.scale, part.scale);
       this.materials[i].color.set(part.color);
 
       var dispersionCenter =  part.dispersion / 2;
@@ -48,7 +47,7 @@ AFRAME.registerComponent('explosion', {
     this.materials = [];
     var textureSrcs = new Array('#fx1', '#fx2', '#fx3', '#fx4', '#fx8');
 
-    this.el.setAttribute('scale', {x: this.data.scale, y: this.data.scale, z: this.data.scale });
+//    this.el.setAttribute('scale', {x: this.data.scale, y: this.data.scale, z: this.data.scale });
 
     switch(this.data.type) {
       case 'enemy':
@@ -87,7 +86,7 @@ AFRAME.registerComponent('explosion', {
     for (var i in this.parts) {
       var part = this.parts[i];
       part.meshes = [];
-      var planeGeometry = new THREE.PlaneGeometry(1, 1);
+      var planeGeometry = new THREE.PlaneGeometry(part.scale, part.scale);
       var material = new THREE.MeshBasicMaterial({
         color: part.color,
         side: THREE.DoubleSide,
@@ -158,7 +157,7 @@ AFRAME.registerComponent('explosion', {
     for (var i = 0; i < this.meshes.children.length; i++){
       var mesh = this.meshes.children[i];
       var s = 1 + t * mesh.part.grow;
-      mesh.scale.set(s, s, s).multiplyScalar(mesh.part.scale);
+      mesh.scale.set(s, s, s);
       if (mesh.part.speed > 0) {
         mesh.position.multiplyScalar( 1 + delta / 1000 * mesh.speed);
       }

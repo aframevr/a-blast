@@ -104,7 +104,6 @@ AFRAME.registerComponent('curve-movement', {
 
     // Mod the current time to get the current cycle time and divide by total time.
     cycleTime = this.cycleTimes[this.currentPointIndex];
-    //console.log(time);
     //this.time = time - this.initTime;
     var t = 0;
     var jump = false;

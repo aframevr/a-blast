@@ -50,7 +50,6 @@ AFRAME.registerSystem('explosion', {
   },
 
   createExplosion: function (type, position, color, scale, direction, enemyName) {
-    console.log('explosion', type, position, color, scale, direction );
     var explosionEntity = this.getFromPool(type);
     explosionEntity.setAttribute('position', position || this.el.getAttribute('position'));
     explosionEntity.setAttribute('explosion', {
