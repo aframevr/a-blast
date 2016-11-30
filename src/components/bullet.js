@@ -49,27 +49,6 @@ AFRAME.registerComponent('bullet', {
     this.startPosition = data.position;
   },
 
-  createExplosion: function (type, position, color, scale) {
-    var explosionEntity = this.el.sceneEl.systems.explosion.getFromPool(type);
-    explosionEntity.setAttribute('position', position || this.el.getAttribute('position'));
-    explosionEntity.setAttribute('explosion', {
-        type: type.substr(0, 5) == 'enemy' ? 'enemy' : type,
-        lookAt: this.direction,
-        color: color || '#FFF',
-        scale: scale || 1.0
-    });
-    explosionEntity.setAttribute('visible', true);
-    explosionEntity.play();
-/*
-    explosion.setAttribute('sound', {
-      src: this.sounds[type].src,
-      volume: this.soundVolumes[type],
-      poolSize: 15,
-      autoplay: true
-    });
-*/
-  },
-
   hitObject: function (type, data) {
     this.bullet.definition.onHit.call(this);
     this.hit = true;
@@ -81,21 +60,21 @@ AFRAME.registerComponent('bullet', {
       if (type === 'bullet') {
         // data is the bullet entity collided with
         data.components.bullet.resetBullet();
-        this.createExplosion(type, data.object3D.position, data.getAttribute('bullet').color);
+        this.el.sceneEl.systems.explosion.createExplosion(type, data.object3D.position, data.getAttribute('bullet').color, 1, this.direction);
       }
       else if (type === 'background') {
         this.el.sceneEl.systems.decals.addDecal(data.point, data.face.normal);
         var posOffset = data.point.clone().sub(this.direction.clone().multiplyScalar(0.2));
-        this.createExplosion(type, posOffset);
+        this.el.sceneEl.systems.explosion.createExplosion(type, posOffset, '#fff', 1, this.direction);
       }
       else if (type === 'enemy') {
         var enemy = data.getAttribute('enemy');
         console.log(enemy);
         if (data.components['enemy'].health <= 0) {
-          this.createExplosion('enemy', data.object3D.position, enemy.color, enemy.scale, enemy.name);
+          this.el.sceneEl.systems.explosion.createExplosion('enemy', data.object3D.position, enemy.color, enemy.scale, this.direction, enemy.name);
         }
         else {
-          this.createExplosion('bullet', this.el.object3D.position, enemy.color, enemy.scale);
+          this.el.sceneEl.systems.explosion.createExplosion('bullet', this.el.object3D.position, enemy.color, enemy.scale, this.direction);
         }
       }
     }
@@ -166,7 +145,7 @@ AFRAME.registerComponent('bullet', {
             var helper = enemy.getAttribute('collision-helper');
             var radius = helper.radius;
             if (newBulletPosition.distanceTo(enemy.object3D.position) < radius + bulletRadius) {
-              this.createExplosion('enemy', this.el.getAttribute('position'), '#ffb911', 0.5, 'enemy_start');
+              this.el.sceneEl.systems.explosion.createExplosion('enemy', this.el.getAttribute('position'), '#ffb911', 0.5, this.direction, 'enemy_start');
               enemy.emit('hit');
               document.getElementById('introMusic').components.sound.pauseSound();
               document.getElementById('mainThemeMusic').components.sound.playSound();
@@ -177,7 +156,7 @@ AFRAME.registerComponent('bullet', {
             var helper = enemy.getAttribute('collision-helper');
             var radius = helper.radius;
             if (newBulletPosition.distanceTo(enemy.object3D.position) < radius * 2 + bulletRadius * 2) {
-              this.createExplosion('enemy', this.el.getAttribute('position'), '#f00', 0.5, 'enemy_start');
+              this.el.sceneEl.systems.explosion.createExplosion('enemy', this.el.getAttribute('position'), '#f00', 0.5, this.direction, 'enemy_start');
               this.el.sceneEl.emit('reset');
               return;
             }

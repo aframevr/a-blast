@@ -136,6 +136,7 @@ AFRAME.registerComponent('enemy', {
     this.gunGlow.scale.set(3, 3, 3);
     this.gunGlowMaterial.opacity = 1;
 
+/*
     var explosion = document.createElement('a-entity');
     explosion.setAttribute('position', gunPosition);
     explosion.setAttribute('explosion', {
@@ -144,16 +145,15 @@ AFRAME.registerComponent('enemy', {
       scale: this.scale,
       lookAt: direction
     });
-
     explosion.setAttribute('sound', {
       src: document.getElementById(this.data.name + 'shoot').src,
       volume: 0.5,
       poolSize: 8,
       autoplay: true
     });
-
     this.el.sceneEl.appendChild(explosion);
-
+*/
+    this.el.sceneEl.systems.explosion.createExplosion('enemygun', gunPosition, this.color, this.scale, direction);
 
     // Ask system for bullet and set bullet position to starting point.
     var bulletEntity = el.sceneEl.systems.bullet.getBullet(data.bulletName);

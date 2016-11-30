@@ -29,15 +29,6 @@ AFRAME.registerSystem('explosion', {
     var self = this;
     this.poolHelper = new PoolHelper('explosion', ASHOOTER.EXPLOSIONS, this.sceneEl);
     this.activeExplosions = [];
-/*
-    this.sceneEl.addEventListener('gamestate-changed', function (evt) {
-      if ('state' in evt.detail.diff) {
-        if (evt.detail.state.state === 'STATE_GAME_OVER' || evt.detail.state.state === 'STATE_GAME_WIN') {
-          self.reset();
-        }
-      }
-    });
-*/
   },
 
   reset: function (entity) {
@@ -56,6 +47,27 @@ AFRAME.registerSystem('explosion', {
     var entity = this.poolHelper.requestEntity(name);
     this.activeExplosions.push(entity);
     return entity;
+  },
+
+  createExplosion: function (type, position, color, scale, direction, enemyName) {
+    var explosionEntity = this.getFromPool(type);
+    explosionEntity.setAttribute('position', position || this.el.getAttribute('position'));
+    explosionEntity.setAttribute('explosion', {
+        type: type,
+        lookAt: direction,
+        color: color || '#FFF',
+        scale: scale || 1.0
+    });
+    explosionEntity.setAttribute('visible', true);
+    explosionEntity.play();
+/*
+  explosion.setAttribute('sound', {
+    src: this.sounds[enemyName || type].src,
+    volume: this.soundVolumes[type],
+    poolSize: 15,
+    autoplay: true
+  });
+*/
   }
 
 });
@@ -72,7 +84,7 @@ ASHOOTER.registerExplosion(
         type: 'enemy',
       },
     },
-    poolSize: 1
+    poolSize: 10
   },
   // implementation
   {
@@ -90,7 +102,7 @@ ASHOOTER.registerExplosion(
         type: 'enemygun',
       },
     },
-    poolSize: 1
+    poolSize: 10
   },
   // implementation
   {
@@ -109,7 +121,7 @@ ASHOOTER.registerExplosion(
         type: 'bullet',
       },
     },
-    poolSize: 1
+    poolSize: 10
   },
   // implementation
   {
@@ -127,7 +139,7 @@ ASHOOTER.registerExplosion(
         type: 'background',
       },
     },
-    poolSize: 1
+    poolSize: 10
   },
   // implementation
   {

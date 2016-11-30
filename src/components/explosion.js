@@ -108,7 +108,7 @@ AFRAME.registerComponent('explosion', {
   reset: function () {
     this.life = 0;
     this.starttime = null;
-    this.system.system.returnToPool(this.data.name, this.el);
+    this.system.returnToPool(this.data.type, this.el);
   },
 
   tick: function (time, delta) {
@@ -118,7 +118,7 @@ AFRAME.registerComponent('explosion', {
     this.life = (time - this.starttime) / this.data.duration;
 
     if (this.life > 1) {
-      this.system.returnToPool(this.data.type, this.el);
+      this.reset();
       return;
     }
 
