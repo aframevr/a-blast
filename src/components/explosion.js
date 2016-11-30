@@ -8,6 +8,36 @@ AFRAME.registerComponent('explosion', {
     lookAt: { type: 'vec3', default: null},
     scale: { default: 1 }
   },
+  update: function (oldData) {
+    this.el.setAttribute('scale', {x: this.data.scale, y: this.data.scale, z: this.data.scale });
+
+    for (var i in this.parts) {
+      var part = this.parts[i];
+      //var planeGeometry = new THREE.PlaneGeometry(part.scale, part.scale);
+      this.materials[i].color.set(part.color);
+
+      var dispersionCenter =  part.dispersion / 2;
+
+      for (var n = 0; n < part.copies; n++) {
+        var mesh = part.meshes[n];
+
+        if (!part.billboard) {
+          mesh.rotation.set(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2);
+        }
+        else if (this.data.lookAt) {
+          mesh.lookAt(this.data.lookAt);
+        }
+        if (part.dispersion > 0) {
+          mesh.position.set(
+            Math.random() * part.dispersion - dispersionCenter,
+            Math.random() * part.dispersion - dispersionCenter,
+            Math.random() * part.dispersion - dispersionCenter
+          );
+          mesh.speed = part.speed + Math.random() / part.dispersion;
+        }
+      }
+    }
+  },
 
   init: function () {
     var self = this;
@@ -18,10 +48,11 @@ AFRAME.registerComponent('explosion', {
     this.materials = [];
     var textureSrcs = new Array('#fx1', '#fx2', '#fx3', '#fx4', '#fx8');
 
-    var parts;
+    this.el.setAttribute('scale', {x: this.data.scale, y: this.data.scale, z: this.data.scale });
+
     switch(this.data.type) {
       case 'enemy':
-        parts = [
+        this.parts = [
           {textureIdx: 2, billboard: true,  color: 16777215, scale: 1.5, grow: 4, dispersion: 0, copies: 1, speed: 0 },
           {textureIdx: 0, billboard: true,  color: 16777215, scale: 0.4, grow: 2, dispersion: 2.5, copies: 3, speed: 1 },
           {textureIdx: 3, billboard: false, color: this.data.color, scale: 1, grow: 6, dispersion: 0, copies: 1, speed: 0 },
@@ -31,7 +62,7 @@ AFRAME.registerComponent('explosion', {
       break;
       case 'bullet':
         this.data.scale = this.data.scale * 0.5;
-        parts = [
+        this.parts = [
           {textureIdx: 2, billboard: true,  color: this.data.color, scale: .5, grow: 3, dispersion: 0, copies: 1, speed: 0 },
           {textureIdx: 4, billboard: true,  color: '#24CAFF', scale: .3, grow: 4, dispersion: 0, copies: 1, speed: 0 },
           {textureIdx: 0, billboard: true,  color: this.data.color, scale: 0.04, grow: 2, dispersion: 1.5, copies: 8, speed: 1 }
@@ -39,24 +70,24 @@ AFRAME.registerComponent('explosion', {
       break;
       case 'background':
         this.data.duration = 300;
-        parts = [
+        this.parts = [
           {textureIdx: 4, billboard: true,  color: '#24CAFF', scale: .3, grow: 3, dispersion: 0, copies: 1, speed: 0 },
           {textureIdx: 0, billboard: true,  color: '#24CAFF', scale: 0.03, grow: 1, dispersion: 0.3, copies: 8, speed: 1.6, noFade: true }
         ];
       break;
       case 'enemygun':
         this.data.duration = 500;
-        parts = [
+        this.parts = [
           {textureIdx: 3, billboard: true,  color: this.data.color, scale: .5, grow: 3, dispersion: 0, copies: 1, speed: 0 },
         ];
       break;
     }
 
-    this.el.setAttribute('scale', {x: this.data.scale, y: this.data.scale, z: this.data.scale });
 
-    for (var i in parts) {
-      var part = parts[i];
-      var planeGeometry = new THREE.PlaneGeometry(part.scale, part.scale);
+    for (var i in this.parts) {
+      var part = this.parts[i];
+      part.meshes = [];
+      var planeGeometry = new THREE.PlaneGeometry(1, 1);
       var material = new THREE.MeshBasicMaterial({
         color: part.color,
         side: THREE.DoubleSide,
@@ -96,9 +127,9 @@ AFRAME.registerComponent('explosion', {
           );
           mesh.speed = part.speed + Math.random() / part.dispersion;
         }
-
         mesh.part = part;
         this.meshes.add(mesh);
+        part.meshes.push(mesh);
       }
     }
 
@@ -127,7 +158,7 @@ AFRAME.registerComponent('explosion', {
     for (var i = 0; i < this.meshes.children.length; i++){
       var mesh = this.meshes.children[i];
       var s = 1 + t * mesh.part.grow;
-      mesh.scale.set(s, s, s);
+      mesh.scale.set(s, s, s).multiplyScalar(mesh.part.scale);
       if (mesh.part.speed > 0) {
         mesh.position.multiplyScalar( 1 + delta / 1000 * mesh.speed);
       }
