@@ -49,6 +49,7 @@ require('./components/wave-text.js');
 require('./components/explosion.js');
 require('./components/animate-message.js');
 require('./components/gamestate-visuals.js');
+require('./components/sound-fade.js');
 
 // Movement Patterns.
 require('./movement-patterns/random.js');

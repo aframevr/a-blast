@@ -152,6 +152,8 @@ AFRAME.registerComponent('bullet', {
             if (newBulletPosition.distanceTo(enemy.object3D.position) < radius + bulletRadius) {
               this.createExplosion('enemy', this.el.getAttribute('position'), '#ffb911', 0.5);
               enemy.emit('hit');
+              document.getElementById('introMusic').components.sound.pauseSound();
+              document.getElementById('mainThemeMusic').components.sound.playSound();
               return;
             }
           } else if (state === 'STATE_GAME_WIN' || state === 'STATE_GAME_OVER') {

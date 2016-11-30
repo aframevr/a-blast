@@ -20,7 +20,6 @@
         <img id="bulletDecal" src="https://feiss.github.io/a-shooter-assets/images/decal0.png" crossOrigin="anonymous">
         <img id="hurtImg" src="https://feiss.github.io/a-shooter-assets/images/damage.png" crossOrigin="anonymous">
         <img id="counterFont" src="https://feiss.github.io/a-shooter-assets/images/font.png" crossOrigin="anonymous">
-        <audio id="backgroundMusic" src="https://fernandojsg.github.io/a-shooter-assets/sounds/music0.ogg" loop crossorigin="anonymous"></audio>
         <img id="fx1" src="https://feiss.github.io/a-shooter-assets/images/fx1.png" crossOrigin="anonymous">
         <img id="fx2" src="https://feiss.github.io/a-shooter-assets/images/fx2.png" crossOrigin="anonymous">
         <img id="fx3" src="https://feiss.github.io/a-shooter-assets/images/fx3.png" crossOrigin="anonymous">
@@ -29,13 +28,16 @@
         <img id="fx6" src="https://feiss.github.io/a-shooter-assets/images/fx6.png" crossOrigin="anonymous">
         <img id="fx7" src="https://feiss.github.io/a-shooter-assets/images/fx7.png" crossOrigin="anonymous">
         <img id="fx8" src="https://feiss.github.io/a-shooter-assets/images/fx8.png" crossOrigin="anonymous">
-        <audio id="backgroundMusicOgg" src="https://feiss.github.io/a-shooter-assets/sounds/music0.ogg"  crossorigin="anonymous"></audio>
+        <audio id="mainThemeOgg" src="https://feiss.github.io/a-shooter-assets/sounds/music.ogg"  crossorigin="anonymous"></audio>
+        <audio id="introOgg" src="https://feiss.github.io/a-shooter-assets/sounds/intro.ogg"  crossorigin="anonymous"></audio>
         <audio id="explosion0" src="https://feiss.github.io/a-shooter-assets/sounds/explosion0.ogg"  crossorigin="anonymous"></audio>
         <audio id="explosion1" src="https://feiss.github.io/a-shooter-assets/sounds/explosion1.ogg"  crossorigin="anonymous"></audio>
         <audio id="explosion2" src="https://feiss.github.io/a-shooter-assets/sounds/explosion2.ogg"  crossorigin="anonymous"></audio>
       </a-assets>
 
-      <a-entity id="backgroundMusic" sound="src: #backgroundMusicOgg; autoplay: false; loop: true"></a-entity>
+      <a-entity id="introMusic" position="0 1.7 -0.5" sound="src: #introOgg; autoplay: true; loop: true;" sound-fade="from: 0; to: 0.7; duration: 8000; "></a-entity>
+      <a-entity id="mainThemeMusic" position="0 1.7 -0.5" sound="src: #mainThemeOgg; autoplay: false; loop: true; volume:0.7"></a-entity>
+      
       <a-entity id="explosion0" sound="src:#explosion0"></a-entity>
       <a-entity id="explosion1" sound="src:#explosion1"></a-entity>
       <a-entity id="explosion2" sound="src:#explosion2"></a-entity>
