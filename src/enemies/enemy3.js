@@ -24,12 +24,12 @@ ASHOOTER.registerEnemy(
         singleModel: true
       }
     },
-    poolSize: 2
+    poolSize: 4
   },
   // implementation
   {
     init: function () { 
-      this.shootingDelay = 1500;
+      this.shootingDelay = 800;
       this.warmUpTime = 500;
       this.reset();
     },
