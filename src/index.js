@@ -4,7 +4,7 @@ window.ASHOOTER = {};
 require('./a-asset-image.js')
 
 // Vendor.
-require('../vendor/aframe-bmfont-text-component.min.js');
+// require('../vendor/aframe-bmfont-component.js');
 
 require('./lib/utils.js');
 require('./lib/letterpanel.js');
