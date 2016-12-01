@@ -9,7 +9,7 @@
     <script src="waves.js"></script>
   </head>
   <body>
-    <a-scene debug="true" countdown="start: 05:00; value: 00:00" gamestate="health: 5000; wave: 0" gamestate-visuals="" decals="maxDecals: 30; src: #bulletDecal; size: 0.3">
+    <a-scene debug="true" countdown="start: 05:00; value: 00:00" gamestate="health: 5000; wave: 0" gamestate-visuals="" decals="maxDecals: 30; src: #bulletDecal; size: 0.3" loader="10000">
       <a-assets>
         <a-asset-image src="https://feiss.github.io/a-shooter-assets/images/enemy_emissive0.jpg" crossOrigin="anonymous"> </a-asset-image>
         <a-asset-image src="https://feiss.github.io/a-shooter-assets/images/enemy_emissive1.jpg" crossOrigin="anonymous"></a-asset-image>
@@ -53,7 +53,7 @@
 
       <a-entity id="introMusic" position="0 1.7 -0.5" sound="src: #introOgg; autoplay: true; loop: true;" sound-fade="from: 0; to: 0.7; duration: 8000; "></a-entity>
       <a-entity id="mainThemeMusic" position="0 1.7 -0.5" sound="src: #mainThemeOgg; autoplay: false; loop: true; volume:0.7"></a-entity>
-      
+
       <a-entity id="explosion0" sound="src:#explosion0"></a-entity>
       <a-entity id="explosion1" sound="src:#explosion1"></a-entity>
       <a-entity id="explosion2" sound="src:#explosion2"></a-entity>
