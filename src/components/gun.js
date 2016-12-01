@@ -8,7 +8,7 @@ var WEAPONS = {
       positionOffset: [0, 0, 0],
       rotationOffset: [0, 0, 0]
     },
-    shootSound: 'url(https://feiss.github.io/a-shooter-assets/sounds/gun0.ogg)',
+    shootSound: 'url(https://feiss.github.io/a-shooter-assets/sounds/gun.ogg)',
     shootingDelay: 100, // In ms
     bullet: 'default'
   }

@@ -144,7 +144,16 @@ AFRAME.registerComponent('enemy', {
       scale: this.scale,
       lookAt: direction
     });
+
+    explosion.setAttribute('sound', {
+      src: document.getElementById('enemy0shoot').src,
+      volume: 1,
+      poolSize: 8,
+      autoplay: true
+    });
+
     this.el.sceneEl.appendChild(explosion);
+
 
     // Ask system for bullet and set bullet position to starting point.
     var bulletEntity = el.sceneEl.systems.bullet.getBullet(data.bulletName);
