@@ -50,10 +50,19 @@
         <audio id="explosion0" src="https://feiss.github.io/a-shooter-assets/sounds/explosion0.ogg"  crossorigin="anonymous"></audio>
         <audio id="explosion1" src="https://feiss.github.io/a-shooter-assets/sounds/explosion1.ogg"  crossorigin="anonymous"></audio>
         <audio id="explosion2" src="https://feiss.github.io/a-shooter-assets/sounds/explosion2.ogg"  crossorigin="anonymous"></audio>
+        <audio id="explosion3" src="https://feiss.github.io/a-shooter-assets/sounds/explosion3.ogg"  crossorigin="anonymous"></audio>
+        <audio id="hitbullet" src="https://feiss.github.io/a-shooter-assets/sounds/hitbullet.ogg"  crossorigin="anonymous"></audio>
+        <audio id="hitwall" src="https://feiss.github.io/a-shooter-assets/sounds/hitwall.ogg"  crossorigin="anonymous"></audio>
+        <audio id="hurtOgg" src="https://feiss.github.io/a-shooter-assets/sounds/hurt.ogg"  crossorigin="anonymous"></audio>
+        <audio id="enemy0shoot" src="https://feiss.github.io/a-shooter-assets/sounds/enemy0shoot.ogg"  crossorigin="anonymous"></audio>
+        <audio id="enemy1shoot" src="https://feiss.github.io/a-shooter-assets/sounds/enemy1shoot.ogg"  crossorigin="anonymous"></audio>
+        <audio id="enemy2shoot" src="https://feiss.github.io/a-shooter-assets/sounds/enemy2shoot.ogg"  crossorigin="anonymous"></audio>
+        <audio id="enemy3shoot" src="https://feiss.github.io/a-shooter-assets/sounds/enemy3shoot.ogg"  crossorigin="anonymous"></audio>
       </a-assets>
 
-      <a-entity id="introMusic" position="0 1.7 -0.5" sound="src: #introOgg; autoplay: true; loop: true;" sound-fade="from: 0; to: 0.7; duration: 8000; "></a-entity>
-      <a-entity id="mainThemeMusic" position="0 1.7 -0.5" sound="src: #mainThemeOgg; autoplay: false; loop: true; volume:0.7"></a-entity>
+      <a-entity id="introMusic" position="0 1.7 -0.5" sound="src: #introOgg; autoplay: true; loop: true;" sound-fade="from: 0; to: 0.3; duration: 8000; "></a-entity>
+      <a-entity id="mainThemeMusic" position="0 1.7 -0.5" sound="src: #mainThemeOgg; autoplay: false; loop: true; volume:0.2"></a-entity>
+      <a-entity id="hurtSound" position="0 1.7 -0.2" sound="src: #hurtOgg; autoplay: false; loop: false; volume:1; poolSize: 2"></a-entity>
       
       <a-entity id="explosion0" sound="src:#explosion0"></a-entity>
       <a-entity id="explosion1" sound="src:#explosion1"></a-entity>
@@ -74,7 +83,6 @@
         wasd-controls
         look-controls
         shoot="direction: 0 0 -1; spaceKeyEnabled: true">
-        <!-- sound="src: url(https://fernandojsg.github.io/a-shooter-assets/sounds/hit0.ogg); on: player-hit" -->
         <a-entity id="hurt"
           proxy_event="event: player-hit; dst:#hurt"
           geometry="primitive:sphere;radius:0.5;segmentsHeight:6;segmentsWidth:7"

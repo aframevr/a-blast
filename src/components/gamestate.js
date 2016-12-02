@@ -29,7 +29,9 @@ AFRAME.registerComponent('gamestate', {
       if (newState.points >= self.data.numEnemiesToWin) {
         newState.state = 'STATE_GAME_WIN';
         newState.isGameWin = true;
-      }
+        document.getElementById('introMusic').components.sound.playSound();
+        document.getElementById('mainThemeMusic').components.sound.pauseSound();
+     }
 
       newState.numEnemies--;
       // All enemies killed, advance wave.
@@ -70,6 +72,8 @@ AFRAME.registerComponent('gamestate', {
           newState.isGameOver = true;
           newState.numEnemies = 0;
           newState.state = 'STATE_GAME_OVER';
+          document.getElementById('introMusic').components.sound.playSound();
+          document.getElementById('mainThemeMusic').components.sound.pauseSound();
         }
       }
       return newState;
