@@ -14,6 +14,12 @@ AFRAME.registerComponent('gamestate', {
     waveSequence: {default: 0}
   },
 
+  gameEnd: function (newState, win) {
+    newState.state = 'STATE_GAME_WIN';
+    newState.isGameWin = true;
+    document.getElementById('introMusic').components.sound.playSound();
+    document.getElementById('mainThemeMusic').components.sound.pauseSound();
+  },
   init: function () {
     var self = this;
     var el = this.el;
@@ -27,10 +33,7 @@ AFRAME.registerComponent('gamestate', {
     registerHandler('enemy-death', function (newState) {
       newState.points += 1;
       if (newState.points >= self.data.numEnemiesToWin) {
-        newState.state = 'STATE_GAME_WIN';
-        newState.isGameWin = true;
-        document.getElementById('introMusic').components.sound.playSound();
-        document.getElementById('mainThemeMusic').components.sound.pauseSound();
+        self.gameEnd(newState, true);
      }
 
       newState.numEnemies--;
@@ -41,6 +44,9 @@ AFRAME.registerComponent('gamestate', {
         if (newState.numSequences === 0) {
           newState.waveSequence = 0;
           newState.wave++;
+          if (newState.wave >= WAVES.length) {
+            self.gameEnd(newState, true);
+          }
         }
       }
       return newState;
