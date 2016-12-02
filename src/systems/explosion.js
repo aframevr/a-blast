@@ -59,18 +59,19 @@ AFRAME.registerSystem('explosion', {
         color: color || '#FFF',
         scale: scale || 1.0
     });
-    explosionEntity.setAttribute('visible', true);
-    explosionEntity.play();
-/*
-  explosion.setAttribute('sound', {
-    src: this.sounds[enemyName || type].src,
-    volume: this.soundVolumes[type],
-    poolSize: 15,
-    autoplay: true
-  });
-*/
-  }
 
+    // This should be done by the pool!!
+    explosionEntity.setAttribute('sound', {
+      src: this.sounds[enemyName || type].src,
+      volume: this.soundVolumes[type],
+      poolSize: 15,
+      autoplay: true
+    });
+    explosionEntity.setAttribute('visible', true);
+
+    explosionEntity.play();
+
+  }
 });
 
 
