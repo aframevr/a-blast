@@ -97,12 +97,12 @@
       <a-entity id="leftHand" shoot-controls="hand: left" weapon shoot></a-entity>
       <a-entity id="rightHand" shoot-controls="hand: right" weapon shoot></a-entity>
 
-      <a-entity id="ring0" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/ring.json); singleModel:true)" position="0 0 0" rotation="0 0 0" scale="1.3 1.3 1.3">
-        <a-animation id="ring0anim" attribute="rotation" to="0 360 180" repeat="indefinite" dur="50000" easing="linear"></a-animation>
+      <a-entity id="ring0" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/ring.json); singleModel:true)" position="0 0 0" rotation="70 0 -60" scale="1.3 1.3 1.3">
+        <a-animation id="ring0anim" attribute="rotation" to="0 360 60" repeat="indefinite" dur="50000" easing="linear" direction="alternate"></a-animation>
       </a-entity>
 
-      <a-entity id="ring1" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/ring.json); singleModel:true)" position="0 0 0" rotation="90 0 0">
-        <a-animation id="ring1anim" attribute="rotation" to="90 360 180" repeat="indefinite" dur="30000" easing="linear"></a-animation>
+      <a-entity id="ring1" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/ring.json); singleModel:true)" position="0 0 0" rotation="60 0 0">
+        <a-animation id="ring1anim" attribute="rotation" to="-60 360 50" repeat="indefinite" dur="30000" easing="linear" direction="alternate"></a-animation>
       </a-entity>
 
       <a-entity id="border" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/border.json);" position="0 0 0"></a-entity>
