@@ -153,7 +153,7 @@ AFRAME.registerComponent('enemy', {
     });
     this.el.sceneEl.appendChild(explosion);
 */
-    this.el.sceneEl.systems.explosion.createExplosion('enemygun', gunPosition, this.color, this.scale, direction);
+    this.el.sceneEl.systems.explosion.createExplosion('enemygun', gunPosition, this.color, this.scale, direction, this.data.name);
 
     // Ask system for bullet and set bullet position to starting point.
     var bulletEntity = el.sceneEl.systems.bullet.getBullet(data.bulletName);

@@ -29,6 +29,26 @@ AFRAME.registerSystem('explosion', {
     var self = this;
     this.poolHelper = new PoolHelper('explosion', ASHOOTER.EXPLOSIONS, this.sceneEl);
     this.activeExplosions = [];
+
+    this.sounds = {
+      'enemy_start': document.getElementById('explosion0'),
+      'enemy0': document.getElementById('explosion0'),
+      'enemy1': document.getElementById('explosion1'),
+      'enemy2': document.getElementById('explosion2'),
+      'enemy3': document.getElementById('explosion3'),
+      'bullet': document.getElementById('hitbullet'),
+      'background': document.getElementById('hitbullet')
+    };
+
+    this.soundVolumes = {
+      'enemy_start': 0.7,
+      'enemy0': 1,
+      'enemy1': 1,
+      'enemy2': 1,
+      'enemy3': 1,
+      'bullet': 0.4,
+      'background': 0.2
+    };
   },
 
   reset: function (entity) {
@@ -60,10 +80,11 @@ AFRAME.registerSystem('explosion', {
         scale: scale || 1.0
     });
 
+    console.log(enemyName || type);
     // This should be done by the pool!!
     explosionEntity.setAttribute('sound', {
       src: this.sounds[enemyName || type].src,
-      volume: this.soundVolumes[type],
+      volume: this.soundVolumes[enemyName || type],
       poolSize: 15,
       autoplay: true
     });

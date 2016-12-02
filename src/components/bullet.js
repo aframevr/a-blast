@@ -19,25 +19,6 @@ AFRAME.registerComponent('bullet', {
     this.bullet.definition.init.call(this);
     this.hit = false;
     this.direction = new THREE.Vector3();
-
-    this.sounds = {
-      'enemy_start': document.getElementById('explosion0'),
-      'enemy0': document.getElementById('explosion0'),
-      'enemy1': document.getElementById('explosion1'),
-      'enemy2': document.getElementById('explosion2'),
-      'enemy3': document.getElementById('explosion3'),
-      'bullet': document.getElementById('hitbullet'),
-      'background': document.getElementById('hitbullet')
-    };
-    this.soundVolumes = {
-      'enemy_start': 0.7,
-      'enemy0': 1,
-      'enemy1': 1,
-      'enemy2': 1,
-      'enemy3': 1,
-      'bullet': 0.4,
-      'background': 0.2
-    };
   },
 
   update: function (oldData) {
