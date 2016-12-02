@@ -21,7 +21,6 @@ var WAVES = [
           }
         ]
       },
-      /*
       {
         start: 0,
         random: 0,
@@ -53,7 +52,6 @@ var WAVES = [
           }
         ]
       },
-      /*
       {
         start: 0,
         random: 0,
@@ -514,7 +512,7 @@ var WAVES = [
             random: 0,
           }
         ]
-      }*/
+      }
     ]
   }
 ];
