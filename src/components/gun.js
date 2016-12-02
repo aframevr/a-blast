@@ -36,7 +36,7 @@ AFRAME.registerComponent('weapon', {
     el.setAttribute('sound', {
       src: this.weapon.shootSound,
       on: 'shoot',
-      volume: 1.0,
+      volume: 0.5,
       poolSize: 10
     });
 

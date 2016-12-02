@@ -30,13 +30,13 @@ AFRAME.registerComponent('bullet', {
       'background': document.getElementById('hitbullet')
     };
     this.soundVolumes = {
-      'enemy_start': 1, 
-      'enemy0': 2, 
-      'enemy1': 2, 
-      'enemy2': 2, 
-      'enemy3': 2,
-      'bullet': 0.7,
-      'background': 0.4
+      'enemy_start': 0.7, 
+      'enemy0': 1, 
+      'enemy1': 1, 
+      'enemy2': 1, 
+      'enemy3': 1,
+      'bullet': 0.4,
+      'background': 0.2
     };
   },
 
@@ -58,7 +58,7 @@ AFRAME.registerComponent('bullet', {
         color: color || '#FFF',
         scale: scale || 1.0
     });
-console.log(type, this.sounds[type]);
+    
     explosion.setAttribute('sound', {
       src: this.sounds[type].src,
       volume: this.soundVolumes[type],

@@ -147,7 +147,7 @@ AFRAME.registerComponent('enemy', {
 
     explosion.setAttribute('sound', {
       src: document.getElementById(this.data.name + 'shoot').src,
-      volume: 1,
+      volume: 0.5,
       poolSize: 8,
       autoplay: true
     });
