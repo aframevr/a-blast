@@ -1,6 +1,6 @@
 /* global AFRAME, THREE */
 
-var MOVEMENT_PATTERNS = ASHOOTER.MOVEMENT_PATTERNS = module.exports.MOVEMENT_PATTERNS = {};
+var MOVEMENT_PATTERNS = ABLAST.MOVEMENT_PATTERNS = module.exports.MOVEMENT_PATTERNS = {};
 
 /**
  * Registration API.

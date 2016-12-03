@@ -1,5 +1,5 @@
-/* globals ASHOOTER */
-ASHOOTER.registerBullet(
+/* globals ABLAST */
+ABLAST.registerBullet(
   // name
   'default',
   // data

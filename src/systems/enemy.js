@@ -1,16 +1,16 @@
-/* globals ASHOOTER AFRAME */
+/* globals ABLAST AFRAME */
 var PoolHelper = require('../lib/poolhelper.js');
 
-ASHOOTER.ENEMIES = {};
+ABLAST.ENEMIES = {};
 
-ASHOOTER.registerEnemy = function (name, data, definition) {
-  if (ASHOOTER.ENEMIES[name]) {
+ABLAST.registerEnemy = function (name, data, definition) {
+  if (ABLAST.ENEMIES[name]) {
     throw new Error('The enemy `' + name + '` has been already registered. ' +
                     'Check that you are not loading two versions of the same enemy ' +
                     'or two different enemies of the same name.');
   }
 
-  ASHOOTER.ENEMIES[name] = {
+  ABLAST.ENEMIES[name] = {
     poolSize: data.poolSize,
     components: data.components,
     definition: definition,
@@ -34,7 +34,7 @@ AFRAME.registerSystem('enemy', {
       return;
     }
 
-    this.poolHelper = new PoolHelper('enemy', ASHOOTER.ENEMIES, this.sceneEl);
+    this.poolHelper = new PoolHelper('enemy', ABLAST.ENEMIES, this.sceneEl);
 
     this.activeEnemies = [];
 

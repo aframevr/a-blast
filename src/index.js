@@ -1,4 +1,4 @@
-window.ASHOOTER = {};
+window.ABLAST = {};
 
 // Assets managment
 require('./a-asset-image.js')
@@ -59,3 +59,6 @@ require('./components/sound-fade.js');
 // Movement Patterns.
 require('./movement-patterns/random.js');
 require('./movement-patterns/toEntity.js');
+
+// UI
+require('./lib/ui.js');

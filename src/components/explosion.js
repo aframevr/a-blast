@@ -1,4 +1,4 @@
-/* globals AFRAME ASHOOTER THREE */
+/* globals AFRAME ABLAST THREE */
 
 AFRAME.registerComponent('explosion', {
   schema: {

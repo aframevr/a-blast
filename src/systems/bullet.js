@@ -1,16 +1,16 @@
-/* global AFRAME ASHOOTER */
+/* global AFRAME ABLAST */
 var PoolHelper = require('../lib/poolhelper.js');
 
-ASHOOTER.BULLETS = {};
+ABLAST.BULLETS = {};
 
-ASHOOTER.registerBullet = function (name, data, definition) {
-  if (ASHOOTER.BULLETS[name]) {
+ABLAST.registerBullet = function (name, data, definition) {
+  if (ABLAST.BULLETS[name]) {
     throw new Error('The bullet `' + name + '` has been already registered. ' +
                     'Check that you are not loading two versions of the same bullet ' +
                     'or two different bullets of the same name.');
   }
 
-  ASHOOTER.BULLETS[name] = {
+  ABLAST.BULLETS[name] = {
     poolSize: data.poolSize,
     components: data.components,
     definition: definition
@@ -22,7 +22,7 @@ ASHOOTER.registerBullet = function (name, data, definition) {
 AFRAME.registerSystem('bullet', {
   init: function () {
     var self = this;
-    this.poolHelper = new PoolHelper('bullet', ASHOOTER.BULLETS, this.sceneEl);
+    this.poolHelper = new PoolHelper('bullet', ABLAST.BULLETS, this.sceneEl);
     this.activeBullets = [];
 
     this.sceneEl.addEventListener('gamestate-changed', function (evt) {

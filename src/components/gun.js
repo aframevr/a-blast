@@ -42,7 +42,7 @@ AFRAME.registerComponent('weapon', {
 
     this.fires = [];
     this.trigger = null;
-    
+
     el.addEventListener('model-loaded', function (evt) {
       this.model = evt.detail.model;
       var modelWithPivot = new THREE.Group();
@@ -174,6 +174,8 @@ AFRAME.registerComponent('shoot', {
       var weapon = this.weapon;
 
       if (this.coolingDown) { return; }
+
+      ABLAST.currentScore.shoots++;
 
       // Get firing entity's transformations.
       matrixWorld = el.object3D.matrixWorld;

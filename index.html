@@ -8,9 +8,10 @@
     <script src="build/build.js"></script>
     <script src="https://fernandojsg.github.io/aframe-bmfont-component/dist/aframe-bmfont-component.min.js"></script>
     <script src="waves.js"></script>
+    <link rel="stylesheet" href="css/main.css">
   </head>
   <body>
-    <a-scene debug="true" countdown="start: 05:00; value: 00:00" gamestate="health: 5000; wave: 0" gamestate-visuals="" decals="maxDecals: 30; src: #bulletDecal; size: 0.3">
+    <a-scene debug="true" countdown="start: 05:00; value: 00:00" gamestate="health: 5; wave: 0" gamestate-visuals="" decals="maxDecals: 30; src: #bulletDecal; size: 0.3">
       <a-assets>
         <a-asset-image src="https://feiss.github.io/a-shooter-assets/images/enemy_emissive0.jpg" crossOrigin="anonymous"> </a-asset-image>
         <a-asset-image src="https://feiss.github.io/a-shooter-assets/images/enemy_emissive1.jpg" crossOrigin="anonymous"></a-asset-image>
@@ -174,5 +175,18 @@
         </a-entity>
       </a-entity>
     </a-scene>
+
+    <div id="ablast-ui">
+      <div class="hiscore hided">
+        <div class="help">
+          <h1 id="highscore_message">New HiScore!</h1>
+          <p>Please enter your name to join the hiscores list!</p>
+        </div>
+        <div class="form">
+        <input id="player-name" type="text" value=""/>
+        <div id="save-score" class="button save">SAVE!</div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

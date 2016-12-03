@@ -1,0 +1,77 @@
+#ablast-ui{
+  font-family: Helvetica, Arial, sans-serif;
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  line-height: 1.2em;
+  background-color: rgba(10,10,10,0.8);
+  border-radius: 6px;
+  padding: 1.7em 2em;
+  display: none;
+}
+
+#ablast-ui .help{
+  color: #ccc;
+  font-size: 14px;
+  text-shadow: 0px 2px 1px #000;
+}
+
+#ablast-ui .help h1{
+  font-size: 22px;
+  font-weight: 100;
+  color: #e42b5a;
+  margin-top: 0;
+}
+
+#ablast-ui .button {
+  background-color: #ef2d5e;
+  color: #fff;
+  cursor: pointer;
+  font-size: 12px;
+  width: 130px;
+  text-align: center;
+  max-width: 115px;
+  padding: 6px;
+}
+
+#ablast-ui .button:hover {
+  background-color: #f43b6a;
+}
+
+#ablast-ui .form {
+  display: flex;
+  font-size: 14px;
+  align-content: center;
+}
+
+#ablast-ui .hiscore input {
+  width: 200px;
+  color: #333;
+  text-align: center;
+}
+
+#ablast-ui .hide {
+  display: none !important;
+}
+
+#apainter-logo {
+  position: fixed;
+  bottom: 15px;
+  left: 15px;
+  height: 54px;
+  width: 252px;
+  background-image: url(https://cdn.aframe.io/a-painter/images/apainter-banner.png);
+}
+
+#apainter-logo.hidden, #apainter-author.hidden{
+  display: none;
+}
+
+#apainter-author {
+  position: fixed;
+  bottom: 28px;
+  left: 268px;
+  display: inline-block;
+  font: 18px arial, sans-serif;
+  color: #e42b5a;
+}

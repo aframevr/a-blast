@@ -1,4 +1,4 @@
-/* globals AFRAME ASHOOTER THREE */
+/* globals AFRAME ABLAST THREE */
 AFRAME.registerComponent('enemy', {
   schema: {
     name: {default: 'enemy0'},
@@ -12,9 +12,9 @@ AFRAME.registerComponent('enemy', {
   init: function () {
     this.alive = true;
     this.hipBone = null;
-    this.definition = ASHOOTER.ENEMIES[this.data.name].definition;
+    this.definition = ABLAST.ENEMIES[this.data.name].definition;
     this.definition.init.call(this);
-    var comp = ASHOOTER.ENEMIES[this.data.name].components.enemy;
+    var comp = ABLAST.ENEMIES[this.data.name].components.enemy;
     this.maxhealth = this.health = comp.health;
     this.color = comp.color;
     this.scale = comp.scale;

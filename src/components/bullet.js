@@ -1,4 +1,4 @@
-/* globals AFRAME ASHOOTER THREE */
+/* globals AFRAME ABLAST THREE */
 AFRAME.registerComponent('bullet', {
   schema: {
     name: { default: '' },
@@ -15,7 +15,7 @@ AFRAME.registerComponent('bullet', {
   init: function () {
     this.startEnemy = document.getElementById('start_enemy');
     this.backgroundEl = document.getElementById('border');
-    this.bullet = ASHOOTER.BULLETS[this.data.name];
+    this.bullet = ABLAST.BULLETS[this.data.name];
     this.bullet.definition.init.call(this);
     this.hit = false;
     this.direction = new THREE.Vector3();
@@ -42,6 +42,7 @@ AFRAME.registerComponent('bullet', {
         // data is the bullet entity collided with
         data.components.bullet.resetBullet();
         this.el.sceneEl.systems.explosion.createExplosion(type, data.object3D.position, data.getAttribute('bullet').color, 1, this.direction);
+        ABLAST.currentScore.validShoot++;
       }
       else if (type === 'background') {
         this.el.sceneEl.systems.decals.addDecal(data.point, data.face.normal);
@@ -50,13 +51,13 @@ AFRAME.registerComponent('bullet', {
       }
       else if (type === 'enemy') {
         var enemy = data.getAttribute('enemy');
-        console.log(enemy);
         if (data.components['enemy'].health <= 0) {
           this.el.sceneEl.systems.explosion.createExplosion('enemy', data.object3D.position, enemy.color, enemy.scale, this.direction, enemy.name);
         }
         else {
           this.el.sceneEl.systems.explosion.createExplosion('bullet', this.el.object3D.position, enemy.color, enemy.scale, this.direction);
         }
+        ABLAST.currentScore.validShoot++;
       }
     }
     this.resetBullet();

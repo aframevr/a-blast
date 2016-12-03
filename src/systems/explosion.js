@@ -1,16 +1,16 @@
-/* globals ASHOOTER AFRAME */
+/* globals ABLAST AFRAME */
 var PoolHelper = require('../lib/poolhelper.js');
 
-ASHOOTER.EXPLOSIONS = {};
+ABLAST.EXPLOSIONS = {};
 
-ASHOOTER.registerExplosion = function (name, data, definition) {
-  if (ASHOOTER.EXPLOSIONS[name]) {
+ABLAST.registerExplosion = function (name, data, definition) {
+  if (ABLAST.EXPLOSIONS[name]) {
     throw new Error('The explosion `' + name + '` has been already registered. ' +
                     'Check that you are not loading two versions of the same explosion ' +
                     'or two different enemies of the same name.');
   }
 
-  ASHOOTER.EXPLOSIONS[name] = {
+  ABLAST.EXPLOSIONS[name] = {
     poolSize: data.poolSize,
     components: data.components,
     definition: definition,
@@ -27,7 +27,7 @@ AFRAME.registerSystem('explosion', {
 
   init: function () {
     var self = this;
-    this.poolHelper = new PoolHelper('explosion', ASHOOTER.EXPLOSIONS, this.sceneEl);
+    this.poolHelper = new PoolHelper('explosion', ABLAST.EXPLOSIONS, this.sceneEl);
     this.activeExplosions = [];
 
     this.sounds = {
@@ -72,7 +72,6 @@ AFRAME.registerSystem('explosion', {
   createExplosion: function (type, position, color, scale, direction, enemyName) {
     var explosionEntity = this.getFromPool(type);
     explosionEntity.setAttribute('position', position || this.el.getAttribute('position'));
-    console.log(direction);
     explosionEntity.setAttribute('explosion', {
         type: type,
         lookAt: direction,
@@ -80,7 +79,6 @@ AFRAME.registerSystem('explosion', {
         scale: scale || 1.0
     });
 
-    console.log(enemyName || type);
     // This should be done by the pool!!
     explosionEntity.setAttribute('sound', {
       src: this.sounds[enemyName || type].src,
@@ -96,8 +94,8 @@ AFRAME.registerSystem('explosion', {
 });
 
 
-/* globals ASHOOTER */
-ASHOOTER.registerExplosion(
+/* globals ABLAST */
+ABLAST.registerExplosion(
   // name
   'enemy',
   // data
@@ -114,8 +112,8 @@ ASHOOTER.registerExplosion(
   }
 );
 
-/* globals ASHOOTER */
-ASHOOTER.registerExplosion(
+/* globals ABLAST */
+ABLAST.registerExplosion(
   // name
   'enemygun',
   // data
@@ -133,8 +131,8 @@ ASHOOTER.registerExplosion(
 );
 
 
-/* globals ASHOOTER */
-ASHOOTER.registerExplosion(
+/* globals ABLAST */
+ABLAST.registerExplosion(
   // name
   'bullet',
   // data
@@ -151,8 +149,8 @@ ASHOOTER.registerExplosion(
   }
 );
 
-/* globals ASHOOTER */
-ASHOOTER.registerExplosion(
+/* globals ABLAST */
+ABLAST.registerExplosion(
   // name
   'background',
   // data

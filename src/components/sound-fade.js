@@ -1,4 +1,4 @@
-/* globals AFRAME ASHOOTER */
+/* globals AFRAME ABLAST */
 
 AFRAME.registerComponent('sound-fade', {
   schema: {

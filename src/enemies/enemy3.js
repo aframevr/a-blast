@@ -1,7 +1,7 @@
-/* globals ASHOOTER */
+/* globals ABLAST */
 var randomPointInSphere = require('../utils.js').randomPointInSphere;
 
-ASHOOTER.registerEnemy(
+ABLAST.registerEnemy(
   // name
   'enemy3',
   // data

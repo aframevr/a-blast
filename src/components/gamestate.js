@@ -1,4 +1,11 @@
 /* global AFRAME */
+ABLAST.currentScore = {
+  name: '',
+  points: 0,
+  time: 0,
+  shoots: 0,
+  validShoot: 0
+};
 
 AFRAME.registerComponent('gamestate', {
   schema: {
@@ -31,7 +38,9 @@ AFRAME.registerComponent('gamestate', {
 
     el.emit('gamestate-initialized', {state: initialState});
     registerHandler('enemy-death', function (newState) {
-      newState.points += 1;
+      newState.points++;
+      ABLAST.currentScore.points++;
+      console.log(ABLAST.currentScore);
       if (newState.points >= self.data.numEnemiesToWin) {
         self.gameEnd(newState, true);
      }
@@ -86,6 +95,14 @@ AFRAME.registerComponent('gamestate', {
     });
 
     registerHandler('reset', function () {
+      ABLAST.currentScore = {
+        name: '',
+        points: 0,
+        time: 0,
+        shoots: 0,
+        validShoot: 0
+      };
+
       return initialState;
     });
 
