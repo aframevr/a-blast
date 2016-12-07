@@ -10,6 +10,7 @@ AFRAME.registerComponent('gamestate-visuals', {
     this.gameover = document.getElementById('gameover-model');
     this.welldone = document.getElementById('welldone-model');
     this.reset = document.getElementById('reset');
+    this.highscores = document.getElementById('highscores');
 
     var self = this;
     this.el.sceneEl.addEventListener('gamestate-changed', function (evt) {
@@ -28,6 +29,8 @@ AFRAME.registerComponent('gamestate-visuals', {
   },
 
   startPlaying: function () {
+    this.highscores.setAttribute('visible', false);
+
     var self = this;
     var rotation = { x: 0.0 };
     var tween = new AFRAME.TWEEN.Tween(rotation)
@@ -49,6 +52,7 @@ AFRAME.registerComponent('gamestate-visuals', {
 
     var group = document.getElementById('finished');
 
+    this.highscores.setAttribute('visible', true);
     this.gameover.setAttribute('visible', gameover);
     this.welldone.setAttribute('visible', !gameover);
 

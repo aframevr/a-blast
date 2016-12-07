@@ -46,7 +46,8 @@ Number.prototype.padLeft = function (n,str) {
 
 
 String.prototype.pad = function (n,left, str) {
-  var empty = Array(n-String(this).length+1).join(str||' ');
+  var string = String(this).substr(0,n);
+  var empty = Array(n-string.length+1).join(str||' ');
   return left ? empty + this : this + empty;
 }
 

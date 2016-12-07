@@ -42,7 +42,6 @@ AFRAME.registerSystem('highscores', {
   },
 
   shouldStoreScore: function (data) {
-    console.log(this.scores.length, this.data.maxScores, this.scores, data);
     return (this.scores.length < this.data.maxScores ||
       this.scores[this.scores.length - 1].points < data.points);
   },
@@ -61,6 +60,7 @@ AFRAME.registerSystem('highscores', {
       }
 
       localStorage['highscores'] = JSON.stringify(this.scores);
+      this.sceneEl.emit('highscores-updated', this.scores);
       return true;
     }
     return false;
@@ -72,19 +72,32 @@ AFRAME.registerComponent('highscores', {
 
   init: function () {
     var el = this.el;
+    var self = this;
     var sceneEl = this.el.sceneEl;
 
-    el.setAttribute('bmfont-text', {text: buildText(this.system.scores), color: '#DADADA'});
+    sceneEl.addEventListener('highscores-updated', function (event) {
+      el.setAttribute('bmfont-text', {text: buildText(self.system.scores)});
+    });
+
+    el.setAttribute('bmfont-text', {
+      fntImage: 'https://rawgit.com/fernandojsg/aframe-bmfont-component/master/fonts/mozillavr.png',
+      fnt: 'https://rawgit.com/fernandojsg/aframe-bmfont-component/master/fonts/mozillavr.fnt',
+      scale: 0.0015,
+      baseline: 'top',
+      lineHeight: 90,
+      text: buildText(this.system.scores),
+      color: '#24caff'
+    });
   }
 });
 
 function buildText (scores) {
-  var text = 'HIGH-SCORES\n-------------\n';
+  var text = '';
   scores.forEach(function appendText (score) {
     var len = 10;
-    name = score.name.pad(7).toLowerCase();
-    var score = score.points.toString().pad(5,true);
-    text += name + ' ' + score + '\n';
+    name = score.name.toLowerCase();
+    var score = score.points.toString().pad(5);
+    text += score + ' ' + name + '\n';
   });
   return text;
 }

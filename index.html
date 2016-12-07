@@ -108,11 +108,21 @@
 
       <a-entity id="border" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/border.json);" position="0 0 0"></a-entity>
 
-      <a-entity id="highscores"
-        highscores
-        visible = "false"
-        position="3 1 -4"
-        rotation="0 -65 0"></a-entity>
+      <a-entity id="highscores" position="2.2 2.2 -3.15" rotation="0 -45 0">
+        <a-entity
+          bmfont-text="fntImage:https://rawgit.com/fernandojsg/aframe-bmfont-component/master/fonts/mozillavr.png;
+          fnt:https://rawgit.com/fernandojsg/aframe-bmfont-component/master/fonts/mozillavr.fnt;
+          scale:0.002;
+          text:HALL OF FAME;
+          color:#f00">
+          </a-entity>
+
+        <a-entity
+          highscores
+          visible = "true"
+          position="0 -0.15 0">
+        </a-entity>
+      </a-entity>
 <!--
       <a-entity id="gamestateDebug"
         gamestate-debug
@@ -165,18 +175,15 @@
           lifes-counter="value: 5">
         </a-entity>
       </a-entity>
-
-      <a-entity
+      <a-entity id="points-counter"
         position="1.5 -0.38 -4"
-        rotation="-14.54 -25 0">
-        <a-entity id="points-counter"
-          points-counter="value: 000"
-          gamestate-bind="points: points.value">
-        </a-entity>
+        rotation="-14.54 -25 0"
+        points-counter="value: 000"
+        gamestate-bind="points: points-counter.value">
       </a-entity>
     </a-scene>
 
-    <div id="ablast-ui">
+    <div id="ablast-ui" class="hide">
       <div class="hiscore hided">
         <div class="help">
           <h1 id="highscore_message">New HiScore!</h1>

@@ -40,7 +40,6 @@ AFRAME.registerComponent('gamestate', {
     registerHandler('enemy-death', function (newState) {
       newState.points++;
       ABLAST.currentScore.points++;
-      console.log(ABLAST.currentScore);
       if (newState.points >= self.data.numEnemiesToWin) {
         self.gameEnd(newState, true);
      }

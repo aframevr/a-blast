@@ -8,7 +8,6 @@ require('./a-asset-image.js')
 
 require('./lib/utils.js');
 require('./lib/letterpanel.js');
-require('./lib/highscores.js');
 
 // Systems.
 require('./systems/bullet.js');
@@ -59,6 +58,3 @@ require('./components/sound-fade.js');
 // Movement Patterns.
 require('./movement-patterns/random.js');
 require('./movement-patterns/toEntity.js');
-
-// UI
-require('./lib/ui.js');
