@@ -6,59 +6,59 @@
     <meta name="description" content="Room Scale A-Frame Demo">
     <script src="vendor/aframe.js"></script>
     <script src="build/build.js"></script>
-    <script src="https://fernandojsg.github.io/aframe-bmfont-component/dist/aframe-bmfont-component.min.js"></script>
+    <script src="vendor/aframe-bmfont-component.min.js"></script>
     <script src="waves.js"></script>
     <link rel="stylesheet" href="css/main.css">
   </head>
   <body>
     <a-scene debug="true" countdown="start: 05:00; value: 00:00" gamestate="health: 5; wave: 0" gamestate-visuals="" decals="maxDecals: 30; src: #bulletDecal; size: 0.3">
       <a-assets>
-        <a-asset-image src="https://feiss.github.io/a-shooter-assets/images/enemy_emissive0.jpg" crossOrigin="anonymous"> </a-asset-image>
-        <a-asset-image src="https://feiss.github.io/a-shooter-assets/images/enemy_emissive1.jpg" crossOrigin="anonymous"></a-asset-image>
-        <a-asset-image src="https://feiss.github.io/a-shooter-assets/images/enemy_emissive2.jpg" crossOrigin="anonymous"></a-asset-image>
-        <a-asset-image src="https://feiss.github.io/a-shooter-assets/images/enemy_emissive3.jpg" crossOrigin="anonymous"></a-asset-image>
-        <a-asset-image src="https://feiss.github.io/a-shooter-assets/images/enemy_diff.jpg" crossOrigin="anonymous"></a-asset-image>
-        <a-asset-image src="https://feiss.github.io/a-shooter-assets/images/enemy_spec.jpg" crossOrigin="anonymous"></a-asset-image>
-        <a-asset-image src="https://feiss.github.io/a-shooter-assets/images/gun_diff.jpg" crossOrigin="anonymous"></a-asset-image>
-        <a-asset-image src="https://feiss.github.io/a-shooter-assets/images/gun_spec.jpg" crossOrigin="anonymous"></a-asset-image>
-        <a-asset-image src="https://feiss.github.io/a-shooter-assets/images/gun_normal.png" crossOrigin="anonymous"></a-asset-image>
+        <a-asset-image src="assets/images/enemy_emissive0.jpg" crossOrigin="anonymous"> </a-asset-image>
+        <a-asset-image src="assets/images/enemy_emissive1.jpg" crossOrigin="anonymous"></a-asset-image>
+        <a-asset-image src="assets/images/enemy_emissive2.jpg" crossOrigin="anonymous"></a-asset-image>
+        <a-asset-image src="assets/images/enemy_emissive3.jpg" crossOrigin="anonymous"></a-asset-image>
+        <a-asset-image src="assets/images/enemy_diff.jpg" crossOrigin="anonymous"></a-asset-image>
+        <a-asset-image src="assets/images/enemy_spec.jpg" crossOrigin="anonymous"></a-asset-image>
+        <a-asset-image src="assets/images/gun_diff.jpg" crossOrigin="anonymous"></a-asset-image>
+        <a-asset-image src="assets/images/gun_spec.jpg" crossOrigin="anonymous"></a-asset-image>
+        <a-asset-image src="assets/images/gun_normal.png" crossOrigin="anonymous"></a-asset-image>
 
-        <a-asset-image src="https://feiss.github.io/a-shooter-assets/images/decal0.png" crossOrigin="anonymous"></a-asset-image>
+        <a-asset-image src="assets/images/decal0.png" crossOrigin="anonymous"></a-asset-image>
 
-        <a-asset-image id="emissive0" src="https://feiss.github.io/a-shooter-assets/images/enemy_emissive0.jpg" crossOrigin="anonymous"></a-asset-image>
-        <a-asset-image id="emissive1" src="https://feiss.github.io/a-shooter-assets/images/enemy_emissive1.jpg" crossOrigin="anonymous"></a-asset-image>
-        <a-asset-image id="emissive2" src="https://feiss.github.io/a-shooter-assets/images/enemy_emissive2.jpg" crossOrigin="anonymous"></a-asset-image>
+        <a-asset-image id="emissive0" src="assets/images/enemy_emissive0.jpg" crossOrigin="anonymous"></a-asset-image>
+        <a-asset-image id="emissive1" src="assets/images/enemy_emissive1.jpg" crossOrigin="anonymous"></a-asset-image>
+        <a-asset-image id="emissive2" src="assets/images/enemy_emissive2.jpg" crossOrigin="anonymous"></a-asset-image>
 
-        <a-asset-item id="enemy0" src="https://feiss.github.io/a-shooter-assets/models/enemy0.json"></a-asset-item>
-        <a-asset-item id="enemy1" src="https://feiss.github.io/a-shooter-assets/models/enemy1.json"></a-asset-item>
-        <a-asset-item id="enemy2" src="https://feiss.github.io/a-shooter-assets/models/enemy2.json"></a-asset-item>
-        <a-asset-item id="enemy3" src="https://feiss.github.io/a-shooter-assets/models/enemy3.json"></a-asset-item>
-        <a-asset-item id="playerBullet" src="https://feiss.github.io/a-shooter-assets/models/player-bullet.json"></a-asset-item>
-        <a-asset-item id="enemyBullet" src="https://feiss.github.io/a-shooter-assets/models/enemy-bullet.json"></a-asset-item>
-        <img id="bulletDecal" src="https://feiss.github.io/a-shooter-assets/images/decal0.png" crossOrigin="anonymous">
-        <img id="hurtImg" src="https://feiss.github.io/a-shooter-assets/images/damage.png" crossOrigin="anonymous">
-        <img id="counterFont" src="https://feiss.github.io/a-shooter-assets/images/font.png" crossOrigin="anonymous">
-        <img id="fx1" src="https://feiss.github.io/a-shooter-assets/images/fx1.png" crossOrigin="anonymous">
-        <img id="fx2" src="https://feiss.github.io/a-shooter-assets/images/fx2.png" crossOrigin="anonymous">
-        <img id="fx3" src="https://feiss.github.io/a-shooter-assets/images/fx3.png" crossOrigin="anonymous">
-        <img id="fx4" src="https://feiss.github.io/a-shooter-assets/images/fx4.png" crossOrigin="anonymous">
-        <img id="fx5" src="https://feiss.github.io/a-shooter-assets/images/fx5.png" crossOrigin="anonymous">
-        <img id="fx6" src="https://feiss.github.io/a-shooter-assets/images/fx6.png" crossOrigin="anonymous">
-        <img id="fx7" src="https://feiss.github.io/a-shooter-assets/images/fx7.png" crossOrigin="anonymous">
-        <img id="fx8" src="https://feiss.github.io/a-shooter-assets/images/fx8.png" crossOrigin="anonymous">
-        <audio id="mainThemeOgg" src="https://feiss.github.io/a-shooter-assets/sounds/music.ogg"  crossorigin="anonymous"></audio>
-        <audio id="introOgg" src="https://feiss.github.io/a-shooter-assets/sounds/intro.ogg"  crossorigin="anonymous"></audio>
-        <audio id="explosion0" src="https://feiss.github.io/a-shooter-assets/sounds/explosion0.ogg"  crossorigin="anonymous"></audio>
-        <audio id="explosion1" src="https://feiss.github.io/a-shooter-assets/sounds/explosion1.ogg"  crossorigin="anonymous"></audio>
-        <audio id="explosion2" src="https://feiss.github.io/a-shooter-assets/sounds/explosion2.ogg"  crossorigin="anonymous"></audio>
-        <audio id="explosion3" src="https://feiss.github.io/a-shooter-assets/sounds/explosion3.ogg"  crossorigin="anonymous"></audio>
-        <audio id="hitbullet" src="https://feiss.github.io/a-shooter-assets/sounds/hitbullet.ogg"  crossorigin="anonymous"></audio>
-        <audio id="hitwall" src="https://feiss.github.io/a-shooter-assets/sounds/hitwall.ogg"  crossorigin="anonymous"></audio>
-        <audio id="hurtOgg" src="https://feiss.github.io/a-shooter-assets/sounds/hurt.ogg"  crossorigin="anonymous"></audio>
-        <audio id="enemy0shoot" src="https://feiss.github.io/a-shooter-assets/sounds/enemy0shoot.ogg"  crossorigin="anonymous"></audio>
-        <audio id="enemy1shoot" src="https://feiss.github.io/a-shooter-assets/sounds/enemy1shoot.ogg"  crossorigin="anonymous"></audio>
-        <audio id="enemy2shoot" src="https://feiss.github.io/a-shooter-assets/sounds/enemy2shoot.ogg"  crossorigin="anonymous"></audio>
-        <audio id="enemy3shoot" src="https://feiss.github.io/a-shooter-assets/sounds/enemy3shoot.ogg"  crossorigin="anonymous"></audio>
+        <a-asset-item id="enemy0" src="assets/models/enemy0.json"></a-asset-item>
+        <a-asset-item id="enemy1" src="assets/models/enemy1.json"></a-asset-item>
+        <a-asset-item id="enemy2" src="assets/models/enemy2.json"></a-asset-item>
+        <a-asset-item id="enemy3" src="assets/models/enemy3.json"></a-asset-item>
+        <a-asset-item id="playerBullet" src="assets/models/player-bullet.json"></a-asset-item>
+        <a-asset-item id="enemyBullet" src="assets/models/enemy-bullet.json"></a-asset-item>
+        <img id="bulletDecal" src="assets/images/decal0.png" crossOrigin="anonymous">
+        <img id="hurtImg" src="assets/images/damage.png" crossOrigin="anonymous">
+        <img id="counterFont" src="assets/images/font.png" crossOrigin="anonymous">
+        <img id="fx1" src="assets/images/fx1.png" crossOrigin="anonymous">
+        <img id="fx2" src="assets/images/fx2.png" crossOrigin="anonymous">
+        <img id="fx3" src="assets/images/fx3.png" crossOrigin="anonymous">
+        <img id="fx4" src="assets/images/fx4.png" crossOrigin="anonymous">
+        <img id="fx5" src="assets/images/fx5.png" crossOrigin="anonymous">
+        <img id="fx6" src="assets/images/fx6.png" crossOrigin="anonymous">
+        <img id="fx7" src="assets/images/fx7.png" crossOrigin="anonymous">
+        <img id="fx8" src="assets/images/fx8.png" crossOrigin="anonymous">
+        <audio id="mainThemeOgg" src="assets/sounds/music.ogg"  crossorigin="anonymous"></audio>
+        <audio id="introOgg" src="assets/sounds/intro.ogg"  crossorigin="anonymous"></audio>
+        <audio id="explosion0" src="assets/sounds/explosion0.ogg"  crossorigin="anonymous"></audio>
+        <audio id="explosion1" src="assets/sounds/explosion1.ogg"  crossorigin="anonymous"></audio>
+        <audio id="explosion2" src="assets/sounds/explosion2.ogg"  crossorigin="anonymous"></audio>
+        <audio id="explosion3" src="assets/sounds/explosion3.ogg"  crossorigin="anonymous"></audio>
+        <audio id="hitbullet" src="assets/sounds/hitbullet.ogg"  crossorigin="anonymous"></audio>
+        <audio id="hitwall" src="assets/sounds/hitwall.ogg"  crossorigin="anonymous"></audio>
+        <audio id="hurtOgg" src="assets/sounds/hurt.ogg"  crossorigin="anonymous"></audio>
+        <audio id="enemy0shoot" src="assets/sounds/enemy0shoot.ogg"  crossorigin="anonymous"></audio>
+        <audio id="enemy1shoot" src="assets/sounds/enemy1shoot.ogg"  crossorigin="anonymous"></audio>
+        <audio id="enemy2shoot" src="assets/sounds/enemy2shoot.ogg"  crossorigin="anonymous"></audio>
+        <audio id="enemy3shoot" src="assets/sounds/enemy3shoot.ogg"  crossorigin="anonymous"></audio>
       </a-assets>
 
       <a-entity id="introMusic" position="0 1.7 -0.5" sound="src: #introOgg; autoplay: true; loop: true;" sound-fade="from: 0; to: 0.3; duration: 8000; "></a-entity>
@@ -76,7 +76,7 @@
       <a-entity id="sky"
         rotation="0 90 0"
         geometry="primitive: sphere; radius: 600; segmentsHeight: 32; segmentsWidth: 32"
-        material="shader: flat; fog: false; side: back; src: url(https://feiss.github.io/a-shooter-assets/images/sky.jpg)"
+        material="shader: flat; fog: false; side: back; src: url(assets/images/sky.jpg)"
       ></a-entity>
 
       <a-entity id="player"
@@ -98,20 +98,20 @@
       <a-entity id="leftHand" shoot-controls="hand: left" weapon shoot></a-entity>
       <a-entity id="rightHand" shoot-controls="hand: right" weapon shoot></a-entity>
 
-      <a-entity id="ring0" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/ring.json); singleModel:true)" position="0 0 0" rotation="0 0 0" scale="1.3 1.3 1.3">
+      <a-entity id="ring0" json-model="src:url(assets/models/ring.json); singleModel:true)" position="0 0 0" rotation="0 0 0" scale="1.3 1.3 1.3">
         <a-animation id="ring0anim" attribute="rotation" to="0 360 180" repeat="indefinite" dur="50000" easing="linear"></a-animation>
       </a-entity>
 
-      <a-entity id="ring1" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/ring.json); singleModel:true)" position="0 0 0" rotation="90 0 0">
+      <a-entity id="ring1" json-model="src:url(assets/models/ring.json); singleModel:true)" position="0 0 0" rotation="90 0 0">
         <a-animation id="ring1anim" attribute="rotation" to="90 360 180" repeat="indefinite" dur="30000" easing="linear"></a-animation>
       </a-entity>
 
-      <a-entity id="border" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/border.json);" position="0 0 0"></a-entity>
+      <a-entity id="border" json-model="src:url(assets/models/border.json);" position="0 0 0"></a-entity>
 
       <a-entity id="highscores" position="2.2 2.2 -3.15" rotation="0 -45 0">
         <a-entity
-          bmfont-text="fntImage:https://rawgit.com/fernandojsg/aframe-bmfont-component/master/fonts/mozillavr.png;
-          fnt:https://rawgit.com/fernandojsg/aframe-bmfont-component/master/fonts/mozillavr.fnt;
+          bmfont-text="fntImage:assets/fonts/mozillavr.png;
+          fnt:assets/fonts/mozillavr.fnt;
           scale:0.002;
           text:HALL OF FAME;
           color:#f00">
@@ -138,25 +138,25 @@
 -->
       <a-entity id="finished" visible="false">
         <a-entity id="message-group">
-          <a-entity id="gameover-model" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/gameover.json)"></a-entity>
-          <a-entity id="welldone-model" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/welldone.json)"></a-entity>
+          <a-entity id="gameover-model" json-model="src:url(assets/models/gameover.json)"></a-entity>
+          <a-entity id="welldone-model" json-model="src:url(assets/models/welldone.json)"></a-entity>
         </a-entity>
         <a-entity id="reset"
           collision-helper="radius: 0.7"
-          json-model="src: url(https://feiss.github.io/a-shooter-assets/models/restart.json);"
+          json-model="src: url(assets/models/restart.json);"
           material="color: #f00; flatShading: true"
           position="0 0.5 -6">
         </a-entity>
       </a-entity>
 
       <a-entity id="mainmenu">
-        <a-entity id="logo" json-model="src:url(https://feiss.github.io/a-shooter-assets/models/logo.json)" animate-message=""></a-entity>
+        <a-entity id="logo" json-model="src:url(assets/models/logo.json)" animate-message=""></a-entity>
         <a-entity id="start_enemy"
           enemy="name: enemy_start; canShoot: false"
           collision-helper="radius: 0.65"
           json-model="
-          src: url(https://feiss.github.io/a-shooter-assets/models/enemy0.json);
-          texturePath: url(https://feiss.github.io/a-shooter-assets/images/);
+          src: url(assets/models/enemy0.json);
+          texturePath: url(assets/images/);
           singleModel: true"
           position="0 1.2 -7"
           scale="1.3 1.3 1.3">

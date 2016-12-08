@@ -6,7 +6,7 @@ function LetterPanel (materialSystem, data) {
   this.height = data.height;
   this.numSegments = data.numSegments;
 
-  var src = 'https://feiss.github.io/a-shooter-assets/images/font.png';
+  var src = 'assets/images/font.png';
 
   materialSystem.loadTexture(src, {src: src}, setMap.bind(this));
   this.material = new THREE.MeshBasicMaterial({

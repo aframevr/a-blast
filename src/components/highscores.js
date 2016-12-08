@@ -80,8 +80,8 @@ AFRAME.registerComponent('highscores', {
     });
 
     el.setAttribute('bmfont-text', {
-      fntImage: 'https://rawgit.com/fernandojsg/aframe-bmfont-component/master/fonts/mozillavr.png',
-      fnt: 'https://rawgit.com/fernandojsg/aframe-bmfont-component/master/fonts/mozillavr.fnt',
+      fntImage: 'assets/fonts/mozillavr.png',
+      fnt: 'assets/fonts/mozillavr.fnt',
       scale: 0.0015,
       baseline: 'top',
       lineHeight: 90,

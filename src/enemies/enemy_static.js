@@ -16,8 +16,8 @@ ABLAST.registerEnemy(
         radius: 0.65
       },
       'json-model': {
-        src: 'url(https://feiss.github.io/a-shooter-assets/models/enemy0.json)',
-        texturePath: 'url(https://feiss.github.io/a-shooter-assets/images/)',
+        src: 'url(assets/models/enemy0.json)',
+        texturePath: 'url(assets/images/)',
         singleModel: true
       }
     },

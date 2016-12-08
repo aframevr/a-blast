@@ -18,7 +18,7 @@ ABLAST.registerBullet(
         radius: 0.16
       },
       'json-model': {
-        src: 'url(https://feiss.github.io/a-shooter-assets/models/enemy-bullet.json)'
+        src: 'url(assets/models/enemy-bullet.json)'
       }
     },
     poolSize: 10

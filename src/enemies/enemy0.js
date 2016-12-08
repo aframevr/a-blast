@@ -20,7 +20,7 @@ ABLAST.registerEnemy(
       },
       'json-model': {
         src: '#enemy0',
-        texturePath: 'url(https://feiss.github.io/a-shooter-assets/images/)',
+        texturePath: 'url(assets/images/)',
         singleModel: true
       }
     },
