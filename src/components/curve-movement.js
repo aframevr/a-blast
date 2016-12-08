@@ -70,6 +70,7 @@ AFRAME.registerComponent('curve-movement', {
   },
   play: function () {
     this.time = this.data.timeOffset;
+    this.initTime = null;
   },
   tick: function (time, delta) {
     var cycleTime;
@@ -81,7 +82,9 @@ AFRAME.registerComponent('curve-movement', {
     var restTime = this.restTime;
     var spline = this.spline;
 
-
+    if (!this.initTime) {
+      this.initTime = time;
+    }
 /*
     time = time/2;
     if (!this.initTime) {
@@ -104,7 +107,7 @@ AFRAME.registerComponent('curve-movement', {
 
     // Mod the current time to get the current cycle time and divide by total time.
     cycleTime = this.cycleTimes[this.currentPointIndex];
-    //this.time = time - this.initTime;
+
     var t = 0;
     var jump = false;
     if (data.type === 'single' || data.type === 'pingpong' || true) {
@@ -129,8 +132,9 @@ AFRAME.registerComponent('curve-movement', {
       percent = t;
     }
 
-    this.time += delta;
-    if (this.time < 0) { return; }
+    this.time = time - this.initTime;
+
+    if (this.time < 0) { console.log(percent); return; }
 
     point = spline.getPointFrom(percent, this.currentPointIndex);
     el.setAttribute('position', {x: point.x, y: point.y, z: point.z});
@@ -156,6 +160,7 @@ AFRAME.registerComponent('curve-movement', {
           this.direction = 1;
         }
       }
+      this.initTime = time;
       this.time = 0;
     }
   }

@@ -59441,7 +59441,7 @@ module.exports.Component = registerComponent('pool', {
     }
     el = this.availableEls.shift();
     this.usedEls.push(el);
-    el.setAttribute('visible', true);
+    // el.setAttribute('visible', true);
     return el;
   },
 

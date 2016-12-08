@@ -15,7 +15,7 @@ AFRAME.registerComponent('points-counter', {
     this.el.setObject3D('mesh', this.letterPanel.group);
 
     this.el.sceneEl.addEventListener('enemy-death', function () {
-      console.log('asdfasdf');
+
     });
   },
 

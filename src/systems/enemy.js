@@ -79,13 +79,14 @@ AFRAME.registerSystem('enemy', {
 
   createSequence: function (sequenceNumber) {
     var self = this;
+    var startOffset = this.currentWave.sequences[sequenceNumber].start || 0;
     setTimeout(function initFirstSequence() {
       self.currentSequence = sequenceNumber;
       var sequence = self.currentWave.sequences[sequenceNumber];
       sequence.enemies.forEach(function createEnemyFromDef (enemyDef) {
-        self.createEnemy(enemyDef);
+        self.createEnemies(enemyDef);
       });
-    }, this.currentWave.sequences[sequenceNumber].start);
+    }, startOffset);
   },
 
   createWave: function (waveNumber) {
@@ -100,30 +101,48 @@ AFRAME.registerSystem('enemy', {
     this.sceneEl.emit('wave-created', {wave: this.currentWave});
   },
 
-  createEnemy2: function (enemyType, enemyDefinition, timeOffset) {
+  createEnemy: function (enemyType, enemyDefinition, timeOffset) {
+    var self = this;
     var entity = this.getEnemy(enemyType);
-    // entity.setAttribute('enemy', {shootingDelay: Math.random() * 57000 + 6000});
+
     entity.setAttribute('enemy', {shootingDelay: 3000});
     entity.setAttribute('curve-movement', {
       type: enemyDefinition.movement,
       loopStart: enemyDefinition.loopStart || 1,
       timeOffset: timeOffset || 0
     });
-    entity.components['curve-movement'].addPoints(enemyDefinition.points);
-    entity.play();
-    this.activeEnemies.push(entity);
-    this.sceneEl.emit('enemy-spawn', {enemy: entity});
+
+    function activateEnemy(entity) {
+      entity.setAttribute('visible', true);
+      entity.components['curve-movement'].addPoints(enemyDefinition.points);
+      entity.play();
+      self.activeEnemies.push(entity);
+      self.sceneEl.emit('enemy-spawn', {enemy: entity});
+    }
+
+    if (timeOffset) {
+      if (timeOffset < 0) {
+        entity.setAttribute('visible', false);
+        setTimeout(function() {
+          activateEnemy(entity);
+        }, -timeOffset);
+      } else {
+
+      }
+    } else {
+      activateEnemy(entity);
+    }
   },
 
-  createEnemy: function (enemyDefinition) {
+  createEnemies: function (enemyDefinition) {
     if (Array.isArray(enemyDefinition.type)) {
       for (var i = 0; i < enemyDefinition.type.length; i++) {
         var type = enemyDefinition.type[i];
         var timeOffset = (enemyDefinition.enemyTimeOffset || 0) * i;
-        this.createEnemy2(type, enemyDefinition, timeOffset);
+        this.createEnemy(type, enemyDefinition, timeOffset);
       }
     } else {
-      this.createEnemy2(enemyDefinition.type, enemyDefinition);
+      this.createEnemy(enemyDefinition.type, enemyDefinition);
     }
   },
 
