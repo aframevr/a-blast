@@ -30,6 +30,10 @@ AFRAME.registerComponent('bullet', {
     this.startPosition = data.position;
   },
 
+  play: function () {
+    this.initTime = null;
+  },
+
   hitObject: function (type, data) {
     this.bullet.definition.onHit.call(this);
     this.hit = true;
@@ -66,6 +70,7 @@ AFRAME.registerComponent('bullet', {
   resetBullet: function () {
     this.hit = false;
     this.bullet.definition.reset.call(this);
+    this.initTime = null;
 
     this.direction.set(this.data.direction.x, this.data.direction.y, this.data.direction.z);
 
@@ -80,6 +85,9 @@ AFRAME.registerComponent('bullet', {
     var position = new THREE.Vector3();
     var direction = new THREE.Vector3();
     return function tick (time, delta) {
+
+      if (!this.initTime) {this.initTime = time;}
+
       this.bullet.definition.tick.call(this, time, delta);
 
       // Align the bullet to its direction
@@ -87,15 +95,9 @@ AFRAME.registerComponent('bullet', {
 
       // Update acceleration based on the friction
       position.copy(this.el.getAttribute('position'));
-      var friction = 0.005 * delta;
-      if (this.currentAcceleration > 0) {
-        this.currentAcceleration -= friction;
-      } else if (this.currentAcceleration <= 0) {
-        this.currentAcceleration = 0;
-      }
 
       // Update speed based on acceleration
-      this.speed += this.currentAcceleration;
+      this.speed = this.currentAcceleration * .1 * delta;
       if (this.speed > this.data.maxSpeed) { this.speed = this.data.maxSpeed; }
 
       // Set new position
@@ -176,7 +178,7 @@ AFRAME.registerComponent('bullet', {
       } else {
         // @hack Any better way to get the head position ?
         var head = this.el.sceneEl.camera.el.components['look-controls'].dolly.position;
-        if (newBulletPosition.distanceTo(head) < 0.25 + bulletRadius) {
+        if (newBulletPosition.distanceTo(head) < 0.10 + bulletRadius) {
           this.hitObject('player');
           return;
         }
