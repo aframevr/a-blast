@@ -45,8 +45,8 @@ AFRAME.registerComponent('json-model', {
 
     var mesh = new THREE.SkinnedMesh(geometry, materials[0]);
     var self = this;
-    mesh.geometry.faces.forEach(face => {
-      face.vertexNormals.forEach(vertex => {
+    mesh.geometry.faces.forEach(function(face) {
+      face.vertexNormals.forEach(function(vertex) {
         if (!vertex.hasOwnProperty('fixed')) {
           self.fixNormal(vertex);
           vertex.fixed = true;
@@ -96,8 +96,8 @@ AFRAME.registerComponent('json-model', {
     group.traverse(function (child) {
       if (!(child instanceof THREE.Mesh)) { return; }
 
-      child.geometry.faces.forEach(face => {
-        face.vertexNormals.forEach(vertex => {
+      child.geometry.faces.forEach(function(face) {
+        face.vertexNormals.forEach(function(vertex) {
           if (!vertex.hasOwnProperty('fixed')) {
             self.fixNormal(vertex);
             vertex.fixed = true;
