@@ -150,6 +150,13 @@ AFRAME.registerComponent('shoot', {
         if (evt.code === 'Space' || evt.keyCode === '32') { self.shoot(); }
       });
     }
+
+    // if (data.clickEnabled)
+    {
+      window.addEventListener('click', function (evt) {
+        self.shoot();
+      });
+    }
   },
 
   update: function (oldData) {
