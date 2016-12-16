@@ -14,6 +14,17 @@ AFRAME.registerSystem('highscores', {
     if (localStorage['highscores']) {
       this.scores = JSON.parse(localStorage['highscores']);
     }
+    else {
+      for (var i = 0 ; i < 5; i++) {
+        this.scores[i] = {
+          name: "nobody",
+          points: 0,
+          shoots: 0,
+          time: 0,
+          validShoot: 0
+        }
+      }
+    }
 
     var self = this;
     var ablastUI = document.getElementById('ablast-ui');
@@ -96,8 +107,11 @@ function buildText (scores) {
   scores.forEach(function appendText (score) {
     var len = 10;
     name = score.name.toLowerCase();
-    var score = score.points.toString().pad(5);
-    text += score + ' ' + name + '\n';
+    var score = score.points.toString();
+    for (var i = 10; i <= 1000; i *= 10) {
+      if (score < i) score = '0' + score;
+    }
+    text += score.pad(7) + name + '\n';
   });
   return text;
 }
