@@ -13,7 +13,6 @@ AFRAME.registerComponent('lifes-counter', {
   init: function () {
     this.letterPanel = new LetterPanel(this.el.sceneEl.systems.material, this.data);
     this.el.setObject3D('mesh', this.letterPanel.group);
-    var self = this;
   },
 
   update: function () {

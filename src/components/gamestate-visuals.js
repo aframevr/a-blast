@@ -41,8 +41,8 @@ AFRAME.registerComponent('gamestate-visuals', {
       .easing(AFRAME.TWEEN.Easing.Back.InOut)
       .onUpdate(function () {
         self.logo.object3D.rotation.x = rotation.x
-      })
-      .start();
+      });
+    tween.start();
     this.startEnemy.setAttribute('visible', false);
   },
 
@@ -66,8 +66,8 @@ AFRAME.registerComponent('gamestate-visuals', {
       .easing(AFRAME.TWEEN.Easing.Elastic.Out)
       .onUpdate(function () {
         group.object3D.position.y = groupPosition.y;
-      })
-    .start();
+      });
+    tweenGroup.start();
 
     // Move the reset buttom
     this.reset.object3D.position.y = -5;
@@ -78,8 +78,8 @@ AFRAME.registerComponent('gamestate-visuals', {
       .easing(AFRAME.TWEEN.Easing.Elastic.Out)
       .onUpdate(function () {
         self.reset.object3D.position.y = resetPosition.y;
-      })
-      .start();
+      });
+    tweenReset.start();
   },
 
   mainMenu: function () {
@@ -96,7 +96,8 @@ AFRAME.registerComponent('gamestate-visuals', {
       .easing(AFRAME.TWEEN.Easing.Back.InOut)
       .onUpdate(function () {
         self.startEnemy.setAttribute('position', {x: 0, y: enemyPosition.positionY, z: -4})
-      }).start();
+      });
+    tweenEnemy.start();
 
     // Move the gameover & well done down
     var group = document.getElementById('finished');
@@ -112,7 +113,8 @@ AFRAME.registerComponent('gamestate-visuals', {
       })
       .onUpdate(function () {
         group.object3D.position.y = textsPosition.y;
-      }).start();
+      });
+    tween.start();
 
     // A-Blast logo will appears after a 1s delay
     this.logo.object3D.rotation.x = Math.PI * 0.6;
@@ -124,6 +126,7 @@ AFRAME.registerComponent('gamestate-visuals', {
       .delay(1000)
       .onUpdate(function () {
         self.logo.object3D.rotation.x = Math.PI * 0.6 - logoRotation.x;
-      }).start();
+      });
+    tween.start();
   }
 });

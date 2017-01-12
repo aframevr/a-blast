@@ -26,7 +26,6 @@ AFRAME.registerSystem('explosion', {
   },
 
   init: function () {
-    var self = this;
     this.poolHelper = new PoolHelper('explosion', ABLAST.EXPLOSIONS, this.sceneEl);
     this.activeExplosions = [];
 

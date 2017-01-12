@@ -90,11 +90,6 @@ AFRAME.registerSystem('enemy', {
   },
 
   createWave: function (waveNumber) {
-    var enemyNum;
-    var enemyType;
-    var i;
-    var self = this;
-
     this.currentWave = WAVES[waveNumber % WAVES.length];
     console.log('Creating wave', waveNumber);
     this.createSequence(0);

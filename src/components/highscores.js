@@ -94,7 +94,6 @@ AFRAME.registerComponent('highscores', {
 function buildText (scores) {
   var text = '';
   scores.forEach(function appendText (score) {
-    var len = 10;
     name = score.name.toLowerCase();
     var score = score.points.toString().pad(5);
     text += score + ' ' + name + '\n';

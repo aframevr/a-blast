@@ -7,8 +7,6 @@ AFRAME.registerSystem('decals', {
   },
 
   init: function () {
-    var data = this.data;
-
     this.numDecals = 0;
     this.decals = [];
     this.oldestDecalIdx = 0;

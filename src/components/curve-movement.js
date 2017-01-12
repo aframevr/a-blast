@@ -22,10 +22,7 @@ AFRAME.registerComponent('curve-movement', {
   },
 
   addPoints: function (points) {
-    var currentPos;
     var data = this.data;
-    var el = this.el;
-    var i;
     var spline;
     var chunkLengths;
 
@@ -78,47 +75,26 @@ AFRAME.registerComponent('curve-movement', {
     var el = this.el;
     var percent;
     var point;
-    var reachedPoint;
-    var restTime = this.restTime;
     var spline = this.spline;
 
     if (!this.initTime) {
       this.initTime = time;
     }
-/*
-    time = time/2;
-    if (!this.initTime) {
-      this.initTime = time;
-    }
-*/
+
     // If not closed and reached the end, just stop (for now).
     if (this.end) {return;}
     if (!this.isClosed() && this.currentPointIndex === spline.points.length - 1) { return; }
-
-    // If resting, increment rest time and check if done resting.
-/*
-    if (restTime && data.restTime && restTime > data.restTime) {
-      this.restTime = 0;
-    } else if (restTime) {
-      this.restTime += dt;
-      return;
-    }
-*/
 
     // Mod the current time to get the current cycle time and divide by total time.
     cycleTime = this.cycleTimes[this.currentPointIndex];
 
     var t = 0;
     var jump = false;
-    if (data.type === 'single' || data.type === 'pingpong' || true) {
-      if (this.time > cycleTime) {
-        t = 1;
-        jump = true;
-      } else {
-        t = this.time / cycleTime;
-      }
+    if (this.time > cycleTime) {
+      t = 1;
+      jump = true;
     } else {
-      t = this.time % cycleTime / cycleTime;
+      t = this.time / cycleTime;
     }
 
     if (this.direction === -1) {
@@ -166,16 +142,8 @@ AFRAME.registerComponent('curve-movement', {
   }
 });
 
-function inOutSine(k) {
+function inOutSine (k) {
   return .5 * (1 - Math.cos(Math.PI * k));
-
-}
-
-function inOutCubic (k) {
-  if ((k *= 2) < 1) {
-    return 0.5 * k * k * k;
-  }
-  return 0.5 * ((k -= 2) * k * k + 2);
 }
 
 /**

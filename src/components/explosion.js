@@ -35,7 +35,6 @@ AFRAME.registerComponent('explosion', {
   },
 
   init: function () {
-    var self = this;
     this.life = 0;
     this.starttime = null;
     this.meshes = new THREE.Group();

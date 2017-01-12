@@ -8,9 +8,7 @@ AFRAME.registerComponent('collision-helper', {
   },
 
   init: function () {
-    var el = this.el;
     var data = this.data;
-    var self = this;
 
     this.geometry = new THREE.IcosahedronGeometry(1, 1);
     this.material = new THREE.MeshBasicMaterial({color: data.color, wireframe: true});
