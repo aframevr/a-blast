@@ -1,4 +1,4 @@
-var LetterPanel = require('../letterpanel');
+var LetterPanel = require('../lib/letterpanel');
 
 /* global THREE AFRAME */
 AFRAME.registerComponent('timer-counter', {

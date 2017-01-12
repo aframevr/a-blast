@@ -7,7 +7,7 @@
     <script src="vendor/aframe.js"></script>
     <script src="build/build.js"></script>
     <script src="vendor/aframe-bmfont-component.min.js"></script>
-    <script src="waves.js"></script>
+    <script src="assets/data/waves.js"></script>
     <link rel="stylesheet" href="css/main.css">
   </head>
   <body>
@@ -37,7 +37,6 @@
         <a-asset-item id="enemyBullet" src="assets/models/enemy-bullet.json"></a-asset-item>
         <img id="bulletDecal" src="assets/images/decal0.png" crossOrigin="anonymous">
         <img id="hurtImg" src="assets/images/damage.png" crossOrigin="anonymous">
-        <img id="counterFont" src="assets/images/font.png" crossOrigin="anonymous">
         <img id="fx1" src="assets/images/fx1.png" crossOrigin="anonymous">
         <img id="fx2" src="assets/images/fx2.png" crossOrigin="anonymous">
         <img id="fx3" src="assets/images/fx3.png" crossOrigin="anonymous">
@@ -128,14 +127,6 @@
         gamestate-debug
         position="-5 1 -3"
         rotation="0 65 0"></a-entity>
-      </a-entity>
-
-<!--
-      <a-entity id="waveText"
-        position="0 2 -4"
-        scale="3 3 3"
-        wave-text>
-        <a-animation attribute="bmfont-text.opacity" direction="alternate" dur="2500" from="0" begin="wavetextchange" to="1" repeat="1"></a-animation>
       </a-entity>
 -->
       <a-entity id="finished" visible="false">

@@ -1,6 +1,4 @@
 /* globals ABLAST */
-var randomPointInSphere = require('../utils.js').randomPointInSphere;
-
 ABLAST.registerEnemy(
   // name
   'enemy3',
@@ -28,7 +26,7 @@ ABLAST.registerEnemy(
   },
   // implementation
   {
-    init: function () { 
+    init: function () {
       this.shootingDelay = 800;
       this.warmUpTime = 500;
       this.reset();
@@ -51,7 +49,7 @@ ABLAST.registerEnemy(
       else if (time - this.lastShoot > this.actualShootingDelay) {
         // don't shoot when behind the player
         var pos = this.el.getAttribute('position');
-        if (pos.z < 0 && pos.y > 0) { 
+        if (pos.z < 0 && pos.y > 0) {
           this.el.components.enemy.shoot(time, delta);
           this.lastShoot = time;
           this.willShootEmited = false;

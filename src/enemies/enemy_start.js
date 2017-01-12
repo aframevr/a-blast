@@ -1,5 +1,4 @@
 /* globals ABLAST */
-var randomPointInSphere = require('../utils.js').randomPointInSphere;
 
 ABLAST.registerEnemy(
   // name

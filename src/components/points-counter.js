@@ -1,5 +1,5 @@
 /* global THREE AFRAME */
-var LetterPanel = require('../letterpanel');
+var LetterPanel = require('../lib/letterpanel');
 
 AFRAME.registerComponent('points-counter', {
   schema: {

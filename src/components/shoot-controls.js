@@ -11,7 +11,6 @@ AFRAME.registerComponent('shoot-controls', {
     this.onButtonChanged = this.onButtonChanged.bind(this);
     this.onButtonDown = function (evt) { self.onButtonEvent(evt.detail.id, 'down'); };
     this.onButtonUp = function (evt) { self.onButtonEvent(evt.detail.id, 'up'); };
-    this.onModelLoaded = this.onModelLoaded.bind(this);
   },
 
   play: function () {
@@ -19,7 +18,6 @@ AFRAME.registerComponent('shoot-controls', {
     el.addEventListener('buttonchanged', this.onButtonChanged);
     el.addEventListener('buttondown', this.onButtonDown);
     el.addEventListener('buttonup', this.onButtonUp);
-    el.addEventListener('model-loaded', this.onModelLoaded);
   },
 
   pause: function () {
@@ -27,7 +25,6 @@ AFRAME.registerComponent('shoot-controls', {
     el.removeEventListener('buttonchanged', this.onButtonChanged);
     el.removeEventListener('buttondown', this.onButtonDown);
     el.removeEventListener('buttonup', this.onButtonUp);
-    el.removeEventListener('model-loaded', this.onModelLoaded);
   },
 
   // buttonId
@@ -51,12 +48,6 @@ AFRAME.registerComponent('shoot-controls', {
     if (buttonName !== 'trigger') { return; }
     var value = evt.detail.state.value;
     this.el.components['weapon'].setTriggerPressure(value);
-//      if (value > 0.5)
-//        this.el.emit('triggerdown');
-  },
-
-  onModelLoaded: function (evt) {
-    // var controllerObject3D = evt.detail.model;
   },
 
   onButtonEvent: function (id, evtName) {

@@ -3,11 +3,7 @@ window.ABLAST = {};
 // Assets managment
 require('./a-asset-image.js')
 
-// Vendor.
-// require('../vendor/aframe-bmfont-component.js');
-
 require('./lib/utils.js');
-require('./lib/letterpanel.js');
 
 // Systems.
 require('./systems/bullet.js');
@@ -47,14 +43,8 @@ require('./components/enemy.js');
 require('./components/gun.js');
 require('./components/headset.js');
 require('./components/json-model.js');
-require('./components/movement-pattern.js');
 require('./components/spline-line.js');
-require('./components/wave-text.js');
 require('./components/explosion.js');
 require('./components/animate-message.js');
 require('./components/gamestate-visuals.js');
 require('./components/sound-fade.js');
-
-// Movement Patterns.
-require('./movement-patterns/random.js');
-require('./movement-patterns/toEntity.js');
