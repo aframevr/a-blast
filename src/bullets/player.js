@@ -48,7 +48,13 @@ ABLAST.registerBullet(
     tick: function (time, delta) {
       //stretch trail
       if (this.trail && this.trail.scale.y < 1) {
-        var trailScale = this.trail.scale.y + delta/50;
+        var trailScale;
+        if (this.trail.scale.y < 0.005) {
+          trailScale = this.trail.scale.y + 0.001;
+        }
+        else {
+          trailScale = this.trail.scale.y + delta/50;
+        }
         if (trailScale > 1) { trailScale = 1; }
         this.trail.scale.setY(trailScale);
       }
