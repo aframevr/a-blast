@@ -27,7 +27,7 @@
         "transparent": true,
         "depthFunc": 3,
         "depthTest": true,
-        "depthWrite": true,
+        "depthWrite": false,
         "skinning": false,
         "morphTargets": false
     }],
