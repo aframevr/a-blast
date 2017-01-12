@@ -26,7 +26,10 @@ AFRAME.registerComponent('explosion', {
 
     for (var i = 0; i < this.meshes.children.length; i++){
       var mesh = this.meshes.children[i];
-      if (this.data.lookAt) {
+      if (!mesh.part.billboard) {
+        mesh.rotation.set(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2);
+      }
+      else if (this.data.lookAt) {
         mesh.lookAt(this.data.lookAt);
       }
     }
