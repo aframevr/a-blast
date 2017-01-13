@@ -23,7 +23,6 @@ require('./enemies/enemy0.js');
 require('./enemies/enemy1.js');
 require('./enemies/enemy2.js');
 require('./enemies/enemy3.js');
-require('./enemies/enemy_static.js');
 
 // Components
 require('./components/highscores.js');
