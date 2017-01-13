@@ -3,11 +3,12 @@ AFRAME.registerComponent('restrict-position', {
   },
 
   init: function () {
+    this.active = !AFRAME.utils.checkHeadsetConnected();
+    this.radius = 2;
   },
 
-  update: function (oldData) {
-  },
   tick: function (time, delta) {
+    if (!this.active) { return; }
     var fromCircleToObject = new THREE.Vector3();
     var y = this.el.object3D.position.y;
     fromCircleToObject.copy(this.el.object3D.position);
