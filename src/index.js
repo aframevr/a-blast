@@ -48,3 +48,4 @@ require('./components/explosion.js');
 require('./components/animate-message.js');
 require('./components/gamestate-visuals.js');
 require('./components/sound-fade.js');
+require('./components/restrict-position.js');
