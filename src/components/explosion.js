@@ -26,7 +26,7 @@ AFRAME.registerComponent('explosion', {
 
     for (var i = 0; i < this.meshes.children.length; i++){
       var mesh = this.meshes.children[i];
-      if (this.data.lookAt) {
+      if (mesh.part.billboard && this.data.lookAt) {
         mesh.lookAt(this.data.lookAt);
       }
     }
@@ -48,10 +48,10 @@ AFRAME.registerComponent('explosion', {
       case 'enemy':
         this.parts = [
           {textureIdx: 2, billboard: true,  color: 16777215, scale: 1.5, grow: 4, dispersion: 0, copies: 1, speed: 0 },
-          {textureIdx: 0, billboard: true,  color: 16777215, scale: 0.4, grow: 2, dispersion: 2.5, copies: 3, speed: 1 },
+          {textureIdx: 0, billboard: true,  color: 16777215, scale: 0.4, grow: 2, dispersion: 2.5, copies: 1, speed: 1 },
           {textureIdx: 3, billboard: false, color: this.data.color, scale: 1, grow: 6, dispersion: 0, copies: 1, speed: 0 },
           {textureIdx: 1, billboard: true,  color: 16577633, scale: 0.04, grow: 2, dispersion: 3, copies: 20, speed: 2},
-          {textureIdx: 3, billboard: true,  color: this.data.color, scale: 0.2, grow: 2, dispersion: 2, copies: 10, speed: 1}
+          {textureIdx: 3, billboard: true,  color: this.data.color, scale: 0.2, grow: 2, dispersion: 2, copies: 5, speed: 1}
         ];
       break;
       case 'bullet':
