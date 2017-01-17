@@ -6,7 +6,10 @@ A FPS mini game demo using [A-Frame](http://aframe.io) by [Mozilla VR](http://mo
 
 [![A-Blast logo](https://fernandojsg.github.io/a-shooter/assets/readme/mainmenu2.png)](https://aframe.io/a-blast/)
 
-![](https://fernandojsg.github.io/a-shooter/assets/readme/ashooter-3s.gif)
+<p align="center">
+  <img src="https://fernandojsg.github.io/a-shooter/assets/readme/ashooter-3s.gif"/>
+</p>
+
 
 
 ## Usage
