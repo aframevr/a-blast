@@ -1,19 +1,19 @@
 # A-Blast
 
-A FPS mini game demo using [A-Frame](http://aframe.io) by [Mozilla VR](http://mozvr.com). 
+A WebVR FPS mini-game demo using [A-Frame](http://aframe.io) by [Mozilla VR](http://mozvr.com).
 
-[Read the introductory post](https://blog.mozvr.com/a-blast/)
+[Read the introductory blog post.](https://blog.mozvr.com/a-blast/)
 
-[![A-Blast logo](https://fernandojsg.github.io/a-blast/assets/readme/mainmenu2.png)](https://aframe.io/a-blast/)
+[![Screenshot of A-Blast main menu](assets/readme/mainmenu2.png)](https://aframe.io/a-blast/)
 
 ## Usage
 
 - Grab a [WebVR-enabled browser](https://webvr.info/).
 - Head to [https://aframe.io/a-blast/](https://aframe.io/a-blast/) and start shooting. See the [blog post](https://blog.mozvr.com/a-blast/) for more information.
-- You can also play in desktop using the spacebar and the mouse, and in your mobile phone too (with or without cardboard).
+- You can also play in desktop using the spacebar and the mouse, and on your mobile phone too (with or without Cardboard).
 
 <p align="center">
-  <img src="https://fernandojsg.github.io/a-blast/assets/readme/ashooter-3s.gif"/>
+  <img src="assets/readme/a-blast-3s.gif" alt="Recording of A-Blast gameplay">
 </p>
 
 ## Local Development
@@ -29,7 +29,7 @@ Then, load [`http://localhost:8080`](http://localhost:8080) in your browser.
 We are opened to new ideas and contributions, feel free to send a pull request with your A-Blast improvements.
 
 <p align="center">
-  <img src="https://fernandojsg.github.io/a-blast/assets/readme/gun.png"/>
+  <img src="assets/readme/gun.png" alt="Laser Gun">
 </p>
 
 
