@@ -6,18 +6,15 @@ A FPS mini game demo using [A-Frame](http://aframe.io) by [Mozilla VR](http://mo
 
 [![A-Blast logo](https://fernandojsg.github.io/a-shooter/assets/readme/mainmenu2.png)](https://aframe.io/a-blast/)
 
-<p align="center">
-  <img src="https://fernandojsg.github.io/a-shooter/assets/readme/ashooter-3s.gif"/>
-</p>
-
-
-
 ## Usage
 
 - Grab a [WebVR-enabled browser](https://webvr.info/).
 - Head to [https://aframe.io/a-blast/](https://aframe.io/a-blast/) and start shooting. See the [blog post](https://blog.mozvr.com/a-blast/) for more information.
 - You can also play in desktop using the spacebar and the mouse, and in your mobile phone too (with or without cardboard).
 
+<p align="center">
+  <img src="https://fernandojsg.github.io/a-shooter/assets/readme/ashooter-3s.gif"/>
+</p>
 
 ## Local Development
 
