@@ -1,13 +1,13 @@
 {
-  "name": "a-shooter",
+  "name": "a-blast",
   "version": "0.1.0",
-  "description": "A-Shooter",
+  "description": "A WebVR FPS mini-game demo using A-Frame by Mozilla VR.",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack",
     "start": "webpack-dev-server --host 0.0.0.0 --progress --colors --hot -d --open --inline",
     "lint": "semistandard -v | snazzy"
   },
-  "repository": "aframevr/a-shooter",
+  "repository": "aframevr/a-blast",
   "license": "MIT",
   "semistandard": {
     "ignore": [
