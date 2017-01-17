@@ -4,7 +4,7 @@ A FPS mini game demo using [A-Frame](http://aframe.io) by [Mozilla VR](http://mo
 
 [Read the introductory post](https://blog.mozvr.com/a-blast/)
 
-[![A-Blast logo](https://fernandojsg.github.io/a-shooter/assets/readme/mainmenu2.png)](https://aframe.io/a-blast/)
+[![A-Blast logo](https://fernandojsg.github.io/a-blast/assets/readme/mainmenu2.png)](https://aframe.io/a-blast/)
 
 ## Usage
 
@@ -13,7 +13,7 @@ A FPS mini game demo using [A-Frame](http://aframe.io) by [Mozilla VR](http://mo
 - You can also play in desktop using the spacebar and the mouse, and in your mobile phone too (with or without cardboard).
 
 <p align="center">
-  <img src="https://fernandojsg.github.io/a-shooter/assets/readme/ashooter-3s.gif"/>
+  <img src="https://fernandojsg.github.io/a-bast/assets/readme/ashooter-3s.gif"/>
 </p>
 
 ## Local Development
@@ -29,7 +29,7 @@ Then, load [`http://localhost:8080`](http://localhost:8080) in your browser.
 We are opened to new ideas and contributions, feel free to send a pull request with your A-Blast improvements.
 
 
-[![A-Blast gun](https://fernandojsg.github.io/a-shooter/assets/readme/gun.png)](https://aframe.io/a-blast/)
+[![A-Blast gun](https://fernandojsg.github.io/a-blast/assets/readme/gun.png)](https://aframe.io/a-blast/)
 
 
 Soundtrack by José Manuel Pérez Paredes AKA [JosSs](https://soundcloud.com/josss-1/tracks)
