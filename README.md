@@ -28,8 +28,9 @@ Then, load [`http://localhost:8080`](http://localhost:8080) in your browser.
 
 We are opened to new ideas and contributions, feel free to send a pull request with your A-Blast improvements.
 
-
-[![A-Blast gun](https://fernandojsg.github.io/a-blast/assets/readme/gun.png)](https://aframe.io/a-blast/)
+<p align="center">
+  <img src="https://fernandojsg.github.io/a-blast/assets/readme/gun.png"/>
+</p>
 
 
 Soundtrack by José Manuel Pérez Paredes AKA [JosSs](https://soundcloud.com/josss-1/tracks)
