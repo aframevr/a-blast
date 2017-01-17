@@ -13,7 +13,7 @@ A FPS mini game demo using [A-Frame](http://aframe.io) by [Mozilla VR](http://mo
 - You can also play in desktop using the spacebar and the mouse, and in your mobile phone too (with or without cardboard).
 
 <p align="center">
-  <img src="https://fernandojsg.github.io/a-bast/assets/readme/ashooter-3s.gif"/>
+  <img src="https://fernandojsg.github.io/a-blast/assets/readme/ashooter-3s.gif"/>
 </p>
 
 ## Local Development
