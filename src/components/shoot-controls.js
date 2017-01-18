@@ -58,6 +58,7 @@ AFRAME.registerComponent('shoot-controls', {
   update: function () {
     var data = this.data;
     var el = this.el;
-    el.setAttribute('auto-detect-controllers', {hand:data.hand, trackedcontrols:true});
+    el.setAttribute('vive-controls', {hand:data.hand, model:false});
+    el.setAttribute('oculus-touch-controls', {hand:data.hand, model:false});
   }
 });
