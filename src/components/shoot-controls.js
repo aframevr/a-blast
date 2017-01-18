@@ -1,6 +1,6 @@
 /* global AFRAME */
 AFRAME.registerComponent('shoot-controls', {
-  dependencies: ['tracked-controls'],
+  //dependencies: ['tracked-controls'],
   schema: {
     hand: { default: 'left' }
   },
@@ -58,8 +58,6 @@ AFRAME.registerComponent('shoot-controls', {
   update: function () {
     var data = this.data;
     var el = this.el;
-    // handId: 0 - right, 1 - left
-    var controller = data.hand === 'right' ? 0 : 1;
-    el.setAttribute('tracked-controls', 'controller', controller);
+    el.setAttribute('auto-detect-controllers', {hand:data.hand, trackedcontrols:true});
   }
 });
