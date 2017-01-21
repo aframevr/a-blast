@@ -163,8 +163,10 @@ AFRAME.registerComponent('bullet', {
           var bullets = this.system.activeBullets;
           for (var i = 0; i < bullets.length; i++) {
             var bullet = bullets[i];
-            var data = bullet.components['bullet'].data;
-            if (data.owner === 'player' || !data.destroyable) { continue; }
+            if (bullet.components['bullet'].data) {
+              var data = bullet.components['bullet'].data;
+              if (data.owner === 'player' || !data.destroyable) { continue; }
+            }
 
             var colhelper = bullet.components['collision-helper'];
             if (!colhelper) continue;
