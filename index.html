@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>A-Blast</title>
     <meta name="description" content="A WebVR wave shooter game using A-Frame by Mozilla VR.">
-    <script src="vendor/aframe.js"></script>
+    <script src="vendor/aframe-master.min.js"></script>
     <script src="build/build.js"></script>
     <script src="vendor/aframe-bmfont-component.min.js"></script>
     <script src="assets/data/waves.js"></script>
@@ -60,8 +60,8 @@
         <audio id="enemy3shoot" src="assets/sounds/enemy3shoot.ogg"  crossorigin="anonymous"></audio>
       </a-assets>
 
-      <a-entity id="introMusic" position="0 1.7 -0.5" sound="src: #introOgg; autoplay: true; loop: true;" sound-fade="from: 0; to: 0.3; duration: 8000; "></a-entity>
-      <a-entity id="mainThemeMusic" position="0 1.7 -0.5" sound="src: #mainThemeOgg; autoplay: false; loop: true; volume:0.2"></a-entity>
+      <a-entity id="introMusic" sound="src: #introOgg; autoplay: true; loop: true; positional: false" sound-fade="from: 0; to: 0.3; duration: 8000; "></a-entity>
+      <a-entity id="mainThemeMusic" sound="src: #mainThemeOgg; autoplay: false; loop: true; volume:0.2; positional: false"></a-entity>
       <a-entity id="hurtSound" position="0 1.7 -0.2" sound="src: #hurtOgg; autoplay: false; loop: false; volume:1; poolSize: 2"></a-entity>
 
       <a-entity id="explosion0" sound="src:#explosion0"></a-entity>
@@ -196,6 +196,6 @@
       })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
       ga('create', 'UA-80530812-3', 'auto');
       ga('send', 'pageview');
-    </script>  
+    </script>
   </body>
 </html>

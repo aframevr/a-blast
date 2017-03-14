@@ -151,7 +151,7 @@ AFRAME.registerComponent('shoot', {
       });
     }
 
-    if (AFRAME.utils.isMobile())
+    if (AFRAME.utils.device.isMobile())
     {
       window.addEventListener('click', function (evt) {
         self.shoot();

@@ -3,7 +3,7 @@ AFRAME.registerComponent('restrict-position', {
   },
 
   init: function () {
-    this.active = !AFRAME.utils.checkHeadsetConnected();
+    this.active = !AFRAME.utils.device.checkHeadsetConnected();
     this.radius = 2;
   },
 
