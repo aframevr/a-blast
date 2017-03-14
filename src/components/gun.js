@@ -81,7 +81,10 @@ AFRAME.registerComponent('weapon', {
 
     this.light.setAttribute('light', {color: '#24CAFF', intensity: 0.0, type: 'point'});
     this.light.setAttribute('position', {x: 0, y: -0.22, z: -0.14});
-    this.lightObj = this.light.components.light.light; // threejs light
+    var self = this;
+    this.light.addEventListener('loaded', function () {
+      self.lightObj = self.light.components.light.light; // threejs light
+    })
   },
 
   tick: function (time, delta) {
@@ -92,7 +95,7 @@ AFRAME.registerComponent('weapon', {
         this.lightObj.intensity = 0.0;
         this.light.visible = false;
       }
-      for (var i in this.fires){
+      for (var i in this.fires) {
         if (!this.fires[i].visible) continue;
         this.fires[i].life -= delta;
         if (i == 0) {

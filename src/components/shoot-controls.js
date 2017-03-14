@@ -58,8 +58,8 @@ AFRAME.registerComponent('shoot-controls', {
   update: function () {
     var data = this.data;
     var el = this.el;
-    // handId: 0 - right, 1 - left
-    var controller = data.hand === 'right' ? 0 : 1;
-    el.setAttribute('tracked-controls', 'controller', controller);
+    var controller = data.hand === 'right' ? 0 : data.hand === 'left' ? 1 : 2;
+    var GAMEPAD_ID_PREFIX = 'OpenVR ';
+    el.setAttribute('tracked-controls', {idPrefix: GAMEPAD_ID_PREFIX, controller: controller, rotationOffset: data.rotationOffset});
   }
 });
