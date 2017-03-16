@@ -69251,8 +69251,9 @@ module.exports.Component = registerComponent('pool', {
   /**
    * Add a new entity to the list of available entities.
    */
-  createEntity: function () {
+  createEntity: function (onLoaded) {
     var el = document.createElement('a-entity');
+    if (onLoaded) { el.addEventListener('loaded', onLoaded); }
     el.play = this.wrapPlay(el.play);
     el.setAttribute('mixin', this.data.mixin);
     el.setAttribute('visible', false);
@@ -69275,8 +69276,9 @@ module.exports.Component = registerComponent('pool', {
   /**
    * Used to request one of the available entities of the pool
    */
-  requestEntity: function () {
+  requestEntity: function (onLoaded) {
     var el;
+    var created = false;
     if (this.availableEls.length === 0) {
       if (this.data.dynamic === false) {
         warn('Requested entity from empty pool ' + this.name);
@@ -69285,9 +69287,15 @@ module.exports.Component = registerComponent('pool', {
         warn('Requested entity from empty pool. This pool is dynamic' +
         'and will resize automatically. You might want to increase its initial size' + this.name);
       }
-      this.createEntity();
+      this.createEntity(onLoaded);
+      created = true;
     }
+
     el = this.availableEls.shift();
+    if (!created && onLoaded) {
+      onLoaded({detail:{target: el}});
+    }
+
     this.usedEls.push(el);
     el.setAttribute('visible', true);
     return el;
@@ -69921,10 +69929,10 @@ module.exports.Component = registerComponent('sound', {
 
       this.loaded = false;
       this.audioLoader.load(data.src, function (buffer) {
+        self.loaded = true;
         self.pool.children.forEach(function (sound) {
           sound.setBuffer(buffer);
         });
-        self.loaded = true;
 
         // Remove this key from cache, otherwise we can't play it again
         THREE.Cache.remove(data.src);
@@ -76377,7 +76385,7 @@ _dereq_('./core/a-mixin');
 _dereq_('./extras/components/');
 _dereq_('./extras/primitives/');
 
-console.log('A-Frame Version: 0.5.0 (Date 14-03-2017, Commit #56bb0b9)');
+console.log('A-Frame Version: 0.5.0 (Date 16-03-2017, Commit #56bb0b9)');
 console.log('three Version:', pkg.dependencies['three']);
 console.log('WebVR Polyfill Version:', pkg.dependencies['webvr-polyfill']);
 
