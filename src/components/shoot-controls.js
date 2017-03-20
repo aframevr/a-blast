@@ -27,12 +27,6 @@ AFRAME.registerComponent('shoot-controls', {
     el.removeEventListener('buttonup', this.onButtonUp);
   },
 
-  isOculusTouchController: function () {
-    var trackedControls = this.el.components['tracked-controls'];
-    var controllerId = trackedControls && trackedControls.controller && trackedControls.controller.id;
-    return controllerId && controllerId.indexOf('Oculus Touch') === 0;
-  },
-
   // buttonId
   // 0 - trackpad
   // 1 - trigger ( intensity value from 0.5 to 1 )

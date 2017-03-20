@@ -39,6 +39,7 @@ require('./components/lifes-counter.js');
 require('./components/points-counter.js');
 require('./components/timer-counter.js');
 require('./components/enemy.js');
+require('./components/weapon.js');
 require('./components/gun.js');
 require('./components/headset.js');
 require('./components/json-model.js');
