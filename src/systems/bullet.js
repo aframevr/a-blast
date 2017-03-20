@@ -47,6 +47,7 @@ AFRAME.registerSystem('bullet', {
   },
 
   getBullet: function (name) {
+    var self = this;
     var bullet = this.poolHelper.requestEntity(name);
     this.activeBullets.push(bullet);
     return bullet;

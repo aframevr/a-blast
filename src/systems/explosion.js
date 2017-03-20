@@ -73,7 +73,7 @@ AFRAME.registerSystem('explosion', {
     explosionEntity.setAttribute('position', position || this.el.getAttribute('position'));
     explosionEntity.setAttribute('explosion', {
         type: type,
-        lookAt: direction,
+        lookAt: direction.clone(),
         color: color || '#FFF',
         scale: scale || 1.0
     });

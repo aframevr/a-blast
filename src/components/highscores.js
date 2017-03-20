@@ -13,6 +13,16 @@ AFRAME.registerSystem('highscores', {
     this.scores = [];
     if (localStorage['highscores']) {
       this.scores = JSON.parse(localStorage['highscores']);
+    } else {
+      for (var i = 0; i < 5; i++) {
+        this.scores[i] = {
+          name: 'nobody',
+          points: i*10,
+          shoots: 0,
+          time: 0,
+          validShoot: 0
+        };
+      }
     }
 
     var self = this;
@@ -52,7 +62,7 @@ AFRAME.registerSystem('highscores', {
       this.scores.push(data);
 
       this.scores.sort(function(a,b) {
-        return a.points <= b.points;
+        return parseInt(a.points) <= parseInt(b.points);
       });
 
       if (this.scores.length > this.data.maxScores) {
@@ -93,10 +103,15 @@ AFRAME.registerComponent('highscores', {
 
 function buildText (scores) {
   var text = '';
-  scores.forEach(function appendText (score) {
+  scores.sort(function(a,b) {
+    return parseInt(a.points) <= parseInt(b.points);
+  }).forEach(function appendText (score) {
     name = score.name.toLowerCase();
-    var score = score.points.toString().pad(5);
-    text += score + ' ' + name + '\n';
+    var score = score.points.toString();
+    for (var i = 10; i <= 100; i *= 10) {
+      if (score < i) score = '0' + score;
+    }
+    text += score.pad(7) + name + '\n';
   });
   return text;
 }

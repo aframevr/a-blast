@@ -91,7 +91,7 @@ AFRAME.registerSystem('enemy', {
 
   createWave: function (waveNumber) {
     this.currentWave = WAVES[waveNumber % WAVES.length];
-    console.log('Creating wave', waveNumber);
+    // console.log('Creating wave', waveNumber);
     this.createSequence(0);
     this.sceneEl.emit('wave-created', {wave: this.currentWave});
   },
