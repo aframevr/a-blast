@@ -162,7 +162,6 @@ AFRAME.registerComponent('bullet', {
 
           var bullets = this.system.activeBullets;
           for (var i = 0; i < bullets.length; i++) {
-            //debugger;
             var bullet = bullets[i];
             var data = bullet.components['bullet'].data;
             if (!data || data.owner === 'player' || !data.destroyable) { continue; }

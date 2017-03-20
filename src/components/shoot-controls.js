@@ -1,6 +1,6 @@
 /* global AFRAME */
 AFRAME.registerComponent('shoot-controls', {
-  dependencies: ['tracked-controls'],
+  // dependencies: ['tracked-controls'],
   schema: {
     hand: { default: 'left' }
   },
@@ -59,7 +59,9 @@ AFRAME.registerComponent('shoot-controls', {
     var data = this.data;
     var el = this.el;
     var controller = data.hand === 'right' ? 0 : data.hand === 'left' ? 1 : 2;
-    var GAMEPAD_ID_PREFIX = 'OpenVR ';
-    el.setAttribute('tracked-controls', {idPrefix: GAMEPAD_ID_PREFIX, controller: controller, rotationOffset: data.rotationOffset});
+    // var GAMEPAD_ID_PREFIX = 'OpenVR ';
+    // el.setAttribute('tracked-controls', {idPrefix: GAMEPAD_ID_PREFIX, controller: controller, rotationOffset: data.rotationOffset});
+    el.setAttribute('vive-controls', {hand: data.hand, model: false});
+    el.setAttribute('oculus-touch-controls', {hand: data.hand, model: false});
   }
 });
