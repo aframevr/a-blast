@@ -30,10 +30,10 @@ PoolHelper.prototype = {
     this.sceneEl.components[poolName].returnEntity(entity);
   },
 
-  requestEntity: function (name, onLoaded) {
+  requestEntity: function (name) {
     var mixinName = this.groupName + name;
     var poolName = 'pool__' + mixinName;
-    var entity = this.sceneEl.components[poolName].requestEntity(onLoaded);
+    var entity = this.sceneEl.components[poolName].requestEntity();
     // entity.id= this.groupName + Math.floor(Math.random() * 1000);
     return entity;
   }

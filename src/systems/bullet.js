@@ -48,9 +48,8 @@ AFRAME.registerSystem('bullet', {
 
   getBullet: function (name) {
     var self = this;
-    var bullet = this.poolHelper.requestEntity(name, function (event) {
-      self.activeBullets.push(event.detail.target);
-    });
+    var bullet = this.poolHelper.requestEntity(name);
+    this.activeBullets.push(bullet);
     return bullet;
   }
 });
