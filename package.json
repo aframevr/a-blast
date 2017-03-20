@@ -4,7 +4,7 @@
   "description": "A WebVR FPS mini-game demo using A-Frame by Mozilla VR.",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack",
-    "start": "webpack-dev-server --host 0.0.0.0 --progress --colors --hot -d --open --inline",
+    "start": "webpack-dev-server --host 0.0.0.0 --progress --colors --hot -d --inline",
     "lint": "semistandard -v | snazzy"
   },
   "repository": "aframevr/a-blast",
