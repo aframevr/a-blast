@@ -76,7 +76,9 @@ AFRAME.registerComponent('shoot', {
       direction.applyQuaternion(quaternion);
       direction.normalize();
 
-      inc.copy(el.components.weapon.controllerModel === 'oculus-touch-controller' ? incOculus : incVive);
+      if (el.components['weapon']) {
+        inc.copy(el.components.weapon.controllerModel === 'oculus-touch-controller' ? incOculus : incVive);
+      }
       inc.applyQuaternion(quaternion);
       position.add(inc);
 
