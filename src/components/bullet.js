@@ -19,6 +19,10 @@ AFRAME.registerComponent('bullet', {
     this.bullet.definition.init.call(this);
     this.hit = false;
     this.direction = new THREE.Vector3();
+    this.temps = {
+      direction: new THREE.Vector3(),
+      position: new THREE.Vector3()
+    }
   },
 
   update: function (oldData) {
@@ -82,8 +86,8 @@ AFRAME.registerComponent('bullet', {
   },
 
   tick: (function () {
-    var position = new THREE.Vector3();
-    var direction = new THREE.Vector3();
+    //var position = new THREE.Vector3();
+    //var direction = new THREE.Vector3();
     return function tick (time, delta) {
 
       if (!this.initTime) {this.initTime = time;}
@@ -94,19 +98,19 @@ AFRAME.registerComponent('bullet', {
       this.el.object3D.lookAt(this.direction.clone().multiplyScalar(1000));
 
       // Update acceleration based on the friction
-      position.copy(this.el.getAttribute('position'));
+      this.temps.position.copy(this.el.getAttribute('position'));
 
       // Update speed based on acceleration
       this.speed = this.currentAcceleration * .1 * delta;
       if (this.speed > this.data.maxSpeed) { this.speed = this.data.maxSpeed; }
 
       // Set new position
-      direction.copy(this.direction);
-      var newBulletPosition = position.add(direction.multiplyScalar(this.speed));
+      this.temps.direction.copy(this.direction);
+      var newBulletPosition = this.temps.position.add(this.temps.direction.multiplyScalar(this.speed));
       this.el.setAttribute('position', newBulletPosition);
 
       // Check if the bullet is lost in the sky
-      if (position.length() >= 50) {
+      if (this.temps.position.length() >= 50) {
         this.resetBullet();
         return;
       }
@@ -185,13 +189,13 @@ AFRAME.registerComponent('bullet', {
       }
 
       // Detect collission aginst the background
-      var ray = new THREE.Raycaster(position, direction.clone().normalize());
+      var ray = new THREE.Raycaster(this.temps.position, this.temps.direction.clone().normalize());
       var background = this.backgroundEl.getObject3D('mesh');
       if (background) {
         var collisionResults = ray.intersectObjects(background.children, true);
         var self = this;
         collisionResults.forEach(function (collision) {
-          if (collision.distance < position.length()) {
+          if (collision.distance < this.temps.position.length()) {
             if (!collision.object.el) { return; }
             self.hitObject('background', collision);
             return;
