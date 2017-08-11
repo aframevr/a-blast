@@ -195,7 +195,7 @@ AFRAME.registerComponent('bullet', {
         var collisionResults = ray.intersectObjects(background.children, true);
         var self = this;
         collisionResults.forEach(function (collision) {
-          if (collision.distance < this.temps.position.length()) {
+          if (collision.distance < self.temps.position.length()) {
             if (!collision.object.el) { return; }
             self.hitObject('background', collision);
             return;
