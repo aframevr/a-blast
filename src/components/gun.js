@@ -86,8 +86,8 @@ AFRAME.registerComponent('shoot', {
       bulletEntity = el.sceneEl.systems.bullet.getBullet(weapon.bullet);
       bulletEntity.setAttribute('position', position);
       bulletEntity.setAttribute('bullet', {
-        direction: direction,
-        position: position,
+        direction: direction.clone(),
+        position: position.clone(),
         owner: 'player'
       });
       bulletEntity.setAttribute('visible', true);
