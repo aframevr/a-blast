@@ -30,13 +30,14 @@ AFRAME.registerComponent('shoot', {
         if (evt.code === 'Space' || evt.keyCode === '32') { self.shoot(); }
       });
     }
-
+/*
     if (AFRAME.utils.device.isMobile())
     {
       window.addEventListener('click', function (evt) {
         self.shoot();
       });
     }
+*/
   },
 
   update: function (oldData) {

@@ -28,6 +28,8 @@ AFRAME.registerComponent('weapon', {
     if (this.controllerModel === 'oculus-touch-controller') {
       this.model.applyMatrix(new THREE.Matrix4().makeRotationAxis(new THREE.Vector3(1, 0, 0), 0.8));
       this.el.setAttribute('shoot', {direction: '0 -0.3 -1'});
+    } else if (this.controllerModel === 'daydream-controls') {
+      this.model.applyMatrix(new THREE.Matrix4().makeTranslation(-0.5, 0, 0.5));
     }
   },
   init: function () {
