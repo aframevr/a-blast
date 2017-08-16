@@ -67,6 +67,7 @@ AFRAME.registerComponent('shoot', {
       ABLAST.currentScore.shoots++;
 
       // Get firing entity's transformations.
+      el.object3D.updateMatrixWorld();
       matrixWorld = el.object3D.matrixWorld;
       position.setFromMatrixPosition(matrixWorld);
       matrixWorld.decompose(translation, quaternion, scale);
