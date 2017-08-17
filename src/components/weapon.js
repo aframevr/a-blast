@@ -25,11 +25,12 @@ AFRAME.registerComponent('weapon', {
   },
 
   updateWeapon: function () {
+    console.log(this.controllerModel);
     if (this.controllerModel === 'oculus-touch-controller') {
       this.model.applyMatrix(new THREE.Matrix4().makeRotationAxis(new THREE.Vector3(1, 0, 0), 0.8));
       this.el.setAttribute('shoot', {direction: '0 -0.3 -1'});
     } else if (this.controllerModel === 'daydream-controls') {
-      this.model.applyMatrix(new THREE.Matrix4().makeTranslation(-0.5, 0, 0.5));
+      document.getElementById('rightHandPivot').setAttribute('position', '-0.2 0 -0.5');
     }
   },
   init: function () {
@@ -53,8 +54,9 @@ AFRAME.registerComponent('weapon', {
     this.fires = [];
     this.trigger = null;
 
-    el.addEventListener('controller-connected', function (evt) {
-      self.controllerModel = evt.detail.type;
+    el.addEventListener('controllerconnected', function (evt) {
+      console.log(evt);
+      self.controllerModel = evt.detail.name;
       if (self.model == null) {
         self.isGamepadConnected = true;
       } else {
