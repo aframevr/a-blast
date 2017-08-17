@@ -16,88 +16,13 @@
       "type": "image/png"
     },
     {
-      "src": "assets/images/lock-screen-logo-scale-200.png",
-      "sizes": "48x48",
+      "src": "assets/images/icon.png",
+      "sizes": "256x256",
       "type": "image/png"
     },
     {
-      "src": "assets/images/splash-screen-logo-200.png",
-      "sizes": "1240x600",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/images/square-150-150-logo-scale-200.png",
-      "sizes": "300x300",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/images/square-44-44-logo-scale-200.png",
-      "sizes": "88x88",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/images/square-44-44-logo-targetsize-24-altform-unplated.png",
-      "sizes": "24x24",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/images/store-logo.png",
-      "sizes": "50x50",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/images/wide-310-150-logo-scale-200.png",
-      "sizes": "620x300",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/images/icon-192-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/images/icon-144-144.png",
-      "sizes": "144x144",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/images/icon-96-96.png",
-      "sizes": "96x96",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/images/icon-72-72.png",
-      "sizes": "72x72",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/images/icon-36-36.png",
-      "sizes": "36x36",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/images/icon-1024-1024.png",
-      "sizes": "1024x1024",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/images/icon-180-180.png",
-      "sizes": "180x180",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/images/icon-152-152.png",
-      "sizes": "152x152",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/images/icon-120-120.png",
-      "sizes": "120x120",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/images/icon-76-76.png",
-      "sizes": "76x76",
+      "src": "assets/images/icon.png",
+      "sizes": "128x128",
       "type": "image/png"
     }
   ],
