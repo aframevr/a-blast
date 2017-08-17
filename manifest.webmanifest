@@ -1,0 +1,47 @@
+{
+  "lang": "en",
+  "dir": "ltr",
+  "name": "A-Blast",
+  "short_name": "A-Blast",
+  "description": "Save the world from the cutest creatures in the Universe!",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "theme_color": "#3d4d55",
+  "background_color": "#3d4d55",
+  "icons": [
+    {
+      "src": "assets/images/icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/images/icon.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/images/icon.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "assets/readme/mainmenu2.png",
+      "sizes": "1166x707",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/readme/a-blast-3s.gif",
+      "sizes": "395x330",
+      "type": "image/gif"
+    }
+  ],
+  "about_url": "https://blog.mozvr.com/a-blast/",
+  "vr_default_display": "HTC Vive",
+  "vr_available_displays": [
+    "HTC Vive",
+    "Oculus Rift"
+  ]
+}
