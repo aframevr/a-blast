@@ -7,7 +7,7 @@ var WEAPONS = require('./weapon');
 AFRAME.registerComponent('shoot', {
   schema: {
     direction: {type: 'vec3', default: {x: 0, y: -2, z: -1}},  // Event to fire bullet.
-    on: {default: 'trackpaddown'},  // Event to fire bullet.
+    on: {default: 'triggerdown'},  // Event to fire bullet.
     spaceKeyEnabled: {default: false},  // Keyboard support.
     weapon: {default: 'default'}  // Weapon definition.
   },
@@ -43,6 +43,11 @@ AFRAME.registerComponent('shoot', {
   update: function (oldData) {
     // Update weapon.
     this.weapon = WEAPONS[this.data.weapon];
+
+    if (oldData.on !== this.data.on) {
+      this.el.removeEventListener(oldData.on, this.shoot);
+      this.el.addEventListener(this.data.on, this.shoot);
+    }
   },
 
   shoot: (function () {
