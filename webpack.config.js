@@ -11,5 +11,8 @@ module.exports = {
     path: __dirname,
     filename: 'build/build.js'
   },
-  plugins: PLUGINS
+  plugins: PLUGINS,
+  devServer: {
+    disableHostCheck: true
+  }
 };
