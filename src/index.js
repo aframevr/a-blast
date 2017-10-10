@@ -6,6 +6,7 @@ require('./a-asset-image.js')
 require('./lib/utils.js');
 
 // Systems.
+require('./systems/ablast.js');
 require('./systems/bullet.js');
 require('./systems/enemy.js');
 require('./systems/explosion.js');

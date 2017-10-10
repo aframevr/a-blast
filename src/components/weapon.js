@@ -12,7 +12,6 @@ var WEAPONS = {
   }
 };
 
-
 /**
  * Tracked controls, gun model, firing animation, shooting effects.
  */
@@ -25,7 +24,6 @@ AFRAME.registerComponent('weapon', {
   },
 
   updateWeapon: function () {
-    console.log(this.controllerModel);
     if (this.controllerModel === 'oculus-touch-controller') {
       this.model.applyMatrix(new THREE.Matrix4().makeRotationAxis(new THREE.Vector3(1, 0, 0), 0.8));
       this.el.setAttribute('shoot', {direction: '0 -0.3 -1'});
@@ -56,7 +54,6 @@ AFRAME.registerComponent('weapon', {
     this.trigger = null;
 
     el.addEventListener('controllerconnected', function (evt) {
-      console.log(evt);
       self.controllerModel = evt.detail.name;
       if (self.model == null) {
         self.isGamepadConnected = true;
@@ -89,7 +86,7 @@ AFRAME.registerComponent('weapon', {
     }.bind(this));
 
     var self = this;
-    el.addEventListener('shoot', function (evt) {
+    el.addEventListener('shot', function (evt) {
       el.components['json-model'].playAnimation('default');
       self.light.components.light.light.intensity = self.lightIntensity;
       for (var i in self.fires){
