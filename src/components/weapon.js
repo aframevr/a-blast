@@ -26,7 +26,9 @@ AFRAME.registerComponent('weapon', {
 
   updateWeapon: function () {
     console.log(this.controllerModel);
-    if (this.controllerModel === 'oculus-touch-controller') {
+    if (this.controllerModel === 'oculus-touch-controller' ||
+        this.controllerModel === 'oculus-go-controls' ||
+        this.controllerModel === 'gearvr-controls') {
       this.model.applyMatrix(new THREE.Matrix4().makeRotationAxis(new THREE.Vector3(1, 0, 0), 0.8));
       this.el.setAttribute('shoot', {direction: '0 -0.3 -1'});
     } else if (this.controllerModel === 'daydream-controls') {
@@ -44,6 +46,7 @@ AFRAME.registerComponent('weapon', {
     this.weapon = WEAPONS[ this.data.type ];
 
     el.setAttribute('json-model', {src: this.weapon.model.url});
+    el.setAttribute('visible', false);
 
     el.setAttribute('sound', {
       src: this.weapon.shootSound,
@@ -57,6 +60,7 @@ AFRAME.registerComponent('weapon', {
 
     el.addEventListener('controllerconnected', function (evt) {
       console.log(evt);
+      el.setAttribute('visible', true);
       self.controllerModel = evt.detail.name;
       if (self.model == null) {
         self.isGamepadConnected = true;

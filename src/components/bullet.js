@@ -181,7 +181,7 @@ AFRAME.registerComponent('bullet', {
         }
       } else {
         // @hack Any better way to get the head position ?
-        var head = this.el.sceneEl.camera.el.components['look-controls'].dolly.position;
+        var head = this.el.sceneEl.camera.el.components['look-controls'].position;
         if (newBulletPosition.distanceTo(head) < 0.10 + bulletRadius) {
           this.hitObject('player');
           return;

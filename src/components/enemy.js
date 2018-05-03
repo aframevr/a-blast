@@ -128,7 +128,7 @@ AFRAME.registerComponent('enemy', {
     var data = this.data;
     var mesh = el.object3D;
     var gunPosition = mesh.localToWorld(this.gunGlow.position.clone());
-    var head = el.sceneEl.camera.el.components['look-controls'].dolly.position.clone();
+    var head = el.sceneEl.camera.el.components['look-controls'].position.clone();
     var direction = head.sub(mesh.position).normalize();
 
     this.lastShootTime = time;
@@ -197,7 +197,7 @@ AFRAME.registerComponent('enemy', {
         this.gunGlow.position.y += this.hipBone.position.y;
       }
       // Make the droid to look the headset
-      var head = this.el.sceneEl.camera.el.components['look-controls'].dolly.position.clone();
+      var head = this.el.sceneEl.camera.el.components['look-controls'].position.clone();
       this.el.object3D.lookAt(head);
 
       this.definition.tick.call(this, time, delta);
