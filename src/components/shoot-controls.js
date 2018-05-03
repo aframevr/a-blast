@@ -64,6 +64,7 @@ AFRAME.registerComponent('shoot-controls', {
     if (data.hand === 'right') {
       el.setAttribute('daydream-controls', {hand: data.hand, model: false});
       el.setAttribute('gearvr-controls', {hand: data.hand, model: false});
+      el.setAttribute('oculus-go-controls', {hand: data.hand, model: false});
     }
   }
 });

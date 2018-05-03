@@ -153,8 +153,5 @@ AFRAME.registerComponent('json-model', {
     for (var i in this.mixers) {
       this.mixers[i].mixer.update( timeDelta / 1000 );
     }
-    if (this.skeletonHelper) {
-      this.skeletonHelper.update();
-    }
   }
 });
