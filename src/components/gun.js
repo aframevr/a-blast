@@ -7,7 +7,8 @@ var WEAPONS = require('./weapon');
 AFRAME.registerComponent('shoot', {
   schema: {
     direction: {type: 'vec3', default: {x: 0, y: -2, z: -1}},  // Event to fire bullet.
-    on: {default: 'triggerdown'},  // Event to fire bullet.
+    on: {default: 'shoot'},  // Event to fire bullet.
+    onFromScreen: {default: 'shootScreen'},  // Event to fire bullet from screen position (touch screens or desktop mouse)
     spaceKeyEnabled: {default: false},  // Keyboard support.
     weapon: {default: 'default'}  // Weapon definition.
   },
@@ -21,15 +22,12 @@ AFRAME.registerComponent('shoot', {
     this.shoot = this.shoot.bind(this);
     this.weapon = null;
 
-    // Add event listener.
-    if (data.on) { el.addEventListener(data.on, this.shoot); }
-
     // Add keyboard listener.
-    if (data.spaceKeyEnabled) {
-      window.addEventListener('keydown', function (evt) {
-        if (evt.code === 'Space' || evt.keyCode === '32') { self.shoot(); }
-      });
-    }
+    if (data.spaceKeyEnabled) { el.sceneEl.addEventListener(data.onFromScreen, this.shoot); }
+
+    // Add event listener.
+    el.sceneEl.addEventListener(data.on, self.shoot);
+
 /*
     if (AFRAME.utils.device.isMobile())
     {
@@ -102,7 +100,7 @@ AFRAME.registerComponent('shoot', {
       bulletEntity.play();
 
       // Communicate the shoot.
-      el.emit('shoot', bulletEntity);
+      el.emit('shot', bulletEntity);
 
       // Set cooldown period.
       this.coolingDown = true;
