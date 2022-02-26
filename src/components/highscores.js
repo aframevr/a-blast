@@ -27,11 +27,13 @@ AFRAME.registerSystem('highscores', {
 
     var self = this;
     var ablastUI = document.getElementById('ablast-ui');
-    document.getElementById('save-score').addEventListener('click', function (event) {
-      ABLAST.currentScore.name = document.getElementById('player-name').value;
-      self.addNewScore(ABLAST.currentScore);
-      ablastUI.style.display = 'none';
-    });
+    window.onload = function() {
+      document.getElementById('save-score').addEventListener('click', function (event) {
+        ABLAST.currentScore.name = document.getElementById('player-name').value;
+        self.addNewScore(ABLAST.currentScore);
+        ablastUI.style.display = 'none';
+      });
+    }
 
     this.sceneEl.addEventListener('gamestate-changed', function (evt) {
       if ('state' in evt.detail.diff) {
